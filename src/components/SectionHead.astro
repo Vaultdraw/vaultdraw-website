@@ -1,0 +1,67 @@
+---
+interface Props {
+  n: string;
+  label: string;
+  id: string;
+}
+const { n, label, id } = Astro.props;
+---
+
+<header class="head">
+  <p class="head__label label"><span class="head__n">{n}</span>{label}<a class="head__anchor" href={`#${id}`} aria-label={`Link to ${label}`}>#</a></p>
+  <h2 class="head__title" id={`${id}-title`}><slot name="title" /></h2>
+  <div class="head__lead"><slot /></div>
+</header>
+
+<style>
+  .head {
+    max-width: 760px;
+    margin-bottom: 44px;
+  }
+
+  .head__label {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    margin: 0 0 22px;
+  }
+
+  .head__n {
+    color: var(--muted);
+  }
+
+  .head__anchor {
+    color: var(--muted);
+    text-decoration: none;
+    opacity: 0;
+    transition: opacity 0.15s;
+  }
+
+  .head:hover .head__anchor,
+  .head__anchor:focus-visible {
+    opacity: 1;
+  }
+
+  .head__title {
+    margin: 0 0 20px;
+    font-size: clamp(2rem, 1.3rem + 2.6vw, 3.1rem);
+    font-weight: 380;
+    line-height: 1.06;
+    letter-spacing: -0.018em;
+    text-wrap: balance;
+  }
+
+  .head__title :global(em) {
+    font-weight: 360;
+  }
+
+  .head__lead {
+    color: color-mix(in srgb, var(--fg) 86%, var(--bg));
+    font-size: 1.12rem;
+    text-wrap: pretty;
+  }
+
+  .head__lead :global(p:last-child) {
+    margin-bottom: 0;
+  }
+</style>

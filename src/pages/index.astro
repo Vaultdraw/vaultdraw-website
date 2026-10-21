@@ -1,0 +1,768 @@
+---
+import Base from "../layouts/Base.astro";
+import Shot from "../components/Shot.astro";
+import Note from "../components/Note.astro";
+import SectionHead from "../components/SectionHead.astro";
+import CodePanel from "../components/CodePanel.astro";
+import ThemeGrid from "../components/ThemeGrid.astro";
+import Sketch from "../components/Sketch.astro";
+import { SITE, THEMES } from "../data/site.js";
+
+const vaultFiles = [
+  {
+    name: "Sketchbook/",
+    lang: "tree" as const,
+    code: `
+Sketchbook/
+├── Inbox.excalidraw
+├── Learning/
+│   ├── Graphs.excalidraw
+│   └── Distributed systems/
+│       ├── Raft.excalidraw
+│       └── Consistent hashing.excalidraw
+├── Notes/
+│   ├── Weekly review.excalidraw
+│   └── Reading list.excalidraw
+├── Templates/
+│   └── Meeting.excalidraw
+└── .excalidraw-vault/     # this vault's settings and history`,
+  },
+  {
+    name: "Raft.excalidraw",
+    lang: "json" as const,
+    code: `
+{
+  "type": "excalidraw",
+  "version": 2,
+  "elements": [
+    {
+      "type": "text",
+      "text": "Raft: leader election",
+      "fontFamily": 5,
+      "fontSize": 32,
+      "x": 80,
+      "y": 50
+    },
+    { "type": "ellipse", "backgroundColor": "#ffec99" }
+  ]
+}`,
+  },
+  {
+    name: "config.toml",
+    lang: "toml" as const,
+    code: `
+[appearance]
+theme = "Rosé Pine"          # a built-in theme or one in themes/
+mode = "system"              # light | dark | system
+sync_canvas = true           # canvas follows the theme's colours
+
+[editor]
+font_family = 5              # Excalifont
+roughness = 1                # 0 architect, 1 artist, 2 cartoonist
+
+[saving]
+autosave_delay_ms = 500      # idle time before an edit is written`,
+  },
+];
+
+const keys = [
+  { k: ["⌘", "P"], what: "Go to any drawing" },
+  { k: ["⇧", "⌘", "P"], what: "Run any command" },
+  { k: ["⇧", "⌘", "F"], what: "Search the vault" },
+  { k: ["⌥", "⌘", "G"], what: "Graph view" },
+  { k: ["⇧", "⌘", "H"], what: "History" },
+  { k: ["⌥", "⌘", "N"], what: "New from template" },
+  { k: ["⇧", "⌘", "E"], what: "Export image" },
+  { k: ["⌘", "\\"], what: "Hide the file tree" },
+];
+
+const extras = [
+  {
+    colour: "red",
+    title: "Page mode",
+    tags: "A4 · Letter · iPad · custom",
+    body: "Draw on pages instead of an endless canvas: separate sheets or one continuous roll. Export to PDF with one page per page.",
+  },
+  {
+    colour: "yellow",
+    title: "PDF import",
+    tags: "drop · pick pages · annotate",
+    body: "Drop a PDF on the canvas and its pages become images you can draw over. Rendered by macOS itself, offline.",
+  },
+  {
+    colour: "green",
+    title: "Export",
+    tags: "PNG · SVG · PDF · clipboard",
+    body: "1×, 2× or 3×, with or without background, the selection only, or straight to the clipboard. Exports keep the drawing's own colours.",
+  },
+  {
+    colour: "blue",
+    title: "Mermaid",
+    tags: "flowcharts · sequences",
+    body: "Write Mermaid, get editable Excalidraw shapes. The conversion runs on your machine, with no AI involved.",
+  },
+  {
+    colour: "magenta",
+    title: "Paper",
+    tags: "grid · ruled · dots · isometric",
+    body: "Notebook backgrounds saved with the drawing, zooming with it. Old school: cream paper, blue lines, a red margin.",
+  },
+  {
+    colour: "cyan",
+    title: "Templates",
+    tags: "per vault · for all vaults",
+    body: "Any drawing can become a template. New from template copies it with fresh ids, so it never shares anything with the original.",
+  },
+];
+---
+
+<Base>
+  <section class="hero wrap" aria-labelledby="hero-title">
+    <div class="hero__top">
+    <div class="hero__text">
+      <p class="label">An offline vault for Excalidraw drawings</p>
+      <h1 class="hero__mark" id="hero-title">vault<span>draw</span></h1>
+      <p class="hero__sub mono">
+        a folder of drawings, kept as files<br />
+        a bit like Obsidian, for whiteboards
+      </p>
+      <p class="hero__lead">
+        Pick a folder and it becomes your vault. Every drawing is a plain <code>.excalidraw</code> file and every folder
+        is a real directory, so you can back it up, sync it or keep it in git however you like. Vaultdraw puts what a pile
+        of drawings is missing around the canvas: a file tree, search inside drawings, links, history and themes.
+      </p>
+      <div class="hero__actions">
+        <a class="btn btn--solid" href="/download/">Download for macOS <span class="btn__tag">soon</span></a>
+        <a class="link-arrow" href="#folder">See how it works ↓</a>
+      </div>
+    </div>
+    <Sketch
+      name="hero"
+      class="hero__sketch"
+      label="A sketch: a folder called Sketchbook with arrows to three .excalidraw files, two of them linked. Just files: no account, no cloud."
+    />
+    </div>
+    <Note arrow="down-right" class="hero__note hero__note--tree">your folder, as it is on disk</Note>
+    <Shot
+      name="editor"
+      eager
+      class="hero__shot"
+      alt="Vaultdraw with a drawing called Architecture open: the Excalidraw canvas in the middle, the vault's folders and drawings in a tree on the right."
+    />
+    <Note arrow="up-left" class="hero__note hero__note--canvas">the Excalidraw you know, offline</Note>
+  </section>
+
+  <section class="sec wrap" id="folder" aria-labelledby="folder-title">
+    <SectionHead n="01" label="It is just a folder" id="folder">
+      <Fragment slot="title">Your drawings stay <em>yours</em>.</Fragment>
+      <p>
+        Nothing is imported, converted or locked into a database. Close Vaultdraw and the folder is exactly what it was:
+        drawings that open on excalidraw.com, or in any other Excalidraw app.
+      </p>
+    </SectionHead>
+    <div class="folder">
+      <ul class="rules" role="list">
+        <li>
+          <span class="rules__k mono">No account</span>
+          <span>Nothing to sign up for, nothing to sign in to.</span>
+        </li>
+        <li>
+          <span class="rules__k mono">No cloud</span>
+          <span>Fonts and assets ship with the app. It works on a plane.</span>
+        </li>
+        <li>
+          <span class="rules__k mono">No telemetry</span>
+          <span>It doesn't phone home. There is no home to phone.</span>
+        </li>
+        <li>
+          <span class="rules__k mono">Plain text config</span>
+          <span>One <code>config.toml</code>, kept in sync with Settings, reloaded as you save it.</span>
+        </li>
+      </ul>
+      <CodePanel id="vault" files={vaultFiles} note="on disk" />
+    </div>
+  </section>
+
+  <section class="sec wrap" id="find" aria-labelledby="find-title">
+    <SectionHead n="02" label="Find it again" id="find">
+      <Fragment slot="title">Search what you <em>wrote</em>, not what you named it.</Fragment>
+      <p>
+        Search reads every text element, shape label, arrow label and frame name in the vault. Click a result and the
+        canvas zooms to it. Type <code>[[</code> to link one drawing to another; rename it and every link follows.
+      </p>
+    </SectionHead>
+    <div class="shots" data-tabs>
+      <div class="shots__tabs" role="tablist" aria-label="Finding things">
+        <button type="button" role="tab" id="find-tab-0" aria-controls="find-panel-0" aria-selected="true">
+          Search <kbd>⇧⌘F</kbd>
+        </button>
+        <button type="button" role="tab" id="find-tab-1" aria-controls="find-panel-1" aria-selected="false">
+          Links &amp; graph <kbd>⌥⌘G</kbd>
+        </button>
+      </div>
+      <div role="tabpanel" id="find-panel-0" aria-labelledby="find-tab-0">
+        <Shot
+          name="search"
+          alt="Searching the vault for 'leader': the Raft drawing is listed with highlighted snippets and open beside the results."
+        >
+          <figcaption class="cap">
+            Case and accents don't matter: <code>cafe</code> finds <code>Café</code>, and the words can be in different
+            shapes. The index lives outside your vault and rebuilds itself.
+          </figcaption>
+        </Shot>
+      </div>
+      <div role="tabpanel" id="find-panel-1" aria-labelledby="find-tab-1">
+        <Shot name="graph" alt="The graph view: every drawing is a dot, every link a line, coloured by top-level folder.">
+          <figcaption class="cap">
+            Every drawing a dot, every link a line. Drag a dot and its neighbours follow; <kbd>F</kbd> puts a letter on
+            each one so you can jump without the mouse.
+          </figcaption>
+        </Shot>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec wrap" id="history" aria-labelledby="history-title">
+    <SectionHead n="03" label="Safe by default" id="history">
+      <Fragment slot="title">Never lose a <em>line</em>.</Fragment>
+      <p>
+        Your drawings are files that sync tools, editors and git touch too, so Vaultdraw is careful with them. These are
+        the rules it keeps.
+      </p>
+    </SectionHead>
+    <div class="history">
+      <ol class="ledger" role="list">
+        <li><span class="mono">autosave</span>Half a second after you stop drawing, the file is written.</li>
+        <li><span class="mono">atomic</span>Writes are atomic and revision-checked: the old file or the new one, never half of each.</li>
+        <li><span class="mono">recovery</span>Edits that didn't reach the disk before a crash come back next launch.</li>
+        <li><span class="mono">outside changes</span>When something else changes a file, you're told, and your unsaved edits are kept.</li>
+        <li><span class="mono">history</span>Automatic versions and named checkpoints, stored in the vault, with time travel and restore.</li>
+        <li><span class="mono">one writer</span>A second copy of the app opens the same vault read-only instead of fighting over it.</li>
+      </ol>
+      <Shot
+        name="history"
+        class="history__shot"
+        partial
+        sizes="(min-width: 861px) 540px, calc(100vw - 32px)"
+        alt="The history panel beside a drawing, listing automatic versions, a checkpoint named 'before the review' and the first version, each with a thumbnail."
+      />
+    </div>
+  </section>
+
+  <section class="sec wrap" id="keys" aria-labelledby="keys-title">
+    <SectionHead n="04" label="Keyboard first" id="keys">
+      <Fragment slot="title">Everything is <em>one key</em> away.</Fragment>
+      <p>
+        One palette for drawings and commands, as in VS Code. Every editor action and every Vaultdraw feature is in it,
+        and any of them can get a key in Settings or in <code>config.toml</code>.
+      </p>
+    </SectionHead>
+    <div class="keys">
+      <Shot
+        name="palette"
+        class="keys__shot"
+        partial
+        sizes="(min-width: 861px) 780px, calc(100vw - 32px)"
+        alt="The command palette open over a drawing, filtered by 'export': Export PDF, Export PNG, Export SVG and Export image."
+      />
+      <dl class="keys__list">
+        {
+          keys.map(({ k, what }) => (
+            <div>
+              <dt>
+                {k.map((c) => (
+                  <kbd>{c}</kbd>
+                ))}
+              </dt>
+              <dd>{what}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </div>
+  </section>
+
+  <section class="sec wrap" id="more" aria-labelledby="more-title">
+    <SectionHead n="05" label="Past the infinite canvas" id="more">
+      <Fragment slot="title">Pages, PDFs and <em>paper</em>.</Fragment>
+      <p>For lecture notes, marked-up papers and diagrams that have to end up in a document.</p>
+    </SectionHead>
+    <ul class="cards" role="list">
+      {
+        extras.map((x) => (
+          <li class="card" style={`--c: var(--${x.colour})`}>
+            <h3>{x.title}</h3>
+            <p class="card__tags mono">{x.tags}</p>
+            <p>{x.body}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <section class="sec wrap" id="themes" aria-labelledby="themes-title">
+    <SectionHead n="06" label="Themes" id="themes">
+      <Fragment slot="title">{THEMES.length} palettes, <em>light and dark</em>.</Fragment>
+      <p>
+        Themes use Noctalia's palette format, so the whole collection works as it is. The file tree, menus and
+        Excalidraw's own toolbars follow the theme. Turn on <em>sync canvas</em> and the drawing does too, on screen
+        only: saved files keep Excalidraw's colours. This page wears them as well, so try one.
+      </p>
+    </SectionHead>
+    <ThemeGrid />
+    <div class="themes__own">
+      <p>
+        <span class="label label--quiet">Bring your own</span><br />
+        Three colours per mode is enough; Vaultdraw derives the rest and keeps text readable. Drop the file in
+        <code>themes/</code> in the config folder and pick it in Settings.
+      </p>
+      <CodePanel
+        id="theme-json"
+        files={[
+          {
+            name: "themes/Midnight.json",
+            lang: "json",
+            code: `
+{
+  "dark": {
+    "mSurface": "#1b1d2b",
+    "mOnSurface": "#d8dae8",
+    "mPrimary": "#82aaff"
+  },
+  "light": {
+    "mSurface": "#f6f6fa",
+    "mOnSurface": "#2b2d3a",
+    "mPrimary": "#3b6fd8"
+  }
+}`,
+          },
+        ]}
+      />
+    </div>
+  </section>
+
+  <section class="sec wrap get" id="get" aria-labelledby="get-title">
+    <SectionHead n="07" label="Get Vaultdraw" id="get">
+      <Fragment slot="title">macOS first, <em>soon</em>.</Fragment>
+      <p>
+        The first signed build for macOS is on its way; Windows and Linux follow. Until then you can build it from source
+        in a few minutes.
+      </p>
+    </SectionHead>
+    <div class="get__row">
+      <CodePanel
+        id="build"
+        note="Node 18+, Yarn 1, Rust"
+        files={[
+          {
+            name: "build from source",
+            lang: "sh",
+            code: `
+git clone ${SITE.repo}
+cd beltio
+yarn install
+yarn desktop:build`,
+          },
+        ]}
+      />
+      <div class="get__links">
+        <a class="btn btn--solid" href="/download/">Download page</a>
+        <a class="btn" href={`${SITE.repo}/releases`}>Releases on GitHub</a>
+        <a class="link-arrow" href="/docs/">Read the docs →</a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  /* Hero ------------------------------------------------------------------- */
+
+  .hero {
+    display: flex;
+    flex-direction: column;
+    padding-top: clamp(48px, 8vw, 104px);
+  }
+
+  .hero__top {
+    display: grid;
+    grid-template-columns: minmax(0, 640px) minmax(0, 1fr);
+    gap: 48px;
+    align-items: center;
+  }
+
+  :global(.hero__sketch) {
+    max-width: 440px;
+    justify-self: end;
+    width: 100%;
+    margin-top: 40px;
+  }
+
+  @media (max-width: 1000px) {
+    .hero__top {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    :global(.hero__sketch) {
+      display: none;
+    }
+  }
+
+  .hero__mark {
+    margin: 18px 0 18px -0.04em;
+    font-family: var(--hand);
+    font-weight: 400;
+    font-size: clamp(4.2rem, 2rem + 10vw, 8.6rem);
+    line-height: 0.9;
+    letter-spacing: -0.01em;
+  }
+
+  .hero__mark span {
+    color: var(--accent);
+  }
+
+  .hero__sub {
+    margin: 0 0 26px;
+    font-size: 0.8rem;
+    line-height: 1.8;
+    color: var(--muted);
+  }
+
+  .hero__lead {
+    font-size: 1.2rem;
+    text-wrap: pretty;
+  }
+
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 18px 28px;
+    margin-top: 30px;
+  }
+
+  :global(.hero__note) {
+    display: none !important;
+  }
+
+  .hero :global(.hero__shot) {
+    margin-top: 56px;
+  }
+
+  @media (min-width: 900px) {
+    :global(.hero__note) {
+      display: inline-flex !important;
+    }
+    .hero :global(.hero__note--tree) {
+      align-self: flex-end;
+      margin: 24px 9% -18px 0;
+    }
+    .hero :global(.hero__note--tree) + :global(.hero__shot) {
+      margin-top: 0;
+    }
+    .hero :global(.hero__note--canvas) {
+      align-self: flex-start;
+      margin: 8px 0 0 22%;
+    }
+  }
+
+  /* Sections --------------------------------------------------------------- */
+
+  .sec {
+    padding-top: clamp(80px, 12vw, 140px);
+  }
+
+  .sec + .sec {
+    position: relative;
+  }
+
+  .sec + .sec::before {
+    content: "";
+    position: absolute;
+    top: clamp(40px, 6vw, 70px);
+    left: var(--gutter);
+    right: var(--gutter);
+    border-top: 1px solid var(--line-soft);
+  }
+
+  .cap {
+    max-width: 720px;
+    margin-top: 18px;
+    font-size: 1rem;
+    color: var(--muted);
+  }
+
+  /* 01 folder */
+
+  .folder {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+    gap: 40px;
+    align-items: start;
+  }
+
+  .rules {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border-top: 1px solid var(--line-soft);
+  }
+
+  .rules li {
+    display: grid;
+    gap: 4px;
+    padding: 18px 0;
+    border-bottom: 1px solid var(--line-soft);
+  }
+
+  .rules__k {
+    font-size: 0.72rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  /* 02 find */
+
+  .shots__tabs {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 18px;
+    flex-wrap: wrap;
+  }
+
+  .shots__tabs button {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 40px;
+    padding: 0 14px;
+    font-family: var(--mono);
+    font-size: 0.74rem;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    background: transparent;
+    border: 1px solid var(--line-soft);
+    border-radius: 6px;
+    cursor: pointer;
+  }
+
+  .shots__tabs button:hover {
+    color: var(--fg);
+  }
+
+  .shots__tabs button[aria-selected="true"] {
+    color: var(--fg);
+    border-color: var(--accent);
+    background: var(--accent-soft);
+  }
+
+  .shots:not([data-ready]) [role="tabpanel"] + [role="tabpanel"] {
+    margin-top: 40px;
+  }
+
+  /* 03 history */
+
+  .history {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 56px;
+    align-items: center;
+  }
+
+  .ledger {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    counter-reset: rule;
+  }
+
+  .ledger li {
+    counter-increment: rule;
+    display: grid;
+    grid-template-columns: 2.2em 1fr;
+    column-gap: 4px;
+    padding: 12px 0;
+    font-size: 1.02rem;
+    line-height: 1.5;
+    border-bottom: 1px dashed var(--line-soft);
+  }
+
+  .ledger li::before {
+    content: counter(rule, decimal-leading-zero);
+    grid-row: span 2;
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    padding-top: 0.25em;
+    color: var(--muted);
+  }
+
+  .ledger .mono {
+    font-size: 0.7rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  /* 04 keys */
+
+  .keys {
+    display: grid;
+    grid-template-columns: minmax(0, 7fr) minmax(0, 3fr);
+    gap: 48px;
+    align-items: center;
+  }
+
+  .keys__list {
+    margin: 0;
+  }
+
+  .keys__list div {
+    display: grid;
+    gap: 6px;
+    padding: 11px 0;
+    border-bottom: 1px solid var(--line-soft);
+  }
+
+  .keys__list dt {
+    display: flex;
+    gap: 4px;
+  }
+
+  .keys__list dd {
+    margin: 0;
+    font-size: 1rem;
+    color: var(--muted);
+  }
+
+  /* 05 cards */
+
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border: 1px solid var(--line-soft);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+
+  .card {
+    padding: 22px 24px 26px;
+    border-right: 1px solid var(--line-soft);
+    border-bottom: 1px solid var(--line-soft);
+    background: color-mix(in srgb, var(--panel) 35%, var(--bg));
+    transition: background 0.2s ease;
+  }
+
+  .card:nth-child(3n) {
+    border-right: 0;
+  }
+
+  .card:nth-last-child(-n + 3) {
+    border-bottom: 0;
+  }
+
+  .card:hover {
+    background: color-mix(in srgb, var(--panel) 70%, var(--bg));
+  }
+
+  .card::before {
+    content: "";
+    display: block;
+    height: 6px;
+    margin-bottom: 20px;
+    border-radius: 2px;
+    background: var(--c);
+  }
+
+  .card h3 {
+    margin: 0 0 6px;
+    font-family: var(--mono);
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--c);
+  }
+
+  .card__tags {
+    font-size: 0.72rem;
+    color: var(--muted);
+    margin-bottom: 16px;
+  }
+
+  .card p:last-child {
+    margin: 0;
+    font-size: 1rem;
+    line-height: 1.55;
+  }
+
+  /* 06 themes */
+
+  .themes__own {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+    gap: 40px;
+    align-items: start;
+    margin-top: 56px;
+  }
+
+  /* 07 get */
+
+  .get__row {
+    display: grid;
+    grid-template-columns: minmax(0, 6fr) minmax(0, 4fr);
+    gap: 40px;
+    align-items: start;
+  }
+
+  .get__links {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+  }
+
+  @media (max-width: 860px) {
+    .folder,
+    .history,
+    .keys,
+    .themes__own,
+    .get__row {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .keys__list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      column-gap: 24px;
+    }
+    .cards {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .card {
+      border-right: 0;
+    }
+    .card:nth-last-child(-n + 3) {
+      border-bottom: 1px solid var(--line-soft);
+    }
+    .card:last-child {
+      border-bottom: 0;
+    }
+  }
+
+  @media (min-width: 861px) and (max-width: 1060px) {
+    .cards {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .card:nth-child(3n) {
+      border-right: 1px solid var(--line-soft);
+    }
+    .card:nth-child(2n) {
+      border-right: 0;
+    }
+    .card:nth-last-child(-n + 3) {
+      border-bottom: 1px solid var(--line-soft);
+    }
+    .card:nth-last-child(-n + 2) {
+      border-bottom: 0;
+    }
+  }
+</style>

@@ -1,0 +1,186 @@
+---
+// Every built-in theme as a tiny app window. Clicking one dresses the site in
+// it (theme.js); featured themes also swap the screenshots.
+import { FEATURED_THEMES, THEMES } from "../data/site.js";
+
+const featuredIds = new Set(FEATURED_THEMES.map((t) => t.id));
+const ordered = [...FEATURED_THEMES.map((f) => THEMES.find((t) => t.id === f.id)), ...THEMES.filter((t) => !featuredIds.has(t.id))];
+const FIRST = 18;
+
+const vars = (t: (typeof THEMES)[number]) => {
+  const d = t.dark ?? t.light;
+  const l = t.light ?? t.dark;
+  const v = (p: string, x: any) =>
+    `--${p}bg:${x.bg};--${p}fg:${x.fg};--${p}panel:${x.panel ?? x.bg};--${p}ac:${x.accent};--${p}a1:${x.ansi?.[0] ?? x.accent};--${p}a2:${x.ansi?.[2] ?? x.accent};--${p}a3:${x.ansi?.[3] ?? x.accent}`;
+  return `${v("d", d)};${v("l", l)}`;
+};
+---
+
+{
+  [ordered.slice(0, FIRST), ordered.slice(FIRST)].map((group, gi) => {
+    const list = (
+      <ul class="grid" role="list">
+        {group.map((t) => (
+          <li>
+            <button type="button" class="chip" data-pick-theme={t.id} aria-pressed="false" style={vars(t)}>
+              <span class="chip__win" aria-hidden="true" />
+              <span class="chip__name">
+                {t.name}
+                {featuredIds.has(t.id) && <span class="chip__cam" title="Screenshots available">●</span>}
+              </span>
+            </button>
+          </li>
+        ))}
+      </ul>
+    );
+    return gi === 0 ? (
+      list
+    ) : (
+      <details class="more">
+        <summary class="btn">Show all {THEMES.length}</summary>
+        {list}
+      </details>
+    );
+  })
+}
+<p class="legend mono"><span class="chip__cam">●</span> the screenshots on this page change with these</p>
+
+<style>
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 14px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .chip {
+    --k-bg: var(--dbg);
+    --k-fg: var(--dfg);
+    --k-panel: var(--dpanel);
+    --k-ac: var(--dac);
+    --k-a1: var(--da1);
+    --k-a2: var(--da2);
+    --k-a3: var(--da3);
+    display: grid;
+    gap: 8px;
+    width: 100%;
+    padding: 0;
+    text-align: left;
+    background: none;
+    border: 0;
+    cursor: pointer;
+    color: inherit;
+  }
+
+  :global(:root[data-scheme="light"]) .chip {
+    --k-bg: var(--lbg);
+    --k-fg: var(--lfg);
+    --k-panel: var(--lpanel);
+    --k-ac: var(--lac);
+    --k-a1: var(--la1);
+    --k-a2: var(--la2);
+    --k-a3: var(--la3);
+  }
+
+  /* A tiny app window, drawn with backgrounds and pseudo-elements only: a
+     sidebar, two lines of text, three palette dots and an accent button. */
+  .chip__win {
+    position: relative;
+    display: block;
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+    border-radius: 7px;
+    background:
+      linear-gradient(var(--k-fg), var(--k-fg)) 36% 24% / 48% 4px no-repeat,
+      linear-gradient(color-mix(in srgb, var(--k-fg) 45%, transparent), color-mix(in srgb, var(--k-fg) 45%, transparent)) 33%
+        36% / 32% 4px no-repeat,
+      linear-gradient(var(--k-ac), var(--k-ac)) 90% 80% / 26% 7px no-repeat,
+      var(--k-bg);
+    box-shadow: 0 0 0 1px color-mix(in srgb, var(--k-fg) 14%, transparent);
+    transition:
+      transform 0.18s ease,
+      box-shadow 0.18s ease;
+  }
+
+  .chip__win::before {
+    content: "";
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 22%;
+    background: var(--k-panel);
+    border-right: 1px solid color-mix(in srgb, var(--k-fg) 10%, transparent);
+  }
+
+  .chip__win::after {
+    content: "";
+    position: absolute;
+    left: 31%;
+    bottom: 17%;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--k-a1);
+    box-shadow:
+      13px 0 0 var(--k-a2),
+      26px 0 0 var(--k-a3);
+  }
+
+  .chip:hover .chip__win {
+    transform: translateY(-2px);
+    box-shadow:
+      0 0 0 1px color-mix(in srgb, var(--k-fg) 24%, transparent),
+      0 10px 24px -14px rgb(0 0 0 / 0.6);
+  }
+
+  .chip[aria-pressed="true"] .chip__win {
+    box-shadow:
+      0 0 0 2px var(--bg),
+      0 0 0 3.5px var(--accent);
+  }
+
+  .chip__name {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    line-height: 1.3;
+    color: var(--fg);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .chip__cam {
+    margin-left: 6px;
+    font-size: 0.6rem;
+    color: var(--accent);
+    vertical-align: 0.15em;
+  }
+
+  .more {
+    margin-top: 22px;
+  }
+
+  .more summary {
+    list-style: none;
+    margin-bottom: 22px;
+  }
+
+  .more summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .more[open] summary {
+    display: none;
+  }
+
+  .legend {
+    margin-top: 18px;
+    font-size: 0.72rem;
+    color: var(--muted);
+  }
+
+  .legend .chip__cam {
+    margin: 0 6px 0 0;
+  }
+</style>

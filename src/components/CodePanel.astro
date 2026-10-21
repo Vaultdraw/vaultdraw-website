@@ -1,0 +1,172 @@
+---
+// A file viewer: one tab per file, line numbers, theme-coloured tokens.
+import { highlight } from "../scripts/highlight.js";
+
+interface File {
+  name: string;
+  lang: "toml" | "json" | "sh" | "tree";
+  code: string;
+}
+interface Props {
+  files: File[];
+  id: string;
+  note?: string;
+}
+
+const { files, id, note } = Astro.props;
+const many = files.length > 1;
+---
+
+<div class="code panel" data-tabs={many ? "" : undefined}>
+  <div class="code__bar">
+    {
+      many ? (
+        <div role="tablist" aria-label="Files" class="code__tabs">
+          {files.map((f, i) => (
+            <button type="button" role="tab" id={`${id}-tab-${i}`} aria-controls={`${id}-panel-${i}`} aria-selected={i === 0 ? "true" : "false"}>
+              {f.name}
+            </button>
+          ))}
+        </div>
+      ) : (
+        <span class="code__name">{files[0].name}</span>
+      )
+    }
+    {note && <span class="code__note">{note}</span>}
+  </div>
+  {
+    files.map((f, i) => (
+      <div role={many ? "tabpanel" : undefined} id={`${id}-panel-${i}`} aria-labelledby={many ? `${id}-tab-${i}` : undefined} class="code__body" tabindex="0">
+        {many && <p class="code__fallback">{f.name}</p>}
+        <pre><span class="code__ln" aria-hidden="true">{f.code.trim().split("\n").map((_, n) => n + 1).join("\n")}</span><code set:html={highlight(f.code.trim(), f.lang)} /></pre>
+      </div>
+    ))
+  }
+</div>
+
+<style>
+  .code {
+    overflow: hidden;
+    font-size: 0.8rem;
+  }
+
+  .code__bar {
+    display: flex;
+    align-items: stretch;
+    justify-content: space-between;
+    min-height: 40px;
+    border-bottom: 1px solid var(--line-soft);
+    background: color-mix(in srgb, var(--panel) 50%, transparent);
+  }
+
+  .code__tabs {
+    display: flex;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .code__tabs button,
+  .code__name {
+    flex: none;
+    padding: 0 16px;
+    font-family: var(--mono);
+    font-size: 0.74rem;
+    color: var(--muted);
+    background: transparent;
+    border: 0;
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+  }
+
+  .code__name {
+    color: var(--fg);
+    cursor: default;
+  }
+
+  .code__tabs button:hover {
+    color: var(--fg);
+  }
+
+  .code__tabs button[aria-selected="true"] {
+    color: var(--fg);
+    border-bottom-color: var(--accent);
+    background: color-mix(in srgb, var(--bg) 40%, transparent);
+  }
+
+  .code__note {
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+    font-family: var(--mono);
+    font-size: 0.66rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .code__body {
+    overflow-x: auto;
+  }
+
+  @media (max-width: 560px) {
+    .code__note {
+      display: none;
+    }
+    .code__tabs button {
+      padding: 0 12px;
+    }
+  }
+
+  .code__fallback {
+    display: none;
+  }
+
+  :global([data-tabs]:not([data-ready])) .code__fallback {
+    display: block;
+    margin: 12px 18px 0;
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    color: var(--muted);
+  }
+
+  pre {
+    display: flex;
+    margin: 0;
+    padding: 16px 20px 18px 0;
+    line-height: 1.7;
+    white-space: pre;
+  }
+
+  .code__ln {
+    flex: none;
+    min-width: 3.4em;
+    padding-right: 1.2em;
+    margin-right: 1.1em;
+    text-align: right;
+    color: var(--muted);
+    border-right: 1px solid var(--line-soft);
+    user-select: none;
+  }
+
+  :global(.tok-c) {
+    color: var(--muted);
+    font-style: italic;
+  }
+  :global(.tok-h) {
+    color: var(--accent);
+  }
+  :global(.tok-k) {
+    color: var(--blue);
+  }
+  :global(.tok-s) {
+    color: var(--green);
+  }
+  :global(.tok-n) {
+    color: var(--yellow);
+  }
+  :global(.tok-b) {
+    color: var(--magenta);
+  }
+</style>

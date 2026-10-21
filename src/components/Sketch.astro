@@ -1,0 +1,59 @@
+---
+// An SVG exported from a real Excalidraw drawing (scripts/capture), inlined
+// and recoloured with the theme: Excalidraw's palette maps to theme colours.
+interface Props {
+  name: string;
+  label: string;
+  class?: string;
+}
+const { name, label, class: cls } = Astro.props;
+const files = import.meta.glob<string>("../assets/sketches/*.svg", { query: "?raw", import: "default", eager: true });
+const raw = files[`../assets/sketches/${name}.svg`];
+if (!raw) throw new Error(`no sketch ${name}`);
+const svg = raw
+  .replace(/<\?xml[^>]*>|<!DOCTYPE[^>]*>/g, "")
+  .replace(/ width="[\d.]+" height="[\d.]+"/, ` role="img" aria-label="${label}"`);
+---
+
+<div class:list={["sketch", cls]} set:html={svg} />
+
+<style>
+  .sketch :global(svg) {
+    width: 100%;
+    height: auto;
+    overflow: visible;
+  }
+  .sketch :global(text) {
+    font-family: var(--hand);
+  }
+  .sketch :global([stroke="#1e1e1e"]) {
+    stroke: var(--fg);
+  }
+  .sketch :global([fill="#1e1e1e"]) {
+    fill: var(--fg);
+  }
+  .sketch :global([stroke="#e03131"]) {
+    stroke: var(--accent);
+  }
+  .sketch :global([fill="#e03131"]) {
+    fill: var(--accent);
+  }
+  .sketch :global([stroke="#ffec99"]) {
+    stroke: var(--yellow);
+  }
+  .sketch :global([stroke="#a5d8ff"]) {
+    stroke: var(--blue);
+  }
+  .sketch :global([stroke="#b2f2bb"]) {
+    stroke: var(--green);
+  }
+  .sketch :global([stroke="#ffc9c9"]) {
+    stroke: var(--red);
+  }
+  .sketch :global([stroke="#ffec99"]),
+  .sketch :global([stroke="#a5d8ff"]),
+  .sketch :global([stroke="#b2f2bb"]),
+  .sketch :global([stroke="#ffc9c9"]) {
+    stroke-opacity: 0.75;
+  }
+</style>

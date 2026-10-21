@@ -1,0 +1,88 @@
+---
+// A margin note in Excalifont with a hand-drawn arrow, like the ones you
+// scribble on a drawing.
+interface Props {
+  arrow: "down-right" | "up-left" | "down-left";
+  class?: string;
+}
+const { arrow, class: cls } = Astro.props;
+
+const PATHS = {
+  "down-right": { box: "0 0 90 70", d: "M6 8 C 30 4, 62 14, 74 52", head: "M62 46 L 75 56 L 80 40" },
+  "down-left": { box: "0 0 90 70", d: "M84 8 C 60 4, 28 14, 16 52", head: "M28 46 L 15 56 L 10 40" },
+  "up-left": { box: "0 0 90 70", d: "M84 62 C 58 66, 26 54, 16 18", head: "M8 30 L 15 14 L 28 24" },
+};
+const p = PATHS[arrow];
+---
+
+<p class:list={["note", `note--${arrow}`, cls]}>
+  <span class="note__text"><slot /></span>
+  <svg class="note__arrow" viewBox={p.box} aria-hidden="true">
+    <path d={p.d} pathLength="1"></path>
+    <path d={p.head} pathLength="1" class="note__head"></path>
+  </svg>
+</p>
+
+<style>
+  .note {
+    position: relative;
+    display: inline-flex;
+    align-items: flex-start;
+    gap: 4px;
+    margin: 0;
+    font-family: var(--hand);
+    font-size: 1.3rem;
+    line-height: 1.2;
+    color: var(--accent);
+    transform: rotate(-1.5deg);
+  }
+
+  .note--up-left {
+    flex-direction: row-reverse;
+    align-items: flex-end;
+    transform: rotate(1deg);
+  }
+
+  .note--down-left {
+    flex-direction: row-reverse;
+  }
+
+  .note__arrow {
+    flex: none;
+    width: 72px;
+    height: 56px;
+    margin-top: 0.6em;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .note--up-left .note__arrow {
+    margin: 0 0 0.4em;
+  }
+
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+      .note__arrow path {
+        stroke-dasharray: 1;
+        animation: draw linear both;
+        animation-timeline: view();
+        animation-range: entry 30% cover 35%;
+      }
+      .note__arrow .note__head {
+        animation-range: cover 30% cover 40%;
+      }
+    }
+  }
+
+  @keyframes draw {
+    from {
+      stroke-dashoffset: 1;
+    }
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+</style>
