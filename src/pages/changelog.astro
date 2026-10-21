@@ -1,0 +1,97 @@
+---
+import { getCollection, render } from "astro:content";
+import Base from "../layouts/Base.astro";
+import "../styles/prose.css";
+
+const entries = (await getCollection("changelog")).sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+const rendered = await Promise.all(entries.map(async (e) => ({ e, Content: (await render(e)).Content })));
+const fmt = new Intl.DateTimeFormat("en-GB", { day: "numeric", month: "short", year: "numeric", timeZone: "UTC" });
+---
+
+<Base title="Changelog" description="What changed in Vaultdraw, newest first.">
+  <div class="log wrap">
+    <header class="log__head">
+      <p class="label">Changelog</p>
+      <h1>What changed</h1>
+      <p class="log__lead">
+        There is no release yet. These are notes from development, newest first. Once builds ship, each release gets an
+        entry here and on <a href="https://github.com/Vaultdraw/beltio/releases">GitHub</a>.
+      </p>
+    </header>
+    <ol class="log__list" role="list">
+      {
+        rendered.map(({ e, Content }) => (
+          <li class="log__entry" id={e.id}>
+            <time class="mono" datetime={e.data.date.toISOString().slice(0, 10)}>
+              {fmt.format(e.data.date)}
+            </time>
+            <div>
+              <h2>{e.data.title}</h2>
+              <div class="prose">
+                <Content />
+              </div>
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</Base>
+
+<style>
+  .log {
+    padding-top: 64px;
+  }
+
+  .log__head {
+    max-width: 720px;
+    margin-bottom: 56px;
+  }
+
+  .log__head h1 {
+    margin: 16px 0 12px;
+    font-size: clamp(2.3rem, 1.6rem + 2.4vw, 3.3rem);
+    font-weight: 380;
+    letter-spacing: -0.02em;
+  }
+
+  .log__lead {
+    color: var(--muted);
+    font-size: 1.15rem;
+  }
+
+  .log__list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .log__entry {
+    display: grid;
+    grid-template-columns: 160px minmax(0, 720px);
+    gap: 32px;
+    padding: 36px 0;
+    border-top: 1px solid var(--line-soft);
+  }
+
+  .log__entry time {
+    padding-top: 0.6em;
+    font-size: 0.74rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  .log__entry h2 {
+    margin: 0 0 12px;
+    font-size: 1.6rem;
+    font-weight: 420;
+  }
+
+  @media (max-width: 700px) {
+    .log__entry {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 8px;
+    }
+  }
+</style>

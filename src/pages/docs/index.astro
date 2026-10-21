@@ -1,0 +1,60 @@
+---
+import { getCollection } from "astro:content";
+import Docs from "../../layouts/Docs.astro";
+
+const pages = (await getCollection("docs")).sort((a, b) => a.data.order - b.data.order);
+---
+
+<Docs title="Documentation" description="How Vaultdraw works, from opening a vault to writing your own theme.">
+  <ol class="index" role="list">
+    {
+      pages.map((p, i) => (
+        <li>
+          <a href={`/docs/${p.id}/`}>
+            <span class="index__n mono">{String(i + 1).padStart(2, "0")}</span>
+            <span class="index__t">{p.data.title}</span>
+            <span class="index__d">{p.data.description}</span>
+          </a>
+        </li>
+      ))
+    }
+  </ol>
+</Docs>
+
+<style>
+  .index {
+    margin: 40px 0 0;
+    padding: 0;
+    list-style: none;
+    border-top: 1px solid var(--line-soft);
+  }
+
+  .index a {
+    display: grid;
+    grid-template-columns: 3em 1fr;
+    gap: 2px 0;
+    padding: 18px 0;
+    text-decoration: none;
+    border-bottom: 1px solid var(--line-soft);
+  }
+
+  .index a:hover .index__t {
+    color: var(--accent);
+  }
+
+  .index__n {
+    grid-row: span 2;
+    padding-top: 0.45em;
+    font-size: 0.72rem;
+    color: var(--muted);
+  }
+
+  .index__t {
+    font-size: 1.35rem;
+  }
+
+  .index__d {
+    color: var(--muted);
+    font-size: 1rem;
+  }
+</style>

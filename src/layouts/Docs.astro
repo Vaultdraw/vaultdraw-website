@@ -1,0 +1,207 @@
+---
+import { getCollection } from "astro:content";
+import Base from "./Base.astro";
+
+interface Props {
+  title: string;
+  description: string;
+  slug?: string;
+  headings?: { depth: number; slug: string; text: string }[];
+}
+
+const { title, description, slug, headings = [] } = Astro.props;
+const pages = (await getCollection("docs")).sort((a, b) => a.data.order - b.data.order);
+const i = pages.findIndex((p) => p.id === slug);
+const prev = i > 0 ? pages[i - 1] : undefined;
+const next = i >= 0 && i < pages.length - 1 ? pages[i + 1] : undefined;
+const toc = headings.filter((h) => h.depth === 2);
+---
+
+<Base title={title} description={description}>
+  <div class="docs wrap">
+    <nav class="docs__nav" aria-label="Documentation">
+      <p class="label label--quiet">Docs</p>
+      <ol role="list">
+        {
+          pages.map((p) => (
+            <li>
+              <a href={`/docs/${p.id}/`} aria-current={p.id === slug ? "page" : undefined}>
+                {p.data.title}
+              </a>
+            </li>
+          ))
+        }
+      </ol>
+    </nav>
+    <article class="docs__main">
+      <header class="docs__head">
+        <p class="label">{slug ? `${String(i + 1).padStart(2, "0")} · Docs` : "Docs"}</p>
+        <h1>{title}</h1>
+        <p class="docs__lead">{description}</p>
+      </header>
+      {
+        toc.length > 2 && (
+          <nav class="docs__toc" aria-label="On this page">
+            {toc.map((h) => (
+              <a href={`#${h.slug}`}>{h.text}</a>
+            ))}
+          </nav>
+        )
+      }
+      <div class="prose">
+        <slot />
+      </div>
+      {
+        (prev || next) && (
+          <nav class="docs__pager" aria-label="Previous and next">
+            {prev ? (
+              <a href={`/docs/${prev.id}/`} rel="prev">
+                <span class="label label--quiet">← Previous</span>
+                {prev.data.title}
+              </a>
+            ) : (
+              <span />
+            )}
+            {next && (
+              <a href={`/docs/${next.id}/`} rel="next" class="next">
+                <span class="label label--quiet">Next →</span>
+                {next.data.title}
+              </a>
+            )}
+          </nav>
+        )
+      }
+    </article>
+  </div>
+</Base>
+
+<style>
+  .docs {
+    display: grid;
+    grid-template-columns: 210px minmax(0, 1fr);
+    gap: 64px;
+    padding-top: 64px;
+  }
+
+  .docs__nav {
+    position: sticky;
+    top: calc(var(--header) + 32px);
+    align-self: start;
+  }
+
+  .docs__nav ol {
+    margin: 14px 0 0;
+    padding: 0;
+    list-style: none;
+    border-left: 1px solid var(--line-soft);
+  }
+
+  .docs__nav a {
+    display: block;
+    padding: 7px 0 7px 16px;
+    margin-left: -1px;
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    color: var(--muted);
+    text-decoration: none;
+    border-left: 1px solid transparent;
+  }
+
+  .docs__nav a:hover {
+    color: var(--fg);
+  }
+
+  .docs__nav a[aria-current="page"] {
+    color: var(--fg);
+    border-left-color: var(--accent);
+  }
+
+  .docs__main {
+    max-width: 720px;
+  }
+
+  .docs__head h1 {
+    margin: 16px 0 12px;
+    font-size: clamp(2.3rem, 1.6rem + 2.4vw, 3.3rem);
+    font-weight: 380;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+  }
+
+  .docs__lead {
+    font-size: 1.2rem;
+    color: var(--muted);
+  }
+
+  .docs__toc {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 18px;
+    margin: 28px 0 8px;
+    padding: 14px 0;
+    border-block: 1px solid var(--line-soft);
+    font-family: var(--mono);
+    font-size: 0.74rem;
+  }
+
+  .docs__toc a {
+    color: var(--muted);
+    text-decoration: none;
+  }
+
+  .docs__toc a:hover {
+    color: var(--accent);
+  }
+
+  .docs__pager {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 72px;
+  }
+
+  .docs__pager a {
+    display: grid;
+    gap: 6px;
+    padding: 16px 18px;
+    text-decoration: none;
+    border: 1px solid var(--line-soft);
+    border-radius: 8px;
+  }
+
+  .docs__pager a:hover {
+    border-color: var(--accent);
+    color: var(--fg);
+  }
+
+  .docs__pager .next {
+    grid-column: 2;
+    text-align: right;
+  }
+
+  @media (max-width: 860px) {
+    .docs {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 24px;
+      padding-top: 40px;
+    }
+    .docs__nav {
+      position: static;
+    }
+    .docs__nav ol {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px 8px;
+      border-left: 0;
+    }
+    .docs__nav a {
+      padding: 6px 10px;
+      margin: 0;
+      border: 1px solid var(--line-soft);
+      border-radius: 99px;
+    }
+    .docs__nav a[aria-current="page"] {
+      border-color: var(--accent);
+    }
+  }
+</style>

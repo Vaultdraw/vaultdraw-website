@@ -1,0 +1,150 @@
+---
+import Base from "../layouts/Base.astro";
+import CodePanel from "../components/CodePanel.astro";
+import Note from "../components/Note.astro";
+import { SITE } from "../data/site.js";
+
+const platforms = [
+  { name: "macOS", detail: "first", status: "Signed build coming soon", soon: true },
+  { name: "Windows", detail: "after macOS", status: "Planned", soon: false },
+  { name: "Linux", detail: "after macOS", status: "Planned", soon: false },
+];
+---
+
+<Base title="Download" description="Get Vaultdraw for macOS, or build it from source today.">
+  <div class="dl wrap">
+    <header class="dl__head">
+      <p class="label">Download</p>
+      <h1>Not quite <em>yet</em>.</h1>
+      <p class="dl__lead">
+        Vaultdraw works every day on the machine it's built on, and the first signed, notarised macOS build is being
+        prepared. Releases will be published on GitHub; this page links them as soon as they exist.
+      </p>
+    </header>
+
+    <ul class="dl__list" role="list">
+      {
+        platforms.map((p) => (
+          <li class:list={["dl__item", { "dl__item--soon": p.soon }]}>
+            <span class="dl__name">{p.name}</span>
+            <span class="dl__detail mono">{p.detail}</span>
+            <span class="dl__status mono">{p.status}</span>
+          </li>
+        ))
+      }
+    </ul>
+
+    <section class="dl__src" aria-labelledby="src-title">
+      <div>
+        <h2 id="src-title">Build it from source</h2>
+        <p>
+          You need Node 18 or newer, Yarn 1, and the <a href="https://tauri.app/start/prerequisites/">Rust and Tauri prerequisites</a>.
+          The build takes a few minutes the first time.
+        </p>
+        <p>
+          <a class="btn" href={`${SITE.repo}/releases`}>Watch releases on GitHub</a>
+        </p>
+      </div>
+      <div>
+        <CodePanel
+          id="dl-build"
+          note="terminal"
+          files={[
+            {
+              name: "build",
+              lang: "sh",
+              code: `
+git clone ${SITE.repo}
+cd beltio
+yarn install
+yarn desktop:build   # the app lands in excalidraw-desktop/src-tauri/target/release/bundle/`,
+            },
+          ]}
+        />
+        <Note arrow="up-left" class="dl__note">then open it and pick a folder</Note>
+      </div>
+    </section>
+  </div>
+</Base>
+
+<style>
+  .dl {
+    padding-top: 64px;
+  }
+
+  .dl__head {
+    max-width: 720px;
+    margin-bottom: 48px;
+  }
+
+  .dl__head h1 {
+    margin: 16px 0 14px;
+    font-size: clamp(2.6rem, 1.6rem + 3.4vw, 4rem);
+    font-weight: 380;
+    letter-spacing: -0.02em;
+  }
+
+  .dl__lead {
+    font-size: 1.2rem;
+    color: color-mix(in srgb, var(--fg) 86%, var(--bg));
+  }
+
+  .dl__list {
+    margin: 0 0 96px;
+    padding: 0;
+    list-style: none;
+    border-top: 1px solid var(--line-soft);
+  }
+
+  .dl__item {
+    display: grid;
+    grid-template-columns: 200px 1fr auto;
+    align-items: baseline;
+    gap: 16px;
+    padding: 22px 0;
+    border-bottom: 1px solid var(--line-soft);
+  }
+
+  .dl__name {
+    font-size: 1.6rem;
+  }
+
+  .dl__detail,
+  .dl__status {
+    font-size: 0.76rem;
+    color: var(--muted);
+  }
+
+  .dl__item--soon .dl__status {
+    color: var(--accent);
+  }
+
+  .dl__src {
+    display: grid;
+    grid-template-columns: minmax(0, 4fr) minmax(0, 6fr);
+    gap: 48px;
+    align-items: start;
+  }
+
+  .dl__src h2 {
+    margin: 0 0 14px;
+    font-size: 1.8rem;
+    font-weight: 400;
+  }
+
+  .dl :global(.dl__note) {
+    margin: 14px 0 0 30%;
+  }
+
+  @media (max-width: 760px) {
+    .dl__item {
+      grid-template-columns: 1fr auto;
+    }
+    .dl__detail {
+      grid-row: 2;
+    }
+    .dl__src {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+</style>

@@ -1,0 +1,30 @@
+---
+import Base from "../layouts/Base.astro";
+---
+
+<Base title="Not found" description="This page isn't in the vault.">
+  <div class="nf wrap">
+    <p class="label">404</p>
+    <h1 class="hand">[[this page]]</h1>
+    <p>
+      An unresolved link: nothing in the vault has this name yet. Try the <a href="/">home page</a> or the
+      <a href="/docs/">docs</a>.
+    </p>
+  </div>
+</Base>
+
+<style>
+  .nf {
+    padding-top: 120px;
+    min-height: 50vh;
+  }
+
+  h1 {
+    margin: 18px 0;
+    font-size: clamp(3rem, 2rem + 6vw, 6rem);
+    font-weight: 400;
+    color: var(--muted);
+    text-decoration: underline dashed 2px;
+    text-underline-offset: 0.18em;
+  }
+</style>

@@ -1,0 +1,118 @@
+/* Long-form text: docs and changelog. */
+
+.prose {
+  font-size: 1.1rem;
+}
+
+.prose h2 {
+  margin: 2.6em 0 0.7em;
+  font-size: 1.75rem;
+  font-weight: 420;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+
+.prose h3 {
+  margin: 2em 0 0.5em;
+  font-family: var(--mono);
+  font-size: 0.82rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.prose h2 + p,
+.prose h3 + p {
+  margin-top: 0;
+}
+
+.prose ul,
+.prose ol {
+  padding-left: 1.2em;
+  margin: 0 0 1.2em;
+}
+
+.prose li {
+  margin: 0.4em 0;
+}
+
+.prose li::marker {
+  color: var(--muted);
+}
+
+.prose strong {
+  font-weight: 560;
+}
+
+.prose em {
+  color: inherit;
+}
+
+.prose pre {
+  margin: 1.4em 0;
+  padding: 16px 20px;
+  overflow-x: auto;
+  font-size: 0.8rem;
+  line-height: 1.7;
+  border: 1px solid var(--line-soft);
+  border-radius: var(--radius);
+  background: color-mix(in srgb, var(--panel) 50%, var(--bg)) !important;
+}
+
+.prose pre code {
+  background: none;
+  border: 0;
+  padding: 0;
+  font-size: inherit;
+}
+
+.prose table {
+  width: 100%;
+  margin: 1.4em 0;
+  border-collapse: collapse;
+  font-size: 0.98rem;
+}
+
+.prose th {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  text-align: left;
+  color: var(--muted);
+}
+
+.prose th,
+.prose td {
+  padding: 10px 14px 10px 0;
+  border-bottom: 1px solid var(--line-soft);
+  vertical-align: top;
+}
+
+.prose .table-wrap {
+  overflow-x: auto;
+}
+
+/* Shiki's css-variables theme, mapped to the site theme. */
+:root {
+  --astro-code-foreground: var(--fg);
+  --astro-code-background: transparent;
+  --astro-code-token-comment: var(--muted);
+  --astro-code-token-keyword: var(--accent);
+  --astro-code-token-string: var(--green);
+  --astro-code-token-string-expression: var(--green);
+  --astro-code-token-constant: var(--yellow);
+  --astro-code-token-function: var(--blue);
+  --astro-code-token-parameter: var(--fg);
+  --astro-code-token-punctuation: var(--muted);
+  --astro-code-token-link: var(--blue);
+}
+
+@media (max-width: 700px) {
+  .prose table {
+    display: block;
+    overflow-x: auto;
+  }
+}
