@@ -1,0 +1,90 @@
+---
+import "@fontsource-variable/newsreader/wght.css";
+import "@fontsource-variable/newsreader/wght-italic.css";
+import serifUrl from "@fontsource-variable/newsreader/files/newsreader-latin-wght-normal.woff2?url";
+import "@fontsource-variable/jetbrains-mono";
+import "../styles/global.css";
+
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import { DEFAULT_THEME, FEATURED_THEMES, SITE, themeById } from "../data/site.js";
+import { cssBlock, siteVars } from "../scripts/palette.js";
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title, description = SITE.description } = Astro.props;
+const fullTitle = title ? `${title} · Vaultdraw` : "Vaultdraw · an offline vault for Excalidraw drawings";
+
+const base = themeById(DEFAULT_THEME);
+const dark = siteVars(base.dark);
+const light = siteVars(base.light);
+const themeCss = [
+  cssBlock(":root", dark),
+  `@media (prefers-color-scheme: light){${cssBlock(':root:not([data-scheme="dark"])', light)}}`,
+  cssBlock(':root[data-scheme="light"]', light),
+].join("");
+
+const featured = JSON.stringify(FEATURED_THEMES.map(({ id, name, dark, light }) => ({ id, name, dark, light })));
+const canonical = new URL(Astro.url.pathname, Astro.site);
+---
+
+<!doctype html>
+<html lang="en" data-default-theme={DEFAULT_THEME}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta name="theme-color" content={dark["--bg"]} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={new URL("/og.png", Astro.site)} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src 'self'; base-uri 'self'; form-action 'none'"
+    />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <link rel="preload" href="/fonts/excalifont.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={serifUrl} as="font" type="font/woff2" crossorigin />
+    <style is:inline set:html={themeCss}></style>
+    <script is:inline>
+      // Apply the visitor's saved theme before first paint (see scripts/theme.js).
+      (() => {
+        const d = document.documentElement;
+        try {
+          const s = JSON.parse(localStorage.getItem("vd-theme") || "null");
+          const mode = (s && s.mode) || "system";
+          const scheme =
+            mode === "system" ? (matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark") : mode;
+          d.dataset.scheme = scheme;
+          if (s && s.vars && s.id !== d.dataset.defaultTheme) {
+            d.dataset.theme = s.id;
+            const v = s.vars[scheme];
+            for (const k in v) d.style.setProperty(k, v[k]);
+          }
+        } catch {}
+      })();
+    </script>
+    <script type="application/json" id="vd-featured" set:html={featured} />
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+    <Header />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer />
+    <script>
+      import "../scripts/theme.js";
+      import "../scripts/tabs.js";
+    </script>
+  </body>
+</html>

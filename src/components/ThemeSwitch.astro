@@ -1,0 +1,148 @@
+---
+import { FEATURED_THEMES } from "../data/site.js";
+---
+
+<div class="switch" role="group" aria-label="Site theme">
+  <span class="switch__label" aria-hidden="true">Theme</span>
+  <div class="switch__dots">
+    {
+      FEATURED_THEMES.map((t, i) => (
+        <button
+          type="button"
+          class="switch__dot"
+          data-pick-theme={t.id}
+          aria-pressed={i === 0 ? "true" : "false"}
+          aria-label={`${t.name} theme`}
+          title={t.name}
+          style={`--d-bg:${t.dark.bg};--d-ac:${t.dark.accent};--l-bg:${t.light.bg};--l-ac:${t.light.accent}`}
+        />
+      ))
+    }
+  </div>
+  <a class="switch__name" href="/#themes" data-theme-name>{FEATURED_THEMES[0].name}</a>
+  <button type="button" class="switch__mode" data-mode-toggle data-state="system" aria-label="Colour mode: system. Change">
+    <svg viewBox="0 0 16 16" width="15" height="15" aria-hidden="true">
+      <circle cx="8" cy="8" r="6.25" fill="none" stroke="currentColor" stroke-width="1.5"></circle>
+      <path class="m-half" d="M8 1.75a6.25 6.25 0 0 1 0 12.5z" fill="currentColor"></path>
+      <circle class="m-full" cx="8" cy="8" r="3" fill="currentColor"></circle>
+    </svg>
+  </button>
+</div>
+
+<style>
+  .switch {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .switch__label {
+    font-family: var(--mono);
+    font-size: 0.66rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .switch__dots {
+    display: flex;
+    gap: 2px;
+    padding: 3px;
+    border: 1px solid var(--line-soft);
+    border-radius: 99px;
+  }
+
+  .switch__dot {
+    --sw-bg: var(--d-bg);
+    --sw-ac: var(--d-ac);
+    position: relative;
+    width: 26px;
+    height: 26px;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: transparent;
+    cursor: pointer;
+  }
+
+  :global(:root[data-scheme="light"]) .switch__dot {
+    --sw-bg: var(--l-bg);
+    --sw-ac: var(--l-ac);
+  }
+
+  .switch__dot::before {
+    content: "";
+    position: absolute;
+    inset: 6px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--sw-bg) 50%, var(--sw-ac) 50%);
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--fg) 22%, transparent);
+    transition: inset 0.15s ease;
+  }
+
+  .switch__dot:hover::before {
+    inset: 4px;
+  }
+
+  .switch__dot[aria-pressed="true"] {
+    box-shadow: inset 0 0 0 1px var(--accent);
+  }
+
+  .switch__name {
+    min-width: 7.5em;
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.04em;
+    color: var(--fg);
+    text-decoration: none;
+  }
+
+  .switch__name:hover {
+    color: var(--accent);
+  }
+
+  .switch__mode {
+    display: grid;
+    place-items: center;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    color: var(--muted);
+    background: transparent;
+    border: 1px solid var(--line-soft);
+    border-radius: 6px;
+    cursor: pointer;
+  }
+
+  .switch__mode:hover {
+    color: var(--fg);
+    border-color: var(--line);
+  }
+
+  /* system: half moon; dark: filled dot; light: empty ring */
+  .switch__mode .m-full {
+    display: none;
+  }
+  .switch__mode[data-state="dark"] .m-half {
+    display: none;
+  }
+  .switch__mode[data-state="dark"] .m-full {
+    display: block;
+  }
+  .switch__mode[data-state="light"] .m-half {
+    display: none;
+  }
+
+  @media (max-width: 1020px) {
+    .switch__label,
+    .switch__name {
+      display: none;
+    }
+  }
+
+  @media (max-width: 620px) {
+    .switch__dots {
+      display: none;
+    }
+  }
+</style>

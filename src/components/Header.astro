@@ -1,0 +1,160 @@
+---
+import ThemeSwitch from "./ThemeSwitch.astro";
+import { SITE } from "../data/site.js";
+
+const path = Astro.url.pathname;
+const nav = [
+  { href: "/docs/", label: "Docs" },
+  { href: "/changelog/", label: "Changelog" },
+  { href: "/download/", label: "Download" },
+];
+---
+
+<header class="bar">
+  <div class="bar__inner wrap">
+    <a class="bar__mark" href="/" aria-label="Vaultdraw home">vault<span>draw</span></a>
+    <nav class="bar__nav" aria-label="Site">
+      {
+        nav.map((n) => (
+          <a href={n.href} aria-current={path.startsWith(n.href) ? "page" : undefined}>
+            {n.label}
+          </a>
+        ))
+      }
+    </nav>
+    <ThemeSwitch />
+    <a class="bar__gh" href={SITE.repo} aria-label="Source on GitHub">
+      <svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true">
+        <path
+          fill="currentColor"
+          d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8"
+        ></path>
+      </svg>
+      <span class="bar__gh-text">Source</span>
+    </a>
+  </div>
+  <div class="bar__progress" aria-hidden="true"></div>
+</header>
+
+<style>
+  .bar {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    height: var(--header);
+    background: color-mix(in srgb, var(--bg) 86%, transparent);
+    backdrop-filter: blur(10px) saturate(1.2);
+    -webkit-backdrop-filter: blur(10px) saturate(1.2);
+    border-bottom: 1px solid var(--line-soft);
+  }
+
+  .bar__inner {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    height: 100%;
+  }
+
+  .bar__mark {
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--fg);
+  }
+
+  .bar__mark span {
+    color: var(--accent);
+  }
+
+  .bar__nav {
+    display: flex;
+    gap: 22px;
+    margin-right: auto;
+  }
+
+  .bar__nav a,
+  .bar__gh {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--muted);
+    padding-block: 10px;
+  }
+
+  .bar__nav a:hover,
+  .bar__nav a[aria-current="page"],
+  .bar__gh:hover {
+    color: var(--fg);
+  }
+
+  .bar__nav a[aria-current="page"] {
+    text-decoration: underline;
+    text-decoration-color: var(--accent);
+    text-underline-offset: 0.6em;
+  }
+
+  .bar__gh {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 10px;
+    border: 1px solid var(--line-soft);
+    border-radius: 6px;
+  }
+
+  /* A hairline that fills as you read, driven by scroll (no script). */
+  .bar__progress {
+    position: absolute;
+    left: 0;
+    bottom: -1px;
+    height: 1px;
+    width: 100%;
+    background: var(--accent);
+    transform-origin: left;
+    transform: scaleX(0);
+  }
+
+  @supports (animation-timeline: scroll()) {
+    .bar__progress {
+      animation: progress linear both;
+      animation-timeline: scroll(root);
+    }
+  }
+
+  @keyframes progress {
+    to {
+      transform: scaleX(1);
+    }
+  }
+
+  @media (max-width: 760px) {
+    .bar__inner {
+      gap: 14px;
+    }
+    .bar__nav {
+      gap: 14px;
+    }
+    .bar__nav a:last-child,
+    .bar__gh-text {
+      display: none;
+    }
+    .bar__gh {
+      border: 0;
+      padding: 10px 4px;
+    }
+  }
+
+  @media (max-width: 440px) {
+    .bar__mark {
+      letter-spacing: 0.12em;
+    }
+    .bar__nav a:nth-child(2) {
+      display: none;
+    }
+  }
+</style>

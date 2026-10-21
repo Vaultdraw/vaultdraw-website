@@ -1,0 +1,20 @@
+{
+  "name": "vaultdraw-website",
+  "version": "0.1.0",
+  "description": "Website for Vaultdraw, an offline vault for Excalidraw drawings.",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "themes": "node scripts/sync-themes.mjs",
+    "shots": "node scripts/capture/shoot.mjs"
+  },
+  "type": "module",
+  "dependencies": {
+    "@fontsource-variable/jetbrains-mono": "^5.3.0",
+    "@fontsource-variable/newsreader": "^5.3.0",
+    "astro": "^7.4.2",
+    "sharp": "^0.35.5"
+  },
+  "private": true
+}
