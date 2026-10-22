@@ -137,7 +137,7 @@ const extras = [
       </p>
       <div class="hero__actions">
         <DownloadButton />
-        <a class="link-arrow" href="#folder">See how it works ↓</a>
+        <a class="link-arrow" href="#how-it-works">See how it works ↓</a>
       </div>
       <div class="hero__brew">
         <CopyCommand command={RELEASE.brew.install} caption={BREW_CAPTION} />
@@ -160,8 +160,8 @@ const extras = [
     <Note arrow="up-left" class="hero__note hero__note--canvas">the Excalidraw you know, offline</Note>
   </section>
 
-  <section class="sec wrap" id="folder" aria-labelledby="folder-title">
-    <SectionHead n="01" label="It is just a folder" id="folder">
+  <section class="sec wrap" id="how-it-works" aria-labelledby="how-it-works-title">
+    <SectionHead n="01" label="It is just a folder" id="how-it-works">
       <Fragment slot="title">Your drawings stay <em>yours</em>.</Fragment>
       <p>
         Nothing is imported, converted or locked into a database. Close Vaultdraw and the folder is exactly what it was:
@@ -457,12 +457,41 @@ yarn desktop:build`,
     text-wrap: pretty;
   }
 
+  /* Button and link share a row; the version line sits under the button without widening it. */
   .hero__actions {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: baseline;
-    gap: 18px 28px;
+    display: grid;
+    grid-template-columns: auto auto;
+    justify-content: start;
+    align-items: center;
+    gap: 8px 28px;
     margin-top: 30px;
+  }
+
+  .hero__actions :global(.dlbtn) {
+    display: contents;
+  }
+
+  .hero__actions :global(.dlbtn__meta) {
+    grid-row: 2;
+    grid-column: 1 / -1;
+  }
+
+  .hero__actions .link-arrow {
+    grid-row: 1;
+    grid-column: 2;
+  }
+
+  @media (max-width: 480px) {
+    .hero__actions {
+      grid-template-columns: auto;
+      row-gap: 10px;
+    }
+    .hero__actions .link-arrow {
+      grid-row: 3;
+      grid-column: 1;
+      justify-self: start;
+      margin-top: 8px;
+    }
   }
 
   .hero__brew {
