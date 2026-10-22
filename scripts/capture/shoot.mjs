@@ -10,6 +10,10 @@
 //   npm run shots -- --theme nord      one theme
 //   npm run shots -- --mode light      one colour mode
 //   npm run shots -- --sketches        only the SVG sketches
+//   npm run shots -- --raw <dir> --theme spiderman,seabed --only editor
+//                                      any built-in themes, lossless PNGs into <dir>
+//                                      only (src/assets untouched); used to build
+//                                      the recolouring key maps
 //
 // APP_DIR points at the app checkout (default ../vaultdraw).
 
@@ -23,6 +27,7 @@ import { buildVault, VAULT_NAME } from "./vault.mjs";
 import { SCREENS } from "./screens.mjs";
 import { exportSketches } from "./sketches.mjs";
 import { FEATURED } from "../../src/data/featured.mjs";
+import THEMES from "../../src/data/themes.json" with { type: "json" };
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(here, "../..");
@@ -42,6 +47,7 @@ const flag = (name) => {
 const onlyScreen = flag("only");
 const onlyTheme = flag("theme");
 const onlyMode = flag("mode");
+const rawDir = flag("raw") && path.resolve(flag("raw"));
 
 const require = createRequire(path.join(appDir, "package.json"));
 const { webkit } = require("playwright");
@@ -76,12 +82,12 @@ const waitForServer = async () => {
 };
 await waitForServer();
 
-mkdirSync(raw, { recursive: true });
+mkdirSync(rawDir ?? raw, { recursive: true });
 mkdirSync(out, { recursive: true });
 
 const browser = await webkit.launch();
 
-if (!onlyScreen && !onlyTheme && !onlyMode) {
+if (!onlyScreen && !onlyTheme && !onlyMode && !rawDir) {
   await exportSketches(browser, `http://localhost:${PORT}`, path.join(root, "src/assets/sketches"));
 }
 if (args.includes("--sketches")) {
@@ -92,7 +98,14 @@ if (args.includes("--sketches")) {
 
 const vault = buildVault();
 
-const themes = FEATURED.filter((t) => !onlyTheme || t.id === onlyTheme);
+const wanted = onlyTheme?.split(",");
+const themes = rawDir
+  ? wanted.map((id) => {
+      const t = THEMES.find((x) => x.id === id);
+      if (!t) throw new Error(`unknown theme "${id}"`);
+      return { id, name: t.name, shotModes: onlyMode ? [onlyMode] : ["dark", "light"] };
+    })
+  : FEATURED.filter((t) => !wanted || wanted.includes(t.id));
 const screens = SCREENS.filter((s) => !onlyScreen || s.name === onlyScreen);
 
 for (const theme of themes) {
@@ -132,10 +145,17 @@ for (const theme of themes) {
       await page.getByLabel("Vault File Navigator").waitFor();
       await screen.run(page);
       const file = `${screen.name}-${theme.id}-${mode}`;
-      const png = path.join(raw, `${file}.png`);
+      const png = path.join(rawDir ?? raw, `${file}.png`);
       await page.screenshot({ path: png, clip: screen.clip });
       // Lossless-ish master; Astro makes the AVIF/WebP sizes from it.
-      await sharp(png).webp({ quality: 92, effort: 6 }).toFile(path.join(out, `${file}.webp`));
+      if (!rawDir) await sharp(png).webp({ quality: 92, effort: 6 }).toFile(path.join(out, `${file}.webp`));
+      if (rawDir) {
+        // The same frame without the drawing canvas: pixels that change were drawn
+        // on the canvas, which tells the recolouring which colours they can be.
+        await page.addStyleTag({ content: ".excalidraw canvas { visibility: hidden !important; }" });
+        await page.evaluate(() => new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r))));
+        await page.screenshot({ path: path.join(rawDir, `${file}-nocanvas.png`), clip: screen.clip });
+      }
       console.log(`  ${file}`);
       await page.close();
     }
