@@ -1,0 +1,353 @@
+---
+import Base from "../layouts/Base.astro";
+import { SITE } from "../data/site.js";
+
+const downloads = {
+  svg: [
+    { use: "Website header, README, docs (dark background)", file: "lockup-dark.svg" },
+    { use: "Website header, README, docs (light background)", file: "lockup-light.svg" },
+    { use: "Narrow spaces, posters (dark)", file: "lockup-stacked-dark.svg" },
+    { use: "Narrow spaces, posters (light)", file: "lockup-stacked-light.svg" },
+    { use: "Just the name (dark)", file: "wordmark-dark.svg" },
+    { use: "Just the name (light)", file: "wordmark-light.svg" },
+    { use: "Just the symbol (dark)", file: "mark-dark.svg" },
+    { use: "Just the symbol (light)", file: "mark-light.svg" },
+    { use: "16 to 32 px, tabs and menus (dark)", file: "mark-small-dark.svg" },
+    { use: "16 to 32 px, tabs and menus (light)", file: "mark-small-light.svg" },
+    { use: "One colour on light, stamps, engraving, fax", file: "lockup-black.svg" },
+    { use: "One colour on dark", file: "lockup-white.svg" },
+    { use: "Symbol, one colour on light", file: "mark-black.svg" },
+    { use: "Symbol, one colour on dark", file: "mark-white.svg" },
+  ],
+  png: [
+    { use: "macOS app icon (1024 px, Apple grid)", file: "app-icon-1024.png" },
+    { use: "GitHub org and social avatar", file: "github-avatar-500.png" },
+    { use: "Link previews (Open Graph, Twitter)", file: "social-card-1200x630.png" },
+    { use: "Website header, README (1200 px, dark)", file: "lockup-dark-1200.png" },
+    { use: "Website header, README (1200 px, light)", file: "lockup-light-1200.png" },
+    { use: "Symbol (512 px, dark)", file: "mark-dark-512.png" },
+    { use: "Symbol (512 px, light)", file: "mark-light-512.png" },
+  ],
+  text: [
+    { use: "Plain text, logs, code comments (symbol)", file: "mark.txt" },
+    { use: "Plain text, logs, code comments (lockup)", file: "lockup.txt" },
+    { use: "Plain text, logs, code comments (name)", file: "wordmark-ascii.txt" },
+  ],
+};
+
+const colours = [
+  { role: "Ink (\"vault\")", dark: "#e0def4", light: "#575279" },
+  { role: "Draw (\"draw\", pencil)", dark: "#ebbcba", light: "#d7827e" },
+  { role: "Folder", dark: "#c4a7e7", light: "#907aa9" },
+  { role: "Pen", dark: "#9ccfd8", light: "#56949f" },
+  { role: "App icon tile", dark: "#26233a", light: "#faf4ed" },
+];
+---
+
+<Base
+  title="Brand"
+  description="The Vaultdraw logo: a folder with a pencil and a pen in it, the files to use, colours and rules."
+>
+  <div class="brand wrap">
+    <header class="brand__head">
+      <p class="label">Brand</p>
+      <h1>The <em>logo</em>.</h1>
+      <p class="brand__lead">
+        A folder with a pencil and a pen standing in it, drawn in a sketch style. The name is set in Excalifont:
+        "vault" in ink, "draw" in rose.
+      </p>
+    </header>
+
+    <section class="brand__sec" aria-labelledby="preview-title">
+      <h2 id="preview-title">Preview</h2>
+      <div class="brand__tiles">
+        <figure class="brand__tile brand__tile--dark">
+          <img src="/brand/lockup-dark.svg" alt="Vaultdraw logo, for dark backgrounds" width="560" height="112" />
+          <figcaption>Dark: <span class="mono">lockup-dark.svg</span></figcaption>
+        </figure>
+        <figure class="brand__tile brand__tile--light">
+          <img src="/brand/lockup-light.svg" alt="Vaultdraw logo, for light backgrounds" width="560" height="112" />
+          <figcaption>Light: <span class="mono">lockup-light.svg</span></figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="brand__sec" aria-labelledby="files-title">
+      <h2 id="files-title">Downloads</h2>
+      <p>Pick the file for where you use it. Each link downloads the file.</p>
+
+      <h3>SVG</h3>
+      <div class="brand__tbl">
+        <table>
+          <thead>
+            <tr><th scope="col">Use</th><th scope="col">File</th></tr>
+          </thead>
+          <tbody>
+            {
+              downloads.svg.map((d) => (
+                <tr>
+                  <td>{d.use}</td>
+                  <td><a class="mono" href={`/brand/${d.file}`} download>{d.file}</a></td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
+
+      <h3>PNG</h3>
+      <div class="brand__tbl">
+        <table>
+          <thead>
+            <tr><th scope="col">Use</th><th scope="col">File</th></tr>
+          </thead>
+          <tbody>
+            {
+              downloads.png.map((d) => (
+                <tr>
+                  <td>{d.use}</td>
+                  <td><a class="mono" href={`/brand/${d.file}`} download>{d.file}</a></td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Text (ASCII)</h3>
+      <div class="brand__tbl">
+        <table>
+          <thead>
+            <tr><th scope="col">Use</th><th scope="col">File</th></tr>
+          </thead>
+          <tbody>
+            {
+              downloads.text.map((d) => (
+                <tr>
+                  <td>{d.use}</td>
+                  <td><a class="mono" href={`/brand/${d.file}`} download>{d.file}</a></td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="brand__sec" aria-labelledby="colours-title">
+      <h2 id="colours-title">Colours</h2>
+      <p>Rosé Pine. The downloaded files use these fixed colours. On this site the logo takes the colours of the theme you pick.</p>
+      <div class="brand__tbl">
+        <table>
+          <thead>
+            <tr><th scope="col">Role</th><th scope="col">Dark</th><th scope="col">Light</th></tr>
+          </thead>
+          <tbody>
+            {
+              colours.map((c) => (
+                <tr>
+                  <td>{c.role}</td>
+                  <td>
+                    <span class="sw" style={`background:${c.dark}`} aria-hidden="true"></span>
+                    <span class="mono">{c.dark}</span>
+                  </td>
+                  <td>
+                    <span class="sw" style={`background:${c.light}`} aria-hidden="true"></span>
+                    <span class="mono">{c.light}</span>
+                  </td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="brand__sec" aria-labelledby="rules-title">
+      <h2 id="rules-title">Rules</h2>
+      <ul class="brand__list">
+        <li><strong>Clear space:</strong> keep at least a quarter of the mark's width free around the logo.</li>
+        <li><strong>Minimum size:</strong> the full mark needs 32 px. Below that, use the small mark. The wordmark is at least 14 px tall.</li>
+        <li>Don't recolour parts outside these palettes.</li>
+        <li>Don't stretch, rotate, add shadows or outlines.</li>
+        <li>Don't put the full-colour logo on busy photos. Use the black or white version.</li>
+        <li>Don't retype the wordmark in another font.</li>
+      </ul>
+    </section>
+
+    <section class="brand__sec brand__src" aria-labelledby="source-title">
+      <h2 id="source-title">Source</h2>
+      <p>
+        The source files and their history live in the app repo:{" "}
+        <a href={SITE.repo}>Vaultdraw/vaultdraw</a>, in <code>docs/assets/brand/</code>
+        and <code>docs/brand.md</code>.
+      </p>
+    </section>
+  </div>
+</Base>
+
+<style>
+  .brand {
+    padding-top: 64px;
+    padding-bottom: 72px;
+  }
+
+  .brand__head {
+    max-width: 720px;
+    margin-bottom: 48px;
+  }
+
+  .brand__head h1 {
+    margin: 16px 0 14px;
+    font-size: clamp(2.6rem, 1.6rem + 3.4vw, 4rem);
+    font-weight: 380;
+    letter-spacing: -0.02em;
+  }
+
+  .brand__lead {
+    font-size: 1.1rem;
+    color: color-mix(in srgb, var(--fg) 86%, var(--bg));
+  }
+
+  .brand__sec {
+    max-width: 800px;
+    margin-bottom: 64px;
+  }
+
+  .brand__sec h2 {
+    margin: 0 0 14px;
+    font-size: 1.8rem;
+    font-weight: 400;
+  }
+
+  .brand__sec h3 {
+    margin: 28px 0 10px;
+    font-family: var(--mono);
+    font-size: 0.76rem;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .brand__tiles {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+    margin: 0;
+  }
+
+  .brand__tile {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin: 0;
+    padding: 32px 24px;
+    border: 1px solid var(--line-soft);
+    border-radius: var(--radius);
+    min-width: 0;
+  }
+
+  .brand__tile--dark {
+    background: #191724;
+  }
+
+  .brand__tile--light {
+    background: #faf4ed;
+  }
+
+  .brand__tile img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .brand__tile figcaption {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    color: var(--muted);
+  }
+
+  .brand__tile--dark figcaption {
+    color: #908caa;
+  }
+
+  .brand__tile--light figcaption {
+    color: #575279;
+  }
+
+  .brand__tbl {
+    overflow-x: auto;
+    margin-bottom: 8px;
+    border: 1px solid var(--line-soft);
+    border-radius: var(--radius);
+  }
+
+  .brand__sec table {
+    width: 100%;
+    min-width: 480px;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+  }
+
+  .brand__sec th,
+  .brand__sec td {
+    padding: 10px 14px;
+    text-align: left;
+    vertical-align: middle;
+    border-bottom: 1px solid var(--line-soft);
+  }
+
+  .brand__sec tr:last-child td {
+    border-bottom: 0;
+  }
+
+  .brand__sec th {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    background: color-mix(in srgb, var(--panel) 55%, var(--bg));
+  }
+
+  .brand__sec td a {
+    word-break: break-all;
+  }
+
+  .mono {
+    font-family: var(--mono);
+    font-size: 0.85em;
+  }
+
+  .sw {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    margin-right: 8px;
+    vertical-align: -2px;
+    border: 1px solid var(--line-soft);
+    border-radius: 3px;
+  }
+
+  .brand__list {
+    margin: 16px 0 0;
+    padding-left: 1.4em;
+  }
+
+  .brand__list li {
+    margin-bottom: 10px;
+    padding-left: 0.3em;
+  }
+
+  .brand__src p {
+    margin: 0;
+  }
+
+  @media (max-width: 640px) {
+    .brand__tiles {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+</style>
