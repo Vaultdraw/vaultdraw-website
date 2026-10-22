@@ -2,6 +2,8 @@
 import Base from "../layouts/Base.astro";
 import CodePanel from "../components/CodePanel.astro";
 import Note from "../components/Note.astro";
+import DownloadButton from "../components/DownloadButton.astro";
+import CopyCommand from "../components/CopyCommand.astro";
 import { RELEASE, SITE } from "../data/site.js";
 
 const platforms = [
@@ -23,9 +25,15 @@ const platforms = [
         Your Excalidraw drawings, in a folder you own. Free and open source, with no account.
       </p>
       <div class="dl__cta">
-        <a class="btn btn--solid dl__btn" href={RELEASE.dmgUrl}>Download for macOS</a>
-        <p class="dl__meta mono">v{RELEASE.version} · {RELEASE.sizeMB} MB · {RELEASE.macs}, one universal DMG</p>
+        <DownloadButton />
         <a class="link-arrow" href={RELEASE.allUrl}>All releases</a>
+      </div>
+      <div class="dl__brew">
+        <CopyCommand
+          label="Or with Homebrew"
+          command={RELEASE.brew.install}
+          caption="Installs the app and the <code>vaultdraw</code> command."
+        />
       </div>
     </header>
 
@@ -44,7 +52,7 @@ const platforms = [
     <section class="dl__sec" aria-labelledby="open-title">
       <h2 id="open-title">Open it the first time</h2>
       <p>
-        Vaultdraw isn't signed with an Apple Developer certificate yet, so macOS may refuse to open it the first time.
+        Vaultdraw isn't signed with an Apple Developer certificate, so macOS may refuse to open it the first time.
       </p>
       <ol class="dl__steps">
         <li>Open the DMG and drag Vaultdraw to Applications.</li>
@@ -54,7 +62,8 @@ const platforms = [
           <strong>Open Anyway</strong>.
         </li>
         <li>
-          If macOS says the app is "damaged", run this in Terminal and open it again:
+          If macOS says the app is "damaged", or the <code>vaultdraw</code> command stops with <code>Killed: 9</code>,
+          run this in Terminal and try again:
           <div class="dl__code">
             <CodePanel
               id="dl-xattr"
@@ -63,13 +72,34 @@ const platforms = [
                 {
                   name: "quarantine",
                   lang: "sh",
-                  code: "xattr -dr com.apple.quarantine /Applications/Vaultdraw.app",
+                  code: RELEASE.unquarantine,
                 },
               ]}
             />
           </div>
         </li>
       </ol>
+    </section>
+
+    <section class="dl__sec" aria-labelledby="brew-title">
+      <h2 id="brew-title">Homebrew</h2>
+      <p>Same first-open step as the DMG. The cask lives in <a href={RELEASE.brew.tapUrl}>the Vaultdraw tap</a>.</p>
+      <div class="dl__code">
+        <CopyCommand label="Install" command={RELEASE.brew.install} />
+      </div>
+      <div class="dl__code">
+        <CopyCommand label="Upgrade" command={RELEASE.brew.upgrade} />
+      </div>
+      <div class="dl__code">
+        <CopyCommand label="Uninstall" command={RELEASE.brew.uninstall} />
+      </div>
+      <div class="dl__code">
+        <CopyCommand
+          label="Uninstall and also remove settings and caches"
+          command={RELEASE.brew.zap}
+          caption="Your vaults are never touched."
+        />
+      </div>
     </section>
 
     <section class="dl__sec" aria-labelledby="sum-title">
@@ -106,8 +136,8 @@ shasum -a 256 -c SHA256SUMS`,
           Memory: about 215 MB when idle, peaking around 420 MB while opening drawings in a typical vault.
         </li>
         <li>
-          The <code>vaultdraw</code> command is optional. Open the command palette (Cmd+Shift+P) and run{" "}
-          <strong>Install 'vaultdraw' command in PATH</strong>.
+          The <code>vaultdraw</code> command is optional. It is installed from the command palette (Cmd+Shift+P →{" "}
+          <strong>Install 'vaultdraw' command in PATH</strong>), or by Homebrew.
         </li>
       </ul>
       <p>
@@ -172,23 +202,15 @@ yarn desktop:build   # the app lands in excalidraw-desktop/src-tauri/target/rele
 
   .dl__cta {
     display: flex;
-    flex-direction: column;
+    flex-wrap: wrap;
     align-items: flex-start;
-    gap: 10px;
+    gap: 14px 28px;
     margin-top: 28px;
   }
 
-  .dl__btn {
-    min-height: 56px;
-    padding: 0 1.8em;
-    font-size: 0.9rem;
-  }
-
-  .dl__meta {
-    margin: 0;
-    font-size: 0.76rem;
-    color: var(--muted);
-    overflow-wrap: anywhere;
+  .dl__brew {
+    max-width: 520px;
+    margin-top: 28px;
   }
 
   .dl__list {

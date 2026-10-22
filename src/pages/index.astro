@@ -6,7 +6,11 @@ import SectionHead from "../components/SectionHead.astro";
 import CodePanel from "../components/CodePanel.astro";
 import ThemeGrid from "../components/ThemeGrid.astro";
 import Sketch from "../components/Sketch.astro";
+import DownloadButton from "../components/DownloadButton.astro";
+import CopyCommand from "../components/CopyCommand.astro";
 import { RELEASE, SITE, THEMES } from "../data/site.js";
+
+const BREW_CAPTION = "Installs the app and the <code>vaultdraw</code> command.";
 
 const vaultFiles = [
   {
@@ -132,11 +136,11 @@ const extras = [
         of drawings is missing around the canvas: a file tree, search inside drawings, links, history and themes.
       </p>
       <div class="hero__actions">
-        <div class="dl-cta">
-          <a class="btn btn--solid" href={RELEASE.dmgUrl}>Download for macOS</a>
-          <p class="dl-sub mono">v{RELEASE.version} · {RELEASE.macs}</p>
-        </div>
+        <DownloadButton />
         <a class="link-arrow" href="#folder">See how it works ↓</a>
+      </div>
+      <div class="hero__brew">
+        <CopyCommand command={RELEASE.brew.install} caption={BREW_CAPTION} />
       </div>
     </div>
     <Sketch
@@ -347,10 +351,10 @@ const extras = [
 
   <section class="sec wrap get" id="get" aria-labelledby="get-title">
     <SectionHead n="07" label="Get Vaultdraw" id="get">
-      <Fragment slot="title">macOS now, <em>the rest later</em>.</Fragment>
+      <Fragment slot="title">Free on <em>macOS</em>.</Fragment>
       <p>
-        Vaultdraw {RELEASE.version} runs on macOS, on Apple Silicon and Intel, from one universal DMG. The build isn't
-        signed yet, so the first open takes an extra step: <a href="/download/">the download page</a> shows how. Windows and Linux aren't available
+        Vaultdraw {RELEASE.version} runs on macOS, on Apple Silicon and Intel, from one universal DMG, or with Homebrew. The build isn't
+        signed, so the first open takes an extra step: <a href="/download/">the download page</a> shows how. Windows and Linux aren't available
         yet. You can also build it from source in a few minutes.
       </p>
     </SectionHead>
@@ -371,10 +375,8 @@ yarn desktop:build`,
         ]}
       />
       <div class="get__links">
-        <div class="dl-cta">
-          <a class="btn btn--solid" href={RELEASE.dmgUrl}>Download for macOS</a>
-          <p class="dl-sub mono">v{RELEASE.version} · {RELEASE.macs}</p>
-        </div>
+        <DownloadButton />
+        <CopyCommand command={RELEASE.brew.install} caption={BREW_CAPTION} />
         <a class="btn" href={RELEASE.allUrl}>All releases</a>
         <a class="link-arrow" href="/docs/">Read the docs →</a>
       </div>
@@ -455,27 +457,17 @@ yarn desktop:build`,
     text-wrap: pretty;
   }
 
-  /* Download button with its version line underneath. */
-  .dl-cta {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 8px;
-  }
-
-  .dl-sub {
-    margin: 0;
-    font-size: 0.72rem;
-    letter-spacing: 0.04em;
-    color: var(--muted);
-  }
-
   .hero__actions {
     display: flex;
     flex-wrap: wrap;
-    align-items: center;
+    align-items: baseline;
     gap: 18px 28px;
     margin-top: 30px;
+  }
+
+  .hero__brew {
+    max-width: 480px;
+    margin-top: 22px;
   }
 
   :global(.hero__note) {
@@ -783,7 +775,7 @@ yarn desktop:build`,
     justify-content: center;
   }
 
-  .get__links .dl-cta {
+  .get__links :global(.dlbtn) {
     align-items: stretch;
   }
 

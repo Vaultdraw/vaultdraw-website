@@ -1,0 +1,24 @@
+---
+// The one download button: primary link plus a version line.
+import { RELEASE } from "../data/site.js";
+---
+
+<div class="dlbtn">
+  <a class="btn btn--solid" href={RELEASE.dmgUrl}>Download for macOS</a>
+  <p class="dlbtn__meta mono">v{RELEASE.version} · {RELEASE.macs} · {RELEASE.sizeMB} MB</p>
+</div>
+
+<style>
+  .dlbtn {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  .dlbtn__meta {
+    margin: 0;
+    font-size: 0.72rem;
+    letter-spacing: 0.04em;
+    color: var(--muted);
+  }
+</style>
