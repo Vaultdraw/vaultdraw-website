@@ -1,6 +1,6 @@
 ---
-import { getCollection } from "astro:content";
 import Base from "./Base.astro";
+import { byGroup, docsInOrder } from "../data/docs";
 
 interface Props {
   title: string;
@@ -10,7 +10,8 @@ interface Props {
 }
 
 const { title, description, slug, headings = [] } = Astro.props;
-const pages = (await getCollection("docs")).sort((a, b) => a.data.order - b.data.order);
+const pages = await docsInOrder();
+const groups = byGroup(pages);
 const i = pages.findIndex((p) => p.id === slug);
 const prev = i > 0 ? pages[i - 1] : undefined;
 const next = i >= 0 && i < pages.length - 1 ? pages[i + 1] : undefined;
@@ -20,27 +21,32 @@ const toc = headings.filter((h) => h.depth === 2);
 <Base title={title} description={description}>
   <div class="docs wrap">
     <nav class="docs__nav" aria-label="Documentation">
-      <p class="label label--quiet">Docs</p>
-      <ol role="list">
-        {
-          pages.map((p) => (
-            <li>
-              <a href={`/docs/${p.id}/`} aria-current={p.id === slug ? "page" : undefined}>
-                {p.data.title}
-              </a>
-            </li>
-          ))
-        }
-      </ol>
+      <a class="label label--quiet docs__home" href="/docs/" aria-current={slug ? undefined : "page"}>Docs</a>
+      {
+        groups.map((g) => (
+          <section>
+            <p class="docs__group">{g.group}</p>
+            <ol role="list">
+              {g.pages.map((p) => (
+                <li>
+                  <a href={`/docs/${p.id}/`} aria-current={p.id === slug ? "page" : undefined}>
+                    {p.data.title}
+                  </a>
+                </li>
+              ))}
+            </ol>
+          </section>
+        ))
+      }
     </nav>
     <article class="docs__main">
       <header class="docs__head">
-        <p class="label">{slug ? `${String(i + 1).padStart(2, "0")} · Docs` : "Docs"}</p>
+        <p class="label">{slug ? `Docs · ${pages[i].data.group}` : "Docs"}</p>
         <h1>{title}</h1>
         <p class="docs__lead">{description}</p>
       </header>
       {
-        toc.length > 2 && (
+        toc.length > 1 && (
           <nav class="docs__toc" aria-label="On this page">
             {toc.map((h) => (
               <a href={`#${h.slug}`}>{h.text}</a>
@@ -87,10 +93,27 @@ const toc = headings.filter((h) => h.depth === 2);
     position: sticky;
     top: calc(var(--header) + 32px);
     align-self: start;
+    max-height: calc(100vh - var(--header) - 48px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding-bottom: 24px;
+  }
+
+  .docs__home {
+    text-decoration: none;
+  }
+
+  .docs__group {
+    margin: 22px 0 0;
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--fg);
   }
 
   .docs__nav ol {
-    margin: 14px 0 0;
+    margin: 8px 0 0;
     padding: 0;
     list-style: none;
     border-left: 1px solid var(--line-soft);
@@ -187,6 +210,10 @@ const toc = headings.filter((h) => h.depth === 2);
     }
     .docs__nav {
       position: static;
+      max-height: none;
+    }
+    .docs__group {
+      margin-top: 14px;
     }
     .docs__nav ol {
       display: flex;

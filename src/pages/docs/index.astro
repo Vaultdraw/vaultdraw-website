@@ -1,29 +1,44 @@
 ---
-import { getCollection } from "astro:content";
 import Docs from "../../layouts/Docs.astro";
+import { byGroup, docsInOrder } from "../../data/docs";
 
-const pages = (await getCollection("docs")).sort((a, b) => a.data.order - b.data.order);
+const groups = byGroup(await docsInOrder());
 ---
 
-<Docs title="Documentation" description="How Vaultdraw works, from opening a vault to writing your own theme.">
-  <ol class="index" role="list">
-    {
-      pages.map((p, i) => (
-        <li>
-          <a href={`/docs/${p.id}/`}>
-            <span class="index__n mono">{String(i + 1).padStart(2, "0")}</span>
-            <span class="index__t">{p.data.title}</span>
-            <span class="index__d">{p.data.description}</span>
-          </a>
-        </li>
-      ))
-    }
-  </ol>
+<Docs title="Documentation" description="How to use Vaultdraw: your vault, the command palette, themes, the config folder and the vaultdraw command.">
+  {
+    groups.map((g, gi) => (
+      <section>
+        <h2 class="index__g">{g.group}</h2>
+        <ol class="index" role="list">
+          {g.pages.map((p, i) => (
+            <li>
+              <a href={`/docs/${p.id}/`}>
+                <span class="index__n mono">{`${gi + 1}.${i + 1}`}</span>
+                <span class="index__t">{p.data.title}</span>
+                <span class="index__d">{p.data.description}</span>
+              </a>
+            </li>
+          ))}
+        </ol>
+      </section>
+    ))
+  }
 </Docs>
 
 <style>
+  .index__g {
+    margin: 48px 0 0;
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
   .index {
-    margin: 40px 0 0;
+    margin: 12px 0 0;
     padding: 0;
     list-style: none;
     border-top: 1px solid var(--line-soft);
