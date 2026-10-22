@@ -65,6 +65,9 @@ const preload = (id) => {
 };
 
 /** Swap screenshots to the theme; returns the on-screen images that changed. */
+/** Hidden screenshots (an inactive feature tab) are repainted when shown: see "vd:shown". */
+const shown = (fig) => fig.getClientRects().length > 0;
+
 const swapShots = (id, scheme) => {
   const changed = [];
   for (const fig of document.querySelectorAll("[data-shot]")) {
@@ -74,7 +77,7 @@ const swapShots = (id, scheme) => {
     if (picture.dataset.current === v.key) {
       if (!v.key.startsWith(`${id}-`)) {
         fig.dataset.showing = "fallback"; // stand-in already showing (first load)
-        repaint(fig, id, scheme, v.key);
+        if (shown(fig)) repaint(fig, id, scheme, v.key);
       }
       continue;
     }
@@ -87,7 +90,7 @@ const swapShots = (id, scheme) => {
     const img = picture.querySelector("img");
     img.src = v.src;
     fig.dataset.showing = key.startsWith(`${id}-`) ? "theme" : "fallback";
-    if (fig.dataset.showing === "fallback") repaint(fig, id, scheme, key);
+    if (fig.dataset.showing === "fallback" && shown(fig)) repaint(fig, id, scheme, key);
     if (onScreen(img)) changed.push(img);
   }
   return changed;
@@ -208,5 +211,8 @@ for (const type of ["pointerenter", "focusin"]) {
 }
 
 light.addEventListener("change", () => state.mode === "system" && render());
+
+// A screenshot became visible (feature tabs): give it the current theme.
+document.addEventListener("vd:shown", () => swapShots(state.id, schemeOf(state.mode)));
 
 render({ fade: false });
