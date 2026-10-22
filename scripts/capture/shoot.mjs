@@ -11,7 +11,7 @@
 //   npm run shots -- --mode light      one colour mode
 //   npm run shots -- --sketches        only the SVG sketches
 //
-// APP_DIR points at the app checkout (default ../beltio).
+// APP_DIR points at the app checkout (default ../vaultdraw).
 
 import { spawn, execFileSync } from "node:child_process";
 import { mkdirSync, existsSync } from "node:fs";
@@ -26,7 +26,7 @@ import { FEATURED } from "../../src/data/featured.mjs";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(here, "../..");
-const appDir = path.resolve(root, process.env.APP_DIR ?? "../beltio");
+const appDir = path.resolve(root, process.env.APP_DIR ?? "../vaultdraw");
 const desktop = path.join(appDir, "excalidraw-desktop");
 const harness = path.join(root, ".cache/app-harness");
 const raw = path.join(root, ".cache/shots");

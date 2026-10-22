@@ -1,13 +1,13 @@
 // Copies the app's built-in themes into src/data/themes.json, trimmed to the
 // colours the site uses. Run after the app adds or changes a theme:
-//   npm run themes            (APP_DIR defaults to ../beltio)
+//   npm run themes            (APP_DIR defaults to ../vaultdraw)
 
 import { readdirSync, readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const appDir = path.resolve(root, process.env.APP_DIR ?? "../beltio");
+const appDir = path.resolve(root, process.env.APP_DIR ?? "../vaultdraw");
 const dir = path.join(appDir, "excalidraw-desktop/src/theme/builtin");
 
 // Same priority as the app (builtins.ts): noctalia, then community, then own.
