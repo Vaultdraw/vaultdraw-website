@@ -430,6 +430,12 @@ yarn desktop:build`,
     flex: none;
   }
 
+  /* Centred on the folder body, not the mark's box (the tools stick up above it). */
+  .hero__brand .label {
+    margin: 0;
+    translate: 0 5px;
+  }
+
   .hero__mark {
     margin: 18px 0 18px -0.04em;
     font-family: var(--hand);
