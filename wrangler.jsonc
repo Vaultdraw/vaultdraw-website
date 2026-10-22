@@ -1,10 +1,8 @@
-// Cloudflare Workers config: serves the static site in dist/ (built by
-// `npm run build`). No server code runs; the Worker only serves files.
+// Cloudflare Workers config for the old address (vaultdraw.swarnim-114.workers.dev).
+// The site now lives on Vercel; this Worker only redirects every path there
+// (worker/redirect.js). It serves no files.
 {
   "name": "vaultdraw",
   "compatibility_date": "2026-10-01",
-  "assets": {
-    "directory": "./dist",
-    "not_found_handling": "404-page"
-  }
+  "main": "worker/redirect.js"
 }
