@@ -81,6 +81,12 @@ export const siteVars = (v) => {
     "--magenta": ansi[4],
     "--cyan": ansi[5],
     "color-scheme": isDark(v) ? "dark" : "light",
+    // Logo (components/Mark.astro): the theme's own colours, only nudged where
+    // one would nearly vanish, so Rosé Pine gives exactly the official logo.
+    "--logo-ink": ensure(v.fg, [bg], 2),
+    "--logo-draw": ensure(v.accent, [bg], 2),
+    "--logo-folder": ensure(v.ansi?.[4] ?? v.accent2 ?? v.accent, [bg], 2),
+    "--logo-pen": ensure(v.ansi?.[3] ?? v.accent3 ?? v.accent, [bg], 2),
   };
 };
 
