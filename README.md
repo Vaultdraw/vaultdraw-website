@@ -9,7 +9,7 @@ An offline vault for Excalidraw drawings. Pick a folder, and every drawing in it
 
 No account, no cloud, no telemetry.
 
-[![Vaultdraw, with a drawing open beside the file tree](docs-assets/vaultdraw.png)](https://vaultdraw.swarnim-114.workers.dev)
+[![Vaultdraw, with a drawing open beside the file tree](docs-assets/vaultdraw.png)](https://vaultdraw.vercel.app)
 
 ## What it does
 
@@ -31,7 +31,7 @@ Download the DMG from the [releases page](https://github.com/Vaultdraw/vaultdraw
 brew install --cask vaultdraw/tap/vaultdraw
 ```
 
-macOS only. The build is unsigned, so the first open needs one extra step. See the [install guide](https://vaultdraw.swarnim-114.workers.dev/docs/install/).
+macOS only. The build is unsigned, so the first open needs one extra step. See the [install guide](https://vaultdraw.vercel.app/docs/install/).
 
 ## Repository
 

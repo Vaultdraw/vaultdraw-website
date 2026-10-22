@@ -11,8 +11,8 @@ const mermaidConfig = {
 };
 
 export default defineConfig({
-  // The real domain is not chosen yet; set SITE_URL when deploying.
-  site: process.env.SITE_URL ?? "http://localhost:4321",
+  // The live site (canonical URLs, Open Graph image); SITE_URL overrides it.
+  site: process.env.SITE_URL ?? "https://vaultdraw.vercel.app",
   trailingSlash: "ignore",
   // The CSS is small; inlining it saves a render-blocking request.
   build: { inlineStylesheets: "always" },
