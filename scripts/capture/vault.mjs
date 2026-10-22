@@ -143,7 +143,7 @@ const scene = (elements, appState = {}) =>
 const architecture = () =>
   scene([
     text(120, 60, "Vaultdraw, how it fits together", { fontSize: 32 }),
-    text(122, 108, "one window, one folder, no server", { fontSize: 18, strokeColor: "#868e96" }),
+    text(122, 108, "one window, one folder, no server   #project", { fontSize: 18, strokeColor: "#868e96" }),
 
     box("rectangle", 120, 180, 300, 260, null, { backgroundColor: FILL.blue, fillStyle: "hachure", strokeColor: BLUE }),
     text(140, 196, "Webview", { fontSize: 24, strokeColor: BLUE }),
@@ -183,6 +183,7 @@ const roadmap = () =>
     box("rectangle", 430, 290, 280, 80, "CLI: export from\nthe terminal", { backgroundColor: FILL.blue }),
     box("rectangle", 760, 190, 280, 80, "Presentation mode", { backgroundColor: FILL.yellow }),
     text(100, 420, "see [[Architecture]] and [[Weekly review]]", { fontSize: 20 }),
+    text(100, 460, "#project #weekly", { fontSize: 18, strokeColor: "#868e96" }),
   ]);
 
 const raft = () => {
@@ -203,7 +204,7 @@ const raft = () => {
     arrow([620, 235], [720, 555], { strokeStyle: "dashed" }),
     text(80, 120, "1. heartbeats every 50 ms\n2. no heartbeat → become candidate\n3. majority votes → new leader", { fontSize: 18 }),
     text(860, 600, "term 7", { fontSize: 18, strokeColor: RED }),
-    text(80, 230, "see also [[Consistent hashing]]\nand [[Reading list]]", { fontSize: 18, strokeColor: "#868e96" }),
+    text(80, 230, "see also [[Consistent hashing]]\nand [[Reading list]]\n#distributed #raft", { fontSize: 18, strokeColor: "#868e96" }),
   ]);
 };
 
@@ -224,6 +225,7 @@ const hashing = () => {
     text(760, 300, "a key walks clockwise\nto the next node", { fontSize: 20 }),
     arrow([750, 330], [690, 380]),
     text(80, 680, "used by [[Raft]]? no: by the storage layer", { fontSize: 18, strokeColor: "#868e96" }),
+    text(80, 710, "#distributed", { fontSize: 18, strokeColor: "#868e96" }),
   ]);
 };
 
@@ -238,7 +240,7 @@ const graphs = () => {
     ...nodes,
     ...[[0, 1], [0, 5], [1, 2], [1, 3], [2, 4], [3, 4], [5, 2]].map(([a, b]) => line([c(a), c(b)], { strokeWidth: 1 })),
     text(780, 200, "queue: A → B F → C D → E", { fontSize: 20, strokeColor: BLUE }),
-    text(780, 260, "from [[Reading list]]", { fontSize: 18, strokeColor: "#868e96" }),
+    text(780, 260, "from [[Reading list]]  #reading", { fontSize: 18, strokeColor: "#868e96" }),
   ]);
 };
 
@@ -249,6 +251,7 @@ const weekly = () =>
     box("rectangle", 370, 130, 260, 200, "stuck on\nnotarisation", { backgroundColor: FILL.red, roundness: null }),
     box("rectangle", 660, 130, 260, 200, "next\nsearch ranking\nshare to PDF", { backgroundColor: FILL.yellow, roundness: null }),
     text(80, 380, "links: [[Architecture]] [[Reading list]]", { fontSize: 20 }),
+    text(80, 420, "#weekly", { fontSize: 18, strokeColor: "#868e96" }),
   ]);
 
 const reading = () =>
@@ -256,6 +259,7 @@ const reading = () =>
     text(80, 50, "Reading list", { fontSize: 32 }),
     text(80, 120, "☐ Designing Data-Intensive Applications\n☑ In Search of an Understandable\n   Consensus Algorithm\n☐ Local-first software\n☐ The Raft paper, again", { fontSize: 22 }),
     text(560, 130, "→ notes in [[Raft]]", { fontSize: 20, strokeColor: BLUE }),
+    text(560, 170, "#reading", { fontSize: 18, strokeColor: "#868e96" }),
   ]);
 
 const meeting = () =>
@@ -266,7 +270,41 @@ const meeting = () =>
     text(100, 175, "Notes", { fontSize: 20 }),
     box("rectangle", 470, 160, 300, 260, null, { roundness: null }),
     text(490, 175, "Decisions", { fontSize: 20 }),
-    text(80, 450, "file under [[Weekly review]]", { fontSize: 18, strokeColor: "#868e96" }),
+    text(80, 450, "file under [[Weekly review]]  #weekly", { fontSize: 18, strokeColor: "#868e96" }),
+  ]);
+
+const retro = () =>
+  scene([
+    text(80, 50, "Retro", { fontSize: 32 }),
+    box("rectangle", 80, 130, 260, 260, null, { backgroundColor: FILL.green, roundness: null }),
+    text(100, 145, "went well", { fontSize: 20 }),
+    box("rectangle", 370, 130, 260, 260, null, { backgroundColor: FILL.red, roundness: null }),
+    text(390, 145, "didn't", { fontSize: 20 }),
+    box("rectangle", 660, 130, 260, 260, null, { backgroundColor: FILL.yellow, roundness: null }),
+    text(680, 145, "try next", { fontSize: 20 }),
+  ]);
+
+const flowchart = () =>
+  scene([
+    text(80, 50, "Flowchart", { fontSize: 32 }),
+    box("ellipse", 120, 130, 160, 80, "start", { backgroundColor: FILL.green }),
+    box("rectangle", 120, 280, 160, 80, "step"),
+    box("diamond", 100, 430, 200, 120, "ok?", { backgroundColor: FILL.yellow }),
+    box("rectangle", 420, 450, 160, 80, "done", { backgroundColor: FILL.blue }),
+    arrow([200, 210], [200, 280]),
+    arrow([200, 360], [200, 430]),
+    arrow([300, 490], [420, 490]),
+  ]);
+
+const decision = () =>
+  scene([
+    text(80, 50, "Decision", { fontSize: 32 }),
+    box("rectangle", 80, 130, 260, 90, "question", { backgroundColor: FILL.violet }),
+    box("rectangle", 80, 290, 120, 70, "A"),
+    box("rectangle", 220, 290, 120, 70, "B"),
+    arrow([180, 220], [140, 290]),
+    arrow([240, 220], [280, 290]),
+    text(380, 150, "pros · cons · owner · date", { fontSize: 18, strokeColor: "#868e96" }),
   ]);
 
 const inbox = () =>
@@ -288,6 +326,9 @@ export const DRAWINGS = {
   "Notes/Weekly review.excalidraw": weekly,
   "Notes/Reading list.excalidraw": reading,
   "Templates/Meeting.excalidraw": meeting,
+  "Templates/Retro.excalidraw": retro,
+  "Templates/Flowchart.excalidraw": flowchart,
+  "Templates/Decision.excalidraw": decision,
   "Inbox.excalidraw": inbox,
 };
 

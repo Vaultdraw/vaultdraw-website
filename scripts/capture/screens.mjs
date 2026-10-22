@@ -108,4 +108,79 @@ export const SCREENS = [
       await page.waitForTimeout(1000);
     },
   },
+  {
+    name: "tags",
+    clip: { x: 600, y: 0, width: 840, height: 900 },
+    run: async (page) => {
+      await openPath(page, "Projects", "Vaultdraw", "Architecture");
+      await fit(page);
+      await page.getByRole("region", { name: "Tags" }).getByRole("button", { name: /^Tag project,/ }).click();
+      await page.waitForTimeout(800);
+    },
+  },
+  {
+    name: "links",
+    run: async (page) => {
+      await openPath(page, "Projects", "Vaultdraw", "Architecture");
+      await fit(page);
+      await page.keyboard.press(`${MOD}+Alt+b`);
+      await page.locator(".vault-links__row--backlink").first().waitFor();
+      await page.waitForTimeout(600);
+    },
+  },
+  {
+    name: "tools",
+    clip: { x: 215, y: 85, width: 1010, height: 730 },
+    run: async (page) => {
+      await openPath(page, "Projects", "Vaultdraw", "Architecture");
+      await page.keyboard.press(`${MOD}+Comma`);
+      await page.getByRole("tab", { name: "Tools", exact: true }).click();
+      await page.getByRole("tablist", { name: "Tools" }).getByRole("tab", { name: "Arrow" }).click();
+      await page.getByTestId("tool-default-arrow").waitFor();
+      await page.waitForTimeout(800);
+    },
+  },
+  {
+    name: "templates",
+    clip: { x: 300, y: 100, width: 840, height: 640 },
+    run: async (page) => {
+      await openPath(page, "Projects", "Vaultdraw", "Architecture");
+      await page.keyboard.press("Control+Alt+N");
+      await page.getByRole("dialog", { name: "New drawing from template" }).waitFor();
+      await page.locator(".template-picker__row").first().waitFor();
+      await page.waitForTimeout(800);
+    },
+  },
+  {
+    name: "import",
+    clip: { x: 300, y: 210, width: 840, height: 400 },
+    run: async (page) => {
+      // The harness's PDF bridge is a fake that renders placeholder pages, so
+      // the shot is of the real import dialog only, not of imported pages.
+      await page.evaluate(() => {
+        const b = window.__pdfBridge;
+        b.nextPick = b.makeDoc("raft-paper.pdf", Array.from({ length: 18 }, () => ({ widthPt: 595, heightPt: 842 })));
+      });
+      await openPath(page, "Projects", "Vaultdraw", "Architecture");
+      await fit(page);
+      await page.keyboard.press(`${MOD}+Shift+P`);
+      await page.keyboard.type("Import: PDF", { delay: 30 });
+      await page.keyboard.press("Enter");
+      const d = page.getByRole("dialog", { name: "Import PDF" });
+      await d.waitFor();
+      await d.getByPlaceholder(/all, or e\.g\./).fill("1-5");
+      await page.waitForTimeout(500);
+    },
+  },
+  {
+    name: "themes",
+    clip: { x: 215, y: 85, width: 1010, height: 730 },
+    run: async (page) => {
+      await openPath(page, "Projects", "Vaultdraw", "Architecture");
+      await fit(page);
+      await page.keyboard.press(`${MOD}+Comma`);
+      await page.getByRole("tab", { name: "Appearance", exact: true }).click();
+      await page.waitForTimeout(800);
+    },
+  },
 ];
