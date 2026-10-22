@@ -116,3 +116,84 @@
     overflow-x: auto;
   }
 }
+
+/* Callouts: a Markdown blockquote that starts with **Note:**, **Tip:** or **Caution:**. */
+.prose blockquote {
+  margin: 1.6em 0;
+  padding: 12px 18px;
+  border-left: 3px solid var(--accent);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  background: color-mix(in srgb, var(--panel) 50%, var(--bg));
+}
+
+.prose blockquote > :first-child {
+  margin-top: 0;
+}
+
+.prose blockquote > :last-child {
+  margin-bottom: 0;
+}
+
+.prose img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 1.6em 0;
+  border: 1px solid var(--line-soft);
+  border-radius: var(--radius);
+}
+
+/* Mermaid diagrams (inline SVG from rehype-mermaid), coloured from the site theme.
+   !important beats the #mermaid-N rules Mermaid writes into each SVG. */
+.prose svg[id^="mermaid-"] {
+  display: block;
+  margin: 1.6em auto 0.6em;
+  max-width: 100%;
+  height: auto;
+}
+
+.prose svg[id^="mermaid-"] .label {
+  /* Mermaid's .label, not the site's uppercase .label. */
+  font: inherit;
+  letter-spacing: normal;
+  text-transform: none;
+  color: inherit;
+}
+
+.prose svg[id^="mermaid-"] :is(.node rect, .node polygon, .node circle) {
+  fill: var(--panel) !important;
+  stroke: var(--line) !important;
+}
+
+.prose svg[id^="mermaid-"] .cluster rect {
+  fill: transparent !important;
+  stroke: var(--line-soft) !important;
+  stroke-dasharray: 4 4;
+}
+
+.prose svg[id^="mermaid-"] :is(text, .nodeLabel, .cluster-label, .edgeLabel) {
+  fill: var(--fg) !important;
+  color: var(--fg) !important;
+}
+
+.prose svg[id^="mermaid-"] .edgeLabel :is(rect, p, span) {
+  fill: var(--bg) !important;
+  background: var(--bg) !important;
+  color: var(--muted) !important;
+}
+
+.prose svg[id^="mermaid-"] .flowchart-link {
+  stroke: var(--muted) !important;
+}
+
+.prose svg[id^="mermaid-"] :is(marker path, .arrowheadPath) {
+  fill: var(--muted) !important;
+  stroke: var(--muted) !important;
+}
+
+.prose svg[id^="mermaid-"] + p > em:only-child {
+  display: block;
+  color: var(--muted);
+  font-size: 0.9em;
+  text-align: center;
+}
