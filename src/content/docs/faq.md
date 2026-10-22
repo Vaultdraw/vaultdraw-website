@@ -42,11 +42,11 @@ Not yet. {{version}} is macOS only (Apple Silicon and Intel).
 
 ## Why does macOS refuse to open it?
 
-The app is not signed with an Apple Developer certificate yet. See [Install](/docs/install/) for the one-time steps.
+The app is not signed with an Apple Developer certificate yet. See [Install](/docs/install/#open-it-the-first-time) for the one-time steps. If it says "damaged", or the `vaultdraw` command stops with `Killed: 9`, run `{{unquarantine}}`.
 
 ## How do I update?
 
-There is no automatic update yet. Download the new DMG from the [releases page]({{releases_url}}).
+There is no automatic update yet. Download the new DMG from the [releases page]({{releases_url}}), or run `{{brew_upgrade}}` if you installed with Homebrew.
 
 ## Can I change the keys?
 

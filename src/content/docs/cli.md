@@ -9,7 +9,7 @@ order: 1
 
 ## Install
 
-Open the command palette (**Cmd+Shift+P**) and run one of:
+If you installed Vaultdraw with Homebrew, the command is already there. Otherwise open the command palette (**Cmd+Shift+P**) and run one of:
 
 - **Install 'vaultdraw' command in PATH** links it into `~/.local/bin`.
 - **Install 'vaultdraw' command in /usr/local/bin** links it there instead, for every user.
@@ -19,6 +19,8 @@ Check it works:
 ```bash
 vaultdraw status
 ```
+
+If it stops with `Killed: 9`, see [troubleshooting](/docs/troubleshooting/#the-vaultdraw-command-says-killed-9).
 
 ## With or without the app
 

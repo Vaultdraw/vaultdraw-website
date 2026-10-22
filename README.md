@@ -18,6 +18,16 @@ No account, no cloud, no telemetry.
 - **Themes.** Nine built in, light and dark, in the Noctalia format.
 - **Keyboard first.** A command palette for every action, with customisable keys.
 
+## Install
+
+Download the DMG from the [releases page](https://github.com/Vaultdraw/vaultdraw/releases/latest), or use Homebrew, which also installs the `vaultdraw` command:
+
+```bash
+brew install --cask vaultdraw/tap/vaultdraw
+```
+
+macOS only. The build is unsigned, so the first open needs one extra step. See the [install guide](https://vaultdraw.swarnim-114.workers.dev/docs/install/).
+
 ## Repository
 
 https://github.com/Vaultdraw/vaultdraw

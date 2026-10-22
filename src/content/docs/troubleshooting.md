@@ -7,11 +7,13 @@ order: 2
 
 ## macOS won't open the app
 
-Vaultdraw isn't signed with an Apple Developer certificate yet. Right-click it in Applications and choose **Open**, or go to **System Settings → Privacy & Security** and click **Open Anyway**. If macOS says the app is "damaged":
+Vaultdraw isn't signed with an Apple Developer certificate yet. Right-click it in Applications and choose **Open**, or go to **System Settings → Privacy & Security** and click **Open Anyway**. If macOS says the app is "damaged", remove the quarantine flag and try again:
 
 ```bash
-xattr -dr com.apple.quarantine /Applications/Vaultdraw.app
+{{unquarantine}}
 ```
+
+This applies to a Homebrew install too.
 
 See [Install](/docs/install/#open-it-the-first-time).
 
@@ -46,6 +48,14 @@ Another command may use it. **Settings → Hotkeys** shows clashes in red, and t
 ## The command line says the app is not running
 
 Commands like `open` and `tabs` need the app: start it and try again. File commands such as `ls` and `search` work without it. See [the vaultdraw command](/docs/cli/#with-or-without-the-app).
+
+## The vaultdraw command says Killed: 9
+
+While the app is quarantined, macOS stops the command. Remove the quarantine flag, the same fix as for "damaged":
+
+```bash
+{{unquarantine}}
+```
 
 ## Still stuck
 
