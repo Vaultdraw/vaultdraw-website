@@ -367,7 +367,7 @@ yarn desktop:build`,
         ]}
       />
       <div class="get__links">
-        <a class="btn btn--solid" href="/download/">Download page</a>
+        <a class="btn btn--solid" href="/download/">Download for macOS <span class="btn__tag">soon</span></a>
         <a class="btn" href={`${SITE.repo}/releases`}>Releases on GitHub</a>
         <a class="link-arrow" href="/docs/">Read the docs →</a>
       </div>
@@ -751,8 +751,18 @@ yarn desktop:build`,
   .get__links {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    gap: 14px;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  /* One block of equal-width actions; the text link keeps its own width so
+     its focus ring stays around the words, not the whole column. */
+  .get__links .btn {
+    justify-content: center;
+  }
+
+  .get__links .link-arrow {
+    align-self: flex-start;
   }
 
   @media (max-width: 860px) {
