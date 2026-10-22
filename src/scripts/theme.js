@@ -70,7 +70,14 @@ const swapShots = (id, scheme) => {
   for (const fig of document.querySelectorAll("[data-shot]")) {
     const v = variantFor(fig, id, scheme);
     const picture = fig.querySelector("picture");
-    if (!v || picture.dataset.current === v.key) continue;
+    if (!v || picture.dataset.current === `${id}-${scheme}`) continue; // already this theme (photo or repaint)
+    if (picture.dataset.current === v.key) {
+      if (!v.key.startsWith(`${id}-`)) {
+        fig.dataset.showing = "fallback"; // stand-in already showing (first load)
+        repaint(fig, id, scheme, v.key);
+      }
+      continue;
+    }
     const key = v.key;
     picture.dataset.current = key;
     // Drop the no-script light/dark media switch: the script decides now.
@@ -80,9 +87,26 @@ const swapShots = (id, scheme) => {
     const img = picture.querySelector("img");
     img.src = v.src;
     fig.dataset.showing = key.startsWith(`${id}-`) ? "theme" : "fallback";
+    if (fig.dataset.showing === "fallback") repaint(fig, id, scheme, key);
     if (onScreen(img)) changed.push(img);
   }
   return changed;
+};
+
+/**
+ * A theme without its own screenshots: show the stand-in, then swap in the
+ * same screen repainted in the theme's colours once it's ready.
+ */
+const repaint = async (fig, id, scheme, standIn) => {
+  const { supported, recolored } = await import("./recolor.js");
+  if (!supported) return;
+  const url = await recolored(fig.dataset.shot, id, scheme);
+  const picture = fig.querySelector("picture");
+  if (!url || picture.dataset.current !== standIn) return; // none, or the theme changed meanwhile
+  for (const s of picture.querySelectorAll("source")) s.srcset = url;
+  picture.querySelector("img").src = url;
+  picture.dataset.current = `${id}-${scheme}`;
+  fig.dataset.showing = "repainted";
 };
 
 const paint = (vars, scheme) => {
