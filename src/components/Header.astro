@@ -1,5 +1,7 @@
 ---
 import ThemeSwitch from "./ThemeSwitch.astro";
+import Mark from "./Mark.astro";
+import Wordmark from "./Wordmark.astro";
 import { SITE } from "../data/site.js";
 
 const path = Astro.url.pathname;
@@ -12,7 +14,10 @@ const nav = [
 
 <header class="bar">
   <div class="bar__inner wrap">
-    <a class="bar__mark" href="/" aria-label="Vaultdraw home">vault<span>draw</span></a>
+    <a class="bar__mark" href="/" aria-label="Vaultdraw home">
+      <Mark variant="small" size={24} />
+      <Wordmark height={18} class="bar__word" />
+    </a>
     <nav class="bar__nav" aria-label="Site">
       {
         nav.map((n) => (
@@ -56,17 +61,11 @@ const nav = [
   }
 
   .bar__mark {
-    font-family: var(--mono);
-    font-size: 0.8rem;
-    font-weight: 500;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
     text-decoration: none;
     color: var(--fg);
-  }
-
-  .bar__mark span {
-    color: var(--accent);
   }
 
   .bar__nav {
@@ -151,7 +150,10 @@ const nav = [
 
   @media (max-width: 440px) {
     .bar__mark {
-      letter-spacing: 0.12em;
+      gap: 0;
+    }
+    .bar__word {
+      display: none;
     }
     .bar__nav a:nth-child(2) {
       display: none;

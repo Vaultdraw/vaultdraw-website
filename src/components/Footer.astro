@@ -1,10 +1,12 @@
 ---
+import Mark from "./Mark.astro";
+import Wordmark from "./Wordmark.astro";
 import { SITE } from "../data/site.js";
 ---
 
 <footer class="foot">
   <div class="wrap foot__inner">
-    <p class="foot__mark">vault<span>draw</span></p>
+    <p class="foot__mark"><Mark variant="small" size={28} /><Wordmark height={22} /><span class="visually-hidden">Vaultdraw</span></p>
     <p class="foot__note">
       Built on <a href="https://github.com/excalidraw/excalidraw">Excalidraw</a> (MIT). Palettes in the{" "}
       <a href="https://github.com/noctalia-dev/noctalia">Noctalia</a> format, by their authors.
@@ -14,6 +16,7 @@ import { SITE } from "../data/site.js";
       <a href="/docs/">Docs</a>
       <a href="/changelog/">Changelog</a>
       <a href="/download/">Download</a>
+      <a href="/brand/">Brand</a>
       <a href={SITE.repo}>GitHub</a>
     </nav>
   </div>
@@ -34,14 +37,11 @@ import { SITE } from "../data/site.js";
   }
 
   .foot__mark {
-    font-family: var(--hand);
-    font-size: 1.6rem;
     margin: 0 0 10px;
     grid-column: 1 / -1;
-  }
-
-  .foot__mark span {
-    color: var(--accent);
+    display: flex;
+    align-items: center;
+    gap: 10px;
   }
 
   .foot__note {

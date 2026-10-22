@@ -1,0 +1,32 @@
+---
+// The Vaultdraw mark, recoloured by the site theme (--logo-* variables).
+// "small" (16–32 px) is drawn from the page's LogoSprite; "full" is inlined.
+import full from "../assets/brand/mark-dark.svg?raw";
+import { themeSvg } from "../data/svg.js";
+
+interface Props {
+  variant?: "full" | "small";
+  size: number;
+  label?: string;
+  class?: string;
+}
+
+const { variant = "full", size, label, class: className } = Astro.props;
+
+// Unique clip-path ids per inlined mark (several can share a page).
+const g = globalThis as { __vdMarkId?: number };
+const { viewBox, inner } =
+  variant === "full" ? themeSvg(full, `vdm${(g.__vdMarkId = (g.__vdMarkId ?? 0) + 1)}`) : { viewBox: undefined, inner: '<use href="#vd-mark-small" width="100%" height="100%"/>' };
+const a11y = label ? { role: "img", "aria-label": label } : { "aria-hidden": "true" };
+---
+
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox={viewBox}
+  width={size}
+  height={size}
+  focusable="false"
+  class={className}
+  {...a11y}
+  set:html={inner}
+/>

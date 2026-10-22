@@ -1,0 +1,16 @@
+---
+// The small mark and the wordmark, once per page (Base.astro). Header and
+// footer show them with <use>, so neither is inlined twice; theme colours
+// still apply because CSS variables inherit into <use>.
+import small from "../assets/brand/mark-small-dark.svg?raw";
+import wordmark from "../assets/brand/wordmark-dark.svg?raw";
+import { themeSvg } from "../data/svg.js";
+
+const mark = themeSvg(small, "vds");
+const word = themeSvg(wordmark, "vdw");
+---
+
+<svg width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute">
+  <symbol id="vd-mark-small" viewBox={mark.viewBox} set:html={mark.inner} />
+  <symbol id="vd-wordmark" viewBox={word.viewBox} set:html={word.inner} />
+</svg>

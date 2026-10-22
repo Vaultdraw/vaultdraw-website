@@ -1,0 +1,15 @@
+---
+// The "vaultdraw" wordmark ("vault" in ink, "draw" in rose), themed by --logo-*.
+// Drawn from the page's LogoSprite.
+interface Props {
+  height: number;
+  class?: string;
+}
+
+const { height, class: className } = Astro.props;
+const width = Math.round((height * 4723) / 920);
+---
+
+<svg width={width} height={height} focusable="false" aria-hidden="true" class={className}>
+  <use href="#vd-wordmark" width="100%" height="100%" />
+</svg>
