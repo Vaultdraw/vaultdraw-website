@@ -81,18 +81,86 @@ const keys = [
   { k: ["⌘", "\\"], what: "Hide the file tree" },
 ];
 
+/** What Vaultdraw adds around the editor, across a whole vault (excalidraw.com edits one drawing). */
+const features = [
+  {
+    colour: "red",
+    title: "Themes",
+    tags: `${THEMES.length} palettes · light and dark`,
+    body: "Recolour the whole app, and the canvas too if you like. Drawings and exports keep their standard colours.",
+    href: "/docs/themes/",
+  },
+  {
+    colour: "yellow",
+    title: "Tags",
+    tags: "#tags · panel · filter",
+    body: "Write #ideas in any text. A panel lists every tag, search filters by them, and a rename reaches every drawing.",
+    href: "/docs/tags/",
+  },
+  {
+    colour: "green",
+    title: "Links",
+    tags: "[[Name]] · backlinks",
+    body: "Link drawings like wiki pages, from text or a shape. Backlinks show what points here; renames fix every link.",
+    href: "/docs/links/",
+  },
+  {
+    colour: "blue",
+    title: "Search",
+    tags: "every drawing · text · labels",
+    body: "Search inside every drawing in the vault, not only the open one, and jump straight to the matching element.",
+    href: "/docs/search/",
+  },
+  {
+    colour: "magenta",
+    title: "Command palette",
+    tags: "Cmd+P · Cmd+Shift+P",
+    body: "Open any drawing by name, or run any command: themes, export, templates, settings. Each can get its own key.",
+    href: "/docs/keyboard/",
+  },
+  {
+    colour: "cyan",
+    title: "Tool settings",
+    tags: "per tool · pens · laser",
+    body: "Every tool starts with its own style, pens are saved presets, and the laser is yours to tune, globally or per vault.",
+    href: "/docs/tool-defaults/",
+  },
+  {
+    colour: "red",
+    title: "History",
+    tags: "versions · checkpoints",
+    body: "Earlier versions of every drawing, kept automatically. Scrub back, see what changed and restore in one click.",
+    href: "/docs/history/",
+  },
+  {
+    colour: "yellow",
+    title: "Graph view",
+    tags: "global · local · filters",
+    body: "Every drawing a dot, every link a line. The local graph shows what sits near the drawing you're on.",
+    href: "/docs/graph/",
+  },
+  {
+    colour: "green",
+    title: "File import",
+    tags: "PDF pages · images",
+    body: "Drop PDFs and images from Finder onto the canvas. PDF pages become images you can write on, rendered offline.",
+    href: "/docs/pdf-import/",
+  },
+  {
+    colour: "blue",
+    title: "Templates",
+    tags: "per vault · for all vaults",
+    body: "Any drawing can become a template. Start new drawings from it, with fresh ids, so the original stays untouched.",
+    href: "/docs/templates/",
+  },
+];
+
 const extras = [
   {
     colour: "red",
     title: "Page mode",
     tags: "A4 · Letter · iPad · custom",
     body: "Draw on pages instead of an endless canvas: separate sheets or one continuous roll. Export to PDF with one page per page.",
-  },
-  {
-    colour: "yellow",
-    title: "PDF import",
-    tags: "drop · pick pages · annotate",
-    body: "Drop a PDF on the canvas and its pages become images you can draw over. Rendered by macOS itself, offline.",
   },
   {
     colour: "green",
@@ -111,12 +179,6 @@ const extras = [
     title: "Paper",
     tags: "grid · ruled · dots · isometric",
     body: "Notebook backgrounds saved with the drawing, zooming with it. Old school: cream paper, blue lines, a red margin.",
-  },
-  {
-    colour: "cyan",
-    title: "Templates",
-    tags: "per vault · for all vaults",
-    body: "Any drawing can become a template. New from template copies it with fresh ids, so it never shares anything with the original.",
   },
 ];
 ---
@@ -195,8 +257,28 @@ const extras = [
     </div>
   </section>
 
+  <section class="sec wrap" id="features" aria-labelledby="features-title">
+    <SectionHead n="02" label="More than one drawing" id="features">
+      <Fragment slot="title">One drawing becomes a <em>vault</em>.</Fragment>
+      <p>excalidraw.com edits one drawing at a time. Vaultdraw adds what you need once you have many.</p>
+    </SectionHead>
+    <ul class="feats" role="list">
+      {
+        features.map((f) => (
+          <li class="feat" style={`--c: var(--${f.colour})`}>
+            <h3>
+              <a href={f.href}>{f.title}</a>
+            </h3>
+            <p class="feat__tags mono">{f.tags}</p>
+            <p>{f.body}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
   <section class="sec wrap" id="find" aria-labelledby="find-title">
-    <SectionHead n="02" label="Find it again" id="find">
+    <SectionHead n="03" label="Find it again" id="find">
       <Fragment slot="title">Search what you <em>wrote</em>, not what you named it.</Fragment>
       <p>
         Search reads every text element, shape label, arrow label and frame name in the vault. Click a result and the
@@ -235,7 +317,7 @@ const extras = [
   </section>
 
   <section class="sec wrap" id="history" aria-labelledby="history-title">
-    <SectionHead n="03" label="Safe by default" id="history">
+    <SectionHead n="04" label="Safe by default" id="history">
       <Fragment slot="title">Never lose a <em>line</em>.</Fragment>
       <p>
         Your drawings are files that sync tools, editors and git touch too, so Vaultdraw is careful with them. These are
@@ -262,7 +344,7 @@ const extras = [
   </section>
 
   <section class="sec wrap" id="keys" aria-labelledby="keys-title">
-    <SectionHead n="04" label="Keyboard first" id="keys">
+    <SectionHead n="05" label="Keyboard first" id="keys">
       <Fragment slot="title">Everything is <em>one key</em> away.</Fragment>
       <p>
         One palette for drawings and commands, as in VS Code. Every editor action and every Vaultdraw feature is in it,
@@ -295,16 +377,16 @@ const extras = [
   </section>
 
   <section class="sec wrap" id="more" aria-labelledby="more-title">
-    <SectionHead n="05" label="Past the infinite canvas" id="more">
-      <Fragment slot="title">Pages, PDFs and <em>paper</em>.</Fragment>
+    <SectionHead n="06" label="Past the infinite canvas" id="more">
+      <Fragment slot="title">Pages, paper and <em>export</em>.</Fragment>
       <p>For lecture notes, marked-up papers and diagrams that have to end up in a document.</p>
     </SectionHead>
-    <ul class="cards" role="list">
+    <ul class="feats" role="list" style="--cols: 4">
       {
         extras.map((x) => (
-          <li class="card" style={`--c: var(--${x.colour})`}>
+          <li class="feat" style={`--c: var(--${x.colour})`}>
             <h3>{x.title}</h3>
-            <p class="card__tags mono">{x.tags}</p>
+            <p class="feat__tags mono">{x.tags}</p>
             <p>{x.body}</p>
           </li>
         ))
@@ -313,7 +395,7 @@ const extras = [
   </section>
 
   <section class="sec wrap" id="themes" aria-labelledby="themes-title">
-    <SectionHead n="06" label="Themes" id="themes">
+    <SectionHead n="07" label="Themes" id="themes">
       <Fragment slot="title">{THEMES.length} palettes, <em>light and dark</em>.</Fragment>
       <p>
         Themes use Noctalia's palette format, so the whole collection works as it is. The file tree, menus and
@@ -354,7 +436,7 @@ const extras = [
   </section>
 
   <section class="sec wrap get" id="get" aria-labelledby="get-title">
-    <SectionHead n="07" label="Get Vaultdraw" id="get">
+    <SectionHead n="08" label="Get Vaultdraw" id="get">
       <Fragment slot="title">Free on <em>macOS</em>.</Fragment>
       <p>
         Vaultdraw {RELEASE.version} runs on macOS, on Apple Silicon and Intel, from one universal DMG, or with Homebrew. The build isn't
@@ -715,49 +797,98 @@ yarn desktop:build`,
 
   /* 05 cards */
 
-  .cards {
+  /* Vault features: hairlines are the 1px gaps, so any count lays out cleanly. */
+  .feats {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(var(--cols, 5), minmax(0, 1fr));
+    gap: 1px;
     margin: 0;
     padding: 0;
     list-style: none;
+    background: var(--line-soft);
     border: 1px solid var(--line-soft);
     border-radius: var(--radius);
     overflow: hidden;
   }
 
-  .card {
-    padding: 22px 24px 26px;
-    border-right: 1px solid var(--line-soft);
-    border-bottom: 1px solid var(--line-soft);
+  .feat {
+    position: relative;
+    padding: 20px 20px 22px;
     background: color-mix(in srgb, var(--panel) 35%, var(--bg));
     transition: background 0.2s ease;
   }
 
-  .card:nth-child(3n) {
-    border-right: 0;
-  }
-
-  .card:nth-last-child(-n + 3) {
-    border-bottom: 0;
-  }
-
-  .card:hover {
-    background: color-mix(in srgb, var(--panel) 70%, var(--bg));
-  }
-
-  .card::before {
+  .feat::before {
     content: "";
     display: block;
-    height: 6px;
-    margin-bottom: 20px;
+    width: 18px;
+    height: 3px;
+    margin-bottom: 14px;
     border-radius: 2px;
     background: var(--c);
   }
 
+  .feat:hover,
+  .feat:focus-within {
+    background: color-mix(in srgb, var(--panel) 70%, var(--bg));
+  }
+
+  .feat h3 {
+    margin: 0 0 6px;
+    font-family: var(--mono);
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--c);
+  }
+
+  /* The whole card is the link's hit area; the title stays the accessible name. */
+  .feat h3 a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .feat h3 a::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+  }
+
+  .feat h3 a:focus-visible {
+    outline: none;
+  }
+
+  .feat:has(a:focus-visible) {
+    outline: 2px solid var(--accent);
+    outline-offset: -2px;
+  }
+
+  .feat__tags {
+    margin: 0 0 10px;
+    font-size: 0.68rem;
+    color: var(--muted);
+  }
+
+  .feat p:last-child {
+    margin: 0;
+    font-size: 1rem;
+    line-height: 1.55;
+  }
+
+  @media (max-width: 1060px) {
+    .feats {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 560px) {
+    .feats {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+
   @supports (animation-timeline: view()) {
     @media (prefers-reduced-motion: no-preference) {
-      .card::before {
+      .feat::before {
         transform-origin: left;
         animation: bar linear both;
         animation-timeline: view();
@@ -770,26 +901,6 @@ yarn desktop:build`,
     from {
       transform: scaleX(0.04);
     }
-  }
-
-  .card h3 {
-    margin: 0 0 6px;
-    font-family: var(--mono);
-    font-size: 0.95rem;
-    font-weight: 500;
-    color: var(--c);
-  }
-
-  .card__tags {
-    font-size: 0.72rem;
-    color: var(--muted);
-    margin-bottom: 16px;
-  }
-
-  .card p:last-child {
-    margin: 0;
-    font-size: 1rem;
-    line-height: 1.55;
   }
 
   /* 06 themes */
@@ -845,35 +956,6 @@ yarn desktop:build`,
       grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
       column-gap: 24px;
     }
-    .cards {
-      grid-template-columns: minmax(0, 1fr);
-    }
-    .card {
-      border-right: 0;
-    }
-    .card:nth-last-child(-n + 3) {
-      border-bottom: 1px solid var(--line-soft);
-    }
-    .card:last-child {
-      border-bottom: 0;
-    }
   }
 
-  @media (min-width: 861px) and (max-width: 1060px) {
-    .cards {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-    .card:nth-child(3n) {
-      border-right: 1px solid var(--line-soft);
-    }
-    .card:nth-child(2n) {
-      border-right: 0;
-    }
-    .card:nth-last-child(-n + 3) {
-      border-bottom: 1px solid var(--line-soft);
-    }
-    .card:nth-last-child(-n + 2) {
-      border-bottom: 0;
-    }
-  }
 </style>
