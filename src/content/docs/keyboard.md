@@ -1,6 +1,7 @@
 ---
 title: Keyboard and commands
 description: The command palette, default keys, and how to change any of them.
+group: Customise
 order: 5
 ---
 
@@ -56,11 +57,4 @@ A drawing can get its own key too: **Assign hotkey to this drawing** in the pale
 
 ## Tool defaults
 
-Each tool can start with its own style, so a dotted orange arrow is one keypress away. Set them in **Settings → Tools**, or select a shape and run `Tool defaults: Save current style for this tool`. In `config.toml` each tool has a table:
-
-```toml
-[tools.arrow]
-stroke_color = "#f08c00"
-stroke_width = 3
-stroke_style = "dotted"
-```
+Each tool can start with its own style. See [Tool defaults](/docs/tool-defaults/).

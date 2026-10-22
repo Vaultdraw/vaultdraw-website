@@ -1,7 +1,8 @@
 ---
 title: File history
 description: Automatic versions, checkpoints, time travel and restore.
-order: 4
+group: Using Vaultdraw
+order: 9
 ---
 
 Vaultdraw keeps earlier versions of every drawing, so "I ruined this an hour ago" is a two-click fix.

@@ -1,7 +1,8 @@
 ---
 title: Themes
 description: Built-in palettes, light and dark, syncing the canvas, and adding your own.
-order: 7
+group: Customise
+order: 4
 ---
 
 A theme colours the whole app: the file tree, header, Settings, and Excalidraw's own toolbars, menus and dialogs. Every theme has a dark and a light variant, so theme and mode are chosen separately in **Settings → Appearance**, or in `config.toml`:
