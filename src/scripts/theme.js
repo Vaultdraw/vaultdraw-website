@@ -40,21 +40,49 @@ const varsFor = (theme) => ({
   light: siteVars(theme.light ?? theme.dark),
 });
 
-const swapShots = (id, scheme) => {
+const variantFor = (fig, id, scheme) => {
+  const variants = JSON.parse(fig.dataset.variants);
+  const key = [`${id}-${scheme}`, `${DEFAULT}-${scheme}`].find((k) => variants[k]);
+  return key && { key, ...variants[key] };
+};
+
+const onScreen = (el) => {
+  const box = el.getBoundingClientRect();
+  return box.bottom > 0 && box.top < innerHeight;
+};
+
+/** Start loading a theme's visible screenshots (on hover), so a switch is instant. */
+const preload = (id) => {
+  const scheme = schemeOf(state.mode);
   for (const fig of document.querySelectorAll("[data-shot]")) {
-    const variants = JSON.parse(fig.dataset.variants);
-    const key = [`${id}-${scheme}`, `${DEFAULT}-${scheme}`].find((k) => variants[k]);
-    const v = variants[key];
+    const img = fig.querySelector("img");
+    const v = variantFor(fig, id, scheme);
+    if (!v || !onScreen(img)) continue;
+    const pre = new Image();
+    pre.sizes = img.sizes;
+    pre.srcset = v.avif;
+  }
+};
+
+/** Swap screenshots to the theme; returns the on-screen images that changed. */
+const swapShots = (id, scheme) => {
+  const changed = [];
+  for (const fig of document.querySelectorAll("[data-shot]")) {
+    const v = variantFor(fig, id, scheme);
     const picture = fig.querySelector("picture");
-    if (!v || picture.dataset.current === key) continue;
+    if (!v || picture.dataset.current === v.key) continue;
+    const key = v.key;
     picture.dataset.current = key;
     // Drop the no-script light/dark media switch: the script decides now.
     for (const s of picture.querySelectorAll("source[media]")) s.remove();
     picture.querySelector('source[type="image/avif"]').srcset = v.avif;
     picture.querySelector('source[type="image/webp"]').srcset = v.webp;
-    picture.querySelector("img").src = v.src;
+    const img = picture.querySelector("img");
+    img.src = v.src;
     fig.dataset.showing = key.startsWith(`${id}-`) ? "theme" : "fallback";
+    if (onScreen(img)) changed.push(img);
   }
+  return changed;
 };
 
 const paint = (vars, scheme) => {
@@ -62,7 +90,7 @@ const paint = (vars, scheme) => {
   if (vars) for (const [k, v] of Object.entries(vars[scheme])) root.style.setProperty(k, v);
 };
 
-const render = async ({ fade = true } = {}) => {
+const render = async ({ fade = true, settle = false } = {}) => {
   const scheme = schemeOf(state.mode);
   if (fade) {
     root.classList.add("theme-fade");
@@ -72,7 +100,15 @@ const render = async ({ fade = true } = {}) => {
   root.dataset.theme = state.id;
   root.dataset.mode = state.mode;
   paint(state.id === DEFAULT ? null : state.vars, scheme);
-  swapShots(state.id, scheme);
+  const visible = swapShots(state.id, scheme);
+  // During a view transition, wait (briefly) for visible screenshots so the
+  // new snapshot doesn't show the old theme's pictures.
+  if (settle && visible.length) {
+    await Promise.race([
+      Promise.all(visible.map((img) => img.decode().catch(() => {}))),
+      new Promise((r) => setTimeout(r, 300)),
+    ]);
+  }
 
   const theme = await findTheme(state.id);
   for (const el of document.querySelectorAll("[data-theme-name]")) el.textContent = theme?.name ?? "";
@@ -86,12 +122,40 @@ const render = async ({ fade = true } = {}) => {
   }
 };
 
-const pick = async (id) => {
+const calm = matchMedia("(prefers-reduced-motion: reduce)");
+
+/**
+ * Re-render with the new state. Where the browser supports view transitions,
+ * the new theme spreads out in a circle from the button that was clicked;
+ * elsewhere the colours cross-fade.
+ */
+const change = (next, origin) => {
+  state = next;
+  write(state);
+  if (!document.startViewTransition || calm.matches || !origin) {
+    render();
+    return;
+  }
+  const { x, y } = origin;
+  const r = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y));
+  const t = document.startViewTransition(() => render({ fade: false, settle: true }));
+  t.ready.then(() =>
+    root.animate(
+      { clipPath: [`circle(0 at ${x}px ${y}px)`, `circle(${r}px at ${x}px ${y}px)`] },
+      { duration: 650, easing: "cubic-bezier(.65,0,.35,1)", pseudoElement: "::view-transition-new(root)" },
+    ),
+  );
+};
+
+const pick = async (id, origin) => {
   const theme = await findTheme(id);
   if (!theme) return;
-  state = { ...state, id, vars: id === DEFAULT ? undefined : varsFor(theme) };
-  write(state);
-  render();
+  change({ ...state, id, vars: id === DEFAULT ? undefined : varsFor(theme) }, origin);
+};
+
+const centre = (el) => {
+  const r = el.getBoundingClientRect();
+  return { x: r.left + r.width / 2, y: r.top + r.height / 2 };
 };
 
 const MODES = ["system", "light", "dark"];
@@ -99,15 +163,25 @@ const MODES = ["system", "light", "dark"];
 document.addEventListener("click", (e) => {
   const t = e.target.closest("[data-pick-theme]");
   if (t) {
-    pick(t.dataset.pickTheme);
+    pick(t.dataset.pickTheme, centre(t));
     return;
   }
-  if (e.target.closest("[data-mode-toggle]")) {
-    state = { ...state, mode: MODES[(MODES.indexOf(state.mode) + 1) % MODES.length] };
-    write(state);
-    render();
+  const m = e.target.closest("[data-mode-toggle]");
+  if (m) {
+    change({ ...state, mode: MODES[(MODES.indexOf(state.mode) + 1) % MODES.length] }, centre(m));
   }
 });
+
+for (const type of ["pointerenter", "focusin"]) {
+  document.addEventListener(
+    type,
+    (e) => {
+      const t = e.target.closest?.("[data-pick-theme]");
+      if (t && t.dataset.pickTheme !== state.id) preload(t.dataset.pickTheme);
+    },
+    true,
+  );
+}
 
 light.addEventListener("change", () => state.mode === "system" && render());
 

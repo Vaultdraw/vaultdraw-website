@@ -59,6 +59,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
       // Apply the visitor's saved theme before first paint (see scripts/theme.js).
       (() => {
         const d = document.documentElement;
+        if (!matchMedia("(prefers-reduced-motion: reduce)").matches) d.classList.add("motion");
         try {
           const s = JSON.parse(localStorage.getItem("vd-theme") || "null");
           const mode = (s && s.mode) || "system";
@@ -85,6 +86,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <script>
       import "../scripts/theme.js";
       import "../scripts/tabs.js";
+      import "../scripts/motion.js";
     </script>
   </body>
 </html>

@@ -65,6 +65,13 @@ body {
   }
 }
 
+/* Theme changes: theme.js animates the new snapshot over the old one. */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
 img,
 svg,
 picture {

@@ -7,7 +7,7 @@ interface Props {
 const { n, label, id } = Astro.props;
 ---
 
-<header class="head">
+<header class="head reveal">
   <p class="head__label label"><span class="head__n">{n}</span>{label}<a class="head__anchor" href={`#${id}`} aria-label={`Link to ${label}`}>#</a></p>
   <h2 class="head__title" id={`${id}-title`}><slot name="title" /></h2>
   <div class="head__lead"><slot /></div>

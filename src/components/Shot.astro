@@ -43,7 +43,7 @@ const light = variants[`${DEFAULT_THEME}-light`] ?? dark;
 if (!dark || !meta) throw new Error(`no screenshot "${name}-${DEFAULT_THEME}-dark"`);
 ---
 
-<figure class:list={["shot", cls]} data-shot={name} data-variants={JSON.stringify(variants)} data-showing="theme">
+<figure class:list={["shot", cls, { reveal: !eager }]} data-shot={name} data-variants={JSON.stringify(variants)} data-showing="theme">
   <div class="shot__frame">
     {!partial && <span class="shot__lights" aria-hidden="true"><i></i><i></i><i></i></span>}
     <picture data-current={`${DEFAULT_THEME}-dark`}>
