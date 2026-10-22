@@ -1,4 +1,9 @@
-# Vaultdraw
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="public/brand/lockup-dark.svg">
+    <img alt="Vaultdraw" src="public/brand/lockup-light.svg" width="360">
+  </picture>
+</p>
 
 An offline vault for Excalidraw drawings. Pick a folder, and every drawing in it is a plain `.excalidraw` file you own.
 
