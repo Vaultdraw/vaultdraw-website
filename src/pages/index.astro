@@ -1,6 +1,7 @@
 ---
 import Base from "../layouts/Base.astro";
 import Shot from "../components/Shot.astro";
+import FeatureTabs from "../components/FeatureTabs.astro";
 import Note from "../components/Note.astro";
 import SectionHead from "../components/SectionHead.astro";
 import CodePanel from "../components/CodePanel.astro";
@@ -89,6 +90,9 @@ const features = [
     tags: `${THEMES.length} palettes · light and dark`,
     body: "Recolour the whole app, and the canvas too if you like. Drawings and exports keep their standard colours.",
     href: "/docs/themes/",
+    shot: "themes",
+    partial: true,
+    alt: "Settings, Appearance: light, dark or system mode, sync canvas with theme, accent colour and the grid of built-in themes.",
   },
   {
     colour: "yellow",
@@ -96,6 +100,9 @@ const features = [
     tags: "#tags · panel · filter",
     body: "Write #ideas in any text. A panel lists every tag, search filters by them, and a rename reaches every drawing.",
     href: "/docs/tags/",
+    shot: "tags",
+    partial: true,
+    alt: "The Tags panel lists each tag with its count; #project is selected, so the file tree shows only the two drawings that use it.",
   },
   {
     colour: "green",
@@ -103,6 +110,8 @@ const features = [
     tags: "[[Name]] · backlinks",
     body: "Link drawings like wiki pages, from text or a shape. Backlinks show what points here; renames fix every link.",
     href: "/docs/links/",
+    shot: "links",
+    alt: "A drawing with [[links]] to other drawings on the canvas, and the backlinks panel listing what links here and what this drawing links to.",
   },
   {
     colour: "blue",
@@ -110,6 +119,8 @@ const features = [
     tags: "every drawing · text · labels",
     body: "Search inside every drawing in the vault, not only the open one, and jump straight to the matching element.",
     href: "/docs/search/",
+    shot: "search",
+    alt: "Search results for 'leader' across the vault, grouped by drawing with highlighted snippets, beside the open drawing.",
   },
   {
     colour: "magenta",
@@ -117,6 +128,9 @@ const features = [
     tags: "Cmd+P · Cmd+Shift+P",
     body: "Open any drawing by name, or run any command: themes, export, templates, settings. Each can get its own key.",
     href: "/docs/keyboard/",
+    shot: "palette",
+    partial: true,
+    alt: "The command palette filtered to 'export', listing Export: PDF, PNG and SVG with their keys.",
   },
   {
     colour: "cyan",
@@ -124,6 +138,9 @@ const features = [
     tags: "per tool · pens · laser",
     body: "Every tool starts with its own style, pens are saved presets, and the laser is yours to tune, globally or per vault.",
     href: "/docs/tool-defaults/",
+    shot: "tools",
+    partial: true,
+    alt: "Settings, Tools on the Arrow tab: a live preview and the arrow's default stroke colour, width, style and arrowheads.",
   },
   {
     colour: "red",
@@ -131,6 +148,9 @@ const features = [
     tags: "versions · checkpoints",
     body: "Earlier versions of every drawing, kept automatically. Scrub back, see what changed and restore in one click.",
     href: "/docs/history/",
+    shot: "history",
+    partial: true,
+    alt: "The History panel: automatic versions, a named checkpoint and previews of earlier states of the drawing.",
   },
   {
     colour: "yellow",
@@ -138,6 +158,8 @@ const features = [
     tags: "global · local · filters",
     body: "Every drawing a dot, every link a line. The local graph shows what sits near the drawing you're on.",
     href: "/docs/graph/",
+    shot: "graph",
+    alt: "The graph view: every drawing is a dot, every link a line, coloured by top-level folder.",
   },
   {
     colour: "green",
@@ -145,6 +167,9 @@ const features = [
     tags: "PDF pages · images",
     body: "Drop PDFs and images from Finder onto the canvas. PDF pages become images you can write on, rendered offline.",
     href: "/docs/pdf-import/",
+    shot: "import",
+    partial: true,
+    alt: "The Import PDF dialog: an 18-page PDF, pages 1 to 5 chosen, placed below the drawing.",
   },
   {
     colour: "blue",
@@ -152,6 +177,9 @@ const features = [
     tags: "per vault · for all vaults",
     body: "Any drawing can become a template. Start new drawings from it, with fresh ids, so the original stays untouched.",
     href: "/docs/templates/",
+    shot: "templates",
+    partial: true,
+    alt: "The New drawing from template picker with Blank and four vault templates, each with a thumbnail.",
   },
 ];
 
@@ -262,19 +290,7 @@ const extras = [
       <Fragment slot="title">One drawing becomes a <em>vault</em>.</Fragment>
       <p>excalidraw.com edits one drawing at a time. Vaultdraw adds what you need once you have many.</p>
     </SectionHead>
-    <ul class="feats" role="list">
-      {
-        features.map((f) => (
-          <li class="feat" style={`--c: var(--${f.colour})`}>
-            <h3>
-              <a href={f.href}>{f.title}</a>
-            </h3>
-            <p class="feat__tags mono">{f.tags}</p>
-            <p>{f.body}</p>
-          </li>
-        ))
-      }
-    </ul>
+    <FeatureTabs features={features} label="Features" />
   </section>
 
   <section class="sec wrap" id="find" aria-labelledby="find-title">

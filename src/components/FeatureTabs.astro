@@ -1,0 +1,228 @@
+---
+// Features as tabs: a list of names and the chosen one's text and screenshot.
+// Without JS every feature shows, one after another; the script turns them
+// into tabs (arrow keys, Home and End move between them).
+import Shot from "./Shot.astro";
+
+interface Feature {
+  colour: string;
+  title: string;
+  tags: string;
+  body: string;
+  href: string;
+  /** Screenshot name in src/assets/shots, and whether it is a crop of the window. */
+  shot: string;
+  partial?: boolean;
+  alt: string;
+}
+
+interface Props {
+  features: Feature[];
+  label: string;
+}
+
+const { features, label } = Astro.props;
+const SIZES = "(min-width: 1184px) 820px, (min-width: 900px) calc(70vw - 40px), calc(100vw - 32px)";
+---
+
+<div class="fx" data-fx>
+  <div class="fx__tabs" role="tablist" aria-label={label} hidden>
+    {
+      features.map((f, i) => (
+        <button
+          type="button"
+          role="tab"
+          id={`fx-tab-${f.shot}`}
+          aria-controls={`fx-${f.shot}`}
+          aria-selected={i === 0 ? "true" : "false"}
+          tabindex={i === 0 ? 0 : -1}
+          style={`--c: var(--${f.colour})`}
+        >
+          {f.title}
+        </button>
+      ))
+    }
+  </div>
+  <div class="fx__panels">
+    {
+      features.map((f, i) => (
+        <section class="fx__panel" id={`fx-${f.shot}`} aria-labelledby={`fx-tab-${f.shot}`} data-active={i === 0 ? "" : undefined}>
+          <div class="fx__text" style={`--c: var(--${f.colour})`}>
+            <h3>{f.title}</h3>
+            <p class="fx__tags mono">{f.tags}</p>
+            <p>{f.body}</p>
+            <a class="link-arrow" href={f.href}>
+              {f.title} docs →
+            </a>
+          </div>
+          <Shot name={f.shot} alt={f.alt} partial={f.partial} sizes={SIZES} class="fx__shot" />
+        </section>
+      ))
+    }
+  </div>
+</div>
+
+<script>
+  for (const root of document.querySelectorAll<HTMLElement>("[data-fx]")) {
+    const tabs = [...root.querySelectorAll<HTMLButtonElement>('[role="tab"]')];
+    const panels = [...root.querySelectorAll<HTMLElement>(".fx__panel")];
+
+    const select = (i: number, focus = false) => {
+      tabs.forEach((t, k) => {
+        t.setAttribute("aria-selected", String(k === i));
+        t.tabIndex = k === i ? 0 : -1;
+      });
+      panels.forEach((p, k) => (k === i ? p.setAttribute("data-active", "") : p.removeAttribute("data-active")));
+      if (focus) {
+        tabs[i].focus();
+        tabs[i].scrollIntoView({ block: "nearest", inline: "nearest" });
+      }
+      document.dispatchEvent(new CustomEvent("vd:shown")); // theme.js gives the screenshot the current theme
+    };
+
+    panels.forEach((p) => p.setAttribute("role", "tabpanel"));
+    root.querySelector('[role="tablist"]')!.removeAttribute("hidden");
+    root.dataset.ready = "";
+
+    tabs.forEach((t, i) => {
+      t.addEventListener("click", () => select(i));
+      t.addEventListener("keydown", (e) => {
+        const n = tabs.length;
+        const next = { ArrowDown: i + 1, ArrowRight: i + 1, ArrowUp: i - 1, ArrowLeft: i - 1, Home: 0, End: n - 1 }[e.key];
+        if (next === undefined) return;
+        e.preventDefault();
+        select((next + n) % n, true);
+      });
+    });
+  }
+</script>
+
+<style>
+  .fx[data-ready] {
+    display: grid;
+    grid-template-columns: 220px minmax(0, 1fr);
+    gap: 40px;
+    align-items: start;
+  }
+
+  .fx__tabs {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    position: sticky;
+    top: calc(var(--header) + 24px);
+  }
+
+  .fx__tabs [role="tab"] {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 14px;
+    border: 0;
+    border-radius: 8px;
+    background: none;
+    color: var(--muted);
+    font: inherit;
+    font-family: var(--mono);
+    font-size: 0.85rem;
+    text-align: left;
+    cursor: pointer;
+  }
+
+  .fx__tabs [role="tab"]::before {
+    content: "";
+    flex: none;
+    width: 14px;
+    height: 3px;
+    border-radius: 2px;
+    background: var(--c);
+    opacity: 0.45;
+  }
+
+  .fx__tabs [role="tab"]:hover {
+    color: var(--fg);
+  }
+
+  .fx__tabs [role="tab"][aria-selected="true"] {
+    color: var(--fg);
+    background: color-mix(in srgb, var(--panel) 70%, var(--bg));
+  }
+
+  .fx__tabs [role="tab"][aria-selected="true"]::before {
+    opacity: 1;
+  }
+
+  .fx__tabs [role="tab"]:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: -2px;
+  }
+
+  /* Without JS: every feature, one after another. */
+  .fx__panel + .fx__panel {
+    margin-top: 72px;
+  }
+
+  .fx[data-ready] .fx__panel {
+    margin: 0;
+  }
+
+  .fx[data-ready] .fx__panel:not([data-active]) {
+    display: none;
+  }
+
+  .fx__text {
+    max-width: 640px;
+    margin-bottom: 24px;
+  }
+
+  .fx__text h3 {
+    margin: 0 0 6px;
+    font-family: var(--mono);
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--c);
+  }
+
+  .fx__tags {
+    margin: 0 0 12px;
+    font-size: 0.72rem;
+    color: var(--muted);
+  }
+
+  .fx__text p:not(.fx__tags) {
+    margin: 0 0 12px;
+    font-size: 1.1rem;
+  }
+
+  /* The tab list already names the feature; the heading is for readers without it. */
+  .fx[data-ready] .fx__text h3 {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+
+  @media (max-width: 900px) {
+    .fx[data-ready] {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 20px;
+    }
+
+    /* Tabs become one scrolling row. */
+    .fx__tabs {
+      position: static;
+      flex-direction: row;
+      overflow-x: auto;
+      scrollbar-width: none;
+      margin: 0 calc(var(--gutter) * -1);
+      padding: 0 var(--gutter);
+    }
+
+    .fx__tabs [role="tab"] {
+      flex: none;
+      white-space: nowrap;
+    }
+  }
+</style>
