@@ -3,3 +3,9 @@ dist/
 .astro/
 .cache/
 .DS_Store
+
+# Local planning notes
+CLAUDE.md
+RESEARCH.md
+PLAN.md
+DECISIONS.md
