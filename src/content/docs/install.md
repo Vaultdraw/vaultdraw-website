@@ -9,16 +9,18 @@ Vaultdraw runs on macOS, on Apple Silicon and on Intel. Windows and Linux builds
 
 ## Install the app
 
-1. Download `Vaultdraw_0.1.1_universal.dmg` from the [latest release](https://github.com/Vaultdraw/vaultdraw/releases/latest).
+1. Download [{{dmg_name}}]({{dmg_url}}) ({{size_mb}} MB). Older and newer versions are on the [releases page]({{releases_url}}).
 2. Open the DMG and drag **Vaultdraw** to **Applications**.
 
 One universal build covers both Apple Silicon and Intel Macs.
 
-**Optional: check the download.** The release includes a `SHA256SUMS` file. Put it next to the DMG and run:
+**Optional: check the download.** The release includes a [SHA256SUMS]({{sums_url}}) file. Put it next to the DMG and run:
 
 ```bash
 shasum -a 256 -c SHA256SUMS
 ```
+
+The expected output is `{{dmg_name}}: OK`.
 
 ## Open it the first time
 
@@ -37,7 +39,7 @@ After the first open, it starts like any other app.
 
 ## Updates
 
-There is no automatic update yet. Check the [releases page](https://github.com/Vaultdraw/vaultdraw/releases) for new versions and the [changelog](/changelog/) for what changed.
+There is no automatic update yet. Check the [releases page]({{releases_url}}) for new versions and the [changelog](/changelog/) for what changed.
 
 ## Install the `vaultdraw` command
 

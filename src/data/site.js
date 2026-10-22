@@ -1,6 +1,8 @@
 import themes from "./themes.json";
 import { FEATURED } from "./featured.mjs";
 
+export { RELEASE } from "./release.js";
+
 export const SITE = {
   name: "Vaultdraw",
   repo: "https://github.com/Vaultdraw/vaultdraw",

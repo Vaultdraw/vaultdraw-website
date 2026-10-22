@@ -6,7 +6,7 @@ import SectionHead from "../components/SectionHead.astro";
 import CodePanel from "../components/CodePanel.astro";
 import ThemeGrid from "../components/ThemeGrid.astro";
 import Sketch from "../components/Sketch.astro";
-import { SITE, THEMES } from "../data/site.js";
+import { RELEASE, SITE, THEMES } from "../data/site.js";
 
 const vaultFiles = [
   {
@@ -132,7 +132,10 @@ const extras = [
         of drawings is missing around the canvas: a file tree, search inside drawings, links, history and themes.
       </p>
       <div class="hero__actions">
-        <a class="btn btn--solid" href="/download/">Download for macOS <span class="btn__tag">soon</span></a>
+        <div class="dl-cta">
+          <a class="btn btn--solid" href={RELEASE.dmgUrl}>Download for macOS</a>
+          <p class="dl-sub mono">v{RELEASE.version} · {RELEASE.macs}</p>
+        </div>
         <a class="link-arrow" href="#folder">See how it works ↓</a>
       </div>
     </div>
@@ -344,10 +347,11 @@ const extras = [
 
   <section class="sec wrap get" id="get" aria-labelledby="get-title">
     <SectionHead n="07" label="Get Vaultdraw" id="get">
-      <Fragment slot="title">macOS first, <em>soon</em>.</Fragment>
+      <Fragment slot="title">macOS now, <em>the rest later</em>.</Fragment>
       <p>
-        The first signed build for macOS is on its way; Windows and Linux follow. Until then you can build it from source
-        in a few minutes.
+        Vaultdraw {RELEASE.version} runs on macOS, on Apple Silicon and Intel, from one universal DMG. The build isn't
+        signed yet, so the first open takes an extra step: <a href="/download/">the download page</a> shows how. Windows and Linux aren't available
+        yet. You can also build it from source in a few minutes.
       </p>
     </SectionHead>
     <div class="get__row">
@@ -367,8 +371,11 @@ yarn desktop:build`,
         ]}
       />
       <div class="get__links">
-        <a class="btn btn--solid" href="/download/">Download for macOS <span class="btn__tag">soon</span></a>
-        <a class="btn" href={`${SITE.repo}/releases`}>Releases on GitHub</a>
+        <div class="dl-cta">
+          <a class="btn btn--solid" href={RELEASE.dmgUrl}>Download for macOS</a>
+          <p class="dl-sub mono">v{RELEASE.version} · {RELEASE.macs}</p>
+        </div>
+        <a class="btn" href={RELEASE.allUrl}>All releases</a>
         <a class="link-arrow" href="/docs/">Read the docs →</a>
       </div>
     </div>
@@ -446,6 +453,21 @@ yarn desktop:build`,
   .hero__lead {
     font-size: 1.2rem;
     text-wrap: pretty;
+  }
+
+  /* Download button with its version line underneath. */
+  .dl-cta {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .dl-sub {
+    margin: 0;
+    font-size: 0.72rem;
+    letter-spacing: 0.04em;
+    color: var(--muted);
   }
 
   .hero__actions {
@@ -759,6 +781,10 @@ yarn desktop:build`,
      its focus ring stays around the words, not the whole column. */
   .get__links .btn {
     justify-content: center;
+  }
+
+  .get__links .dl-cta {
+    align-items: stretch;
   }
 
   .get__links .link-arrow {

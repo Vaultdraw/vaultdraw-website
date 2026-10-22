@@ -2,30 +2,37 @@
 import Base from "../layouts/Base.astro";
 import CodePanel from "../components/CodePanel.astro";
 import Note from "../components/Note.astro";
-import { SITE } from "../data/site.js";
+import { RELEASE, SITE } from "../data/site.js";
 
 const platforms = [
-  { name: "macOS", detail: "first", status: "Signed build coming soon", soon: true },
-  { name: "Windows", detail: "after macOS", status: "Planned", soon: false },
-  { name: "Linux", detail: "after macOS", status: "Planned", soon: false },
+  { name: "macOS", detail: `${RELEASE.macs}, one universal DMG`, status: "Available", ready: true },
+  { name: "Windows", detail: "", status: "Not yet", ready: false },
+  { name: "Linux", detail: "", status: "Not yet", ready: false },
 ];
 ---
 
-<Base title="Download" description="Get Vaultdraw for macOS, or build it from source today.">
+<Base
+  title="Download"
+  description={`Download Vaultdraw ${RELEASE.version} for macOS (Apple Silicon and Intel). The build is unsigned, so the first open takes one extra step.`}
+>
   <div class="dl wrap">
     <header class="dl__head">
       <p class="label">Download</p>
-      <h1>Not quite <em>yet</em>.</h1>
+      <h1>Vaultdraw for <em>macOS</em>.</h1>
       <p class="dl__lead">
-        Vaultdraw works every day on the machine it's built on, and the first signed, notarised macOS build is being
-        prepared. Releases will be published on GitHub; this page links them as soon as they exist.
+        Your Excalidraw drawings, in a folder you own. Free and open source, with no account.
       </p>
+      <div class="dl__cta">
+        <a class="btn btn--solid dl__btn" href={RELEASE.dmgUrl}>Download for macOS</a>
+        <p class="dl__meta mono">v{RELEASE.version} · {RELEASE.sizeMB} MB · {RELEASE.macs}, one universal DMG</p>
+        <a class="link-arrow" href={RELEASE.allUrl}>All releases</a>
+      </div>
     </header>
 
     <ul class="dl__list" role="list">
       {
         platforms.map((p) => (
-          <li class:list={["dl__item", { "dl__item--soon": p.soon }]}>
+          <li class:list={["dl__item", { "dl__item--ready": p.ready }]}>
             <span class="dl__name">{p.name}</span>
             <span class="dl__detail mono">{p.detail}</span>
             <span class="dl__status mono">{p.status}</span>
@@ -34,15 +41,89 @@ const platforms = [
       }
     </ul>
 
+    <section class="dl__sec" aria-labelledby="open-title">
+      <h2 id="open-title">Open it the first time</h2>
+      <p>
+        Vaultdraw isn't signed with an Apple Developer certificate yet, so macOS may refuse to open it the first time.
+      </p>
+      <ol class="dl__steps">
+        <li>Open the DMG and drag Vaultdraw to Applications.</li>
+        <li>
+          Right-click (or Control-click) Vaultdraw and choose <strong>Open</strong>, then <strong>Open</strong> again.
+          Or try to open it once, then go to <strong>System Settings → Privacy &amp; Security</strong> and click{" "}
+          <strong>Open Anyway</strong>.
+        </li>
+        <li>
+          If macOS says the app is "damaged", run this in Terminal and open it again:
+          <div class="dl__code">
+            <CodePanel
+              id="dl-xattr"
+              note="terminal"
+              files={[
+                {
+                  name: "quarantine",
+                  lang: "sh",
+                  code: "xattr -dr com.apple.quarantine /Applications/Vaultdraw.app",
+                },
+              ]}
+            />
+          </div>
+        </li>
+      </ol>
+    </section>
+
+    <section class="dl__sec" aria-labelledby="sum-title">
+      <h2 id="sum-title">Check the download (optional)</h2>
+      <p>
+        Download <a href={RELEASE.sumsUrl}>SHA256SUMS</a> into the same folder as the DMG, then run this there:
+      </p>
+      <div class="dl__code">
+        <CodePanel
+          id="dl-sum"
+          note="terminal"
+          files={[
+            {
+              name: "checksum",
+              lang: "sh",
+              code: `cd ~/Downloads
+shasum -a 256 -c SHA256SUMS`,
+            },
+          ]}
+        />
+      </div>
+      <p>
+        You should see <code>{RELEASE.dmgName}: OK</code>.
+      </p>
+    </section>
+
+    <section class="dl__sec" aria-labelledby="know-title">
+      <h2 id="know-title">Good to know</h2>
+      <ul class="dl__know">
+        <li>macOS only for now. Windows and Linux builds don't exist yet.</li>
+        <li>There is no automatic update yet. Check <a href={RELEASE.allUrl}>All releases</a> for new versions.</li>
+        <li>Plugins are experimental and their interface may change.</li>
+        <li>
+          Memory: about 215 MB when idle, peaking around 420 MB while opening drawings in a typical vault.
+        </li>
+        <li>
+          The <code>vaultdraw</code> command is optional. Open the command palette (Cmd+Shift+P) and run{" "}
+          <strong>Install 'vaultdraw' command in PATH</strong>.
+        </li>
+      </ul>
+      <p>
+        More in <a href="/docs/install/">Install</a> and <a href="/docs/troubleshooting/">Troubleshooting</a>.
+      </p>
+    </section>
+
     <section class="dl__src" aria-labelledby="src-title">
       <div>
-        <h2 id="src-title">Build it from source</h2>
+        <h2 id="src-title">Build from source</h2>
         <p>
           You need Node 18 or newer, Yarn 1, and the <a href="https://tauri.app/start/prerequisites/">Rust and Tauri prerequisites</a>.
           The build takes a few minutes the first time.
         </p>
         <p>
-          <a class="btn" href={`${SITE.repo}/releases`}>Watch releases on GitHub</a>
+          <a class="btn" href={RELEASE.allUrl}>All releases</a>
         </p>
       </div>
       <div>
@@ -74,7 +155,7 @@ yarn desktop:build   # the app lands in excalidraw-desktop/src-tauri/target/rele
 
   .dl__head {
     max-width: 720px;
-    margin-bottom: 48px;
+    margin-bottom: 40px;
   }
 
   .dl__head h1 {
@@ -89,8 +170,29 @@ yarn desktop:build   # the app lands in excalidraw-desktop/src-tauri/target/rele
     color: color-mix(in srgb, var(--fg) 86%, var(--bg));
   }
 
+  .dl__cta {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    margin-top: 28px;
+  }
+
+  .dl__btn {
+    min-height: 56px;
+    padding: 0 1.8em;
+    font-size: 0.9rem;
+  }
+
+  .dl__meta {
+    margin: 0;
+    font-size: 0.76rem;
+    color: var(--muted);
+    overflow-wrap: anywhere;
+  }
+
   .dl__list {
-    margin: 0 0 96px;
+    margin: 0 0 72px;
     padding: 0;
     list-style: none;
     border-top: 1px solid var(--line-soft);
@@ -115,8 +217,41 @@ yarn desktop:build   # the app lands in excalidraw-desktop/src-tauri/target/rele
     color: var(--muted);
   }
 
-  .dl__item--soon .dl__status {
+  .dl__item--ready .dl__status {
     color: var(--accent);
+  }
+
+  .dl__sec {
+    max-width: 720px;
+    margin-bottom: 72px;
+  }
+
+  .dl__sec h2,
+  .dl__src h2 {
+    margin: 0 0 14px;
+    font-size: 1.8rem;
+    font-weight: 400;
+  }
+
+  .dl__steps,
+  .dl__know {
+    margin: 16px 0;
+    padding-left: 1.4em;
+  }
+
+  .dl__steps li,
+  .dl__know li {
+    margin-bottom: 12px;
+    padding-left: 0.3em;
+  }
+
+  .dl__code {
+    margin-top: 12px;
+    min-width: 0;
+  }
+
+  .dl__sec .dl__code {
+    margin-bottom: 16px;
   }
 
   .dl__src {
@@ -124,12 +259,6 @@ yarn desktop:build   # the app lands in excalidraw-desktop/src-tauri/target/rele
     grid-template-columns: minmax(0, 4fr) minmax(0, 6fr);
     gap: 48px;
     align-items: start;
-  }
-
-  .dl__src h2 {
-    margin: 0 0 14px;
-    font-size: 1.8rem;
-    font-weight: 400;
   }
 
   .dl :global(.dl__note) {
@@ -142,6 +271,7 @@ yarn desktop:build   # the app lands in excalidraw-desktop/src-tauri/target/rele
     }
     .dl__detail {
       grid-row: 2;
+      grid-column: 1 / -1;
     }
     .dl__src {
       grid-template-columns: minmax(0, 1fr);

@@ -38,7 +38,7 @@ In a git repository, you can keep file history out of commits. Run the history c
 
 ## Does it run on Windows or Linux?
 
-Not yet. 0.1.1 is macOS only (Apple Silicon and Intel).
+Not yet. {{version}} is macOS only (Apple Silicon and Intel).
 
 ## Why does macOS refuse to open it?
 
@@ -46,7 +46,7 @@ The app is not signed with an Apple Developer certificate yet. See [Install](/do
 
 ## How do I update?
 
-There is no automatic update yet. Download the new DMG from the [releases page](https://github.com/Vaultdraw/vaultdraw/releases).
+There is no automatic update yet. Download the new DMG from the [releases page]({{releases_url}}).
 
 ## Can I change the keys?
 
@@ -58,7 +58,7 @@ Yes, with the `vaultdraw` command. See [the command line](/docs/cli/).
 
 ## Are there plugins?
 
-An experimental plugin host ships in 0.1.1. See [Plugins](/docs/plugins/).
+An experimental plugin host ships in {{version}}. See [Plugins](/docs/plugins/).
 
 ## Where do I report a bug or ask for a feature?
 

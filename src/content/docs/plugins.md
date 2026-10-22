@@ -5,7 +5,7 @@ group: Plugins
 order: 1
 ---
 
-> **Caution:** Plugins are experimental in 0.1.1. The interface may change, so there is no stable plugin API to build against yet.
+> **Caution:** Plugins are experimental in {{version}}. The interface may change, so there is no stable plugin API to build against yet.
 
 ## What exists today
 

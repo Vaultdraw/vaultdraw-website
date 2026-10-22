@@ -1,5 +1,6 @@
 import { defineConfig } from "astro/config";
 import rehypeMermaid from "rehype-mermaid";
+import remarkRelease from "./scripts/remark-release.mjs";
 
 export default defineConfig({
   // The real domain is not chosen yet; set SITE_URL when deploying.
@@ -13,6 +14,8 @@ export default defineConfig({
     shikiConfig: { theme: "css-variables" },
     // Mermaid blocks become inline SVG at build time (no runtime JS); prose.css themes them.
     syntaxHighlight: { type: "shiki", excludeLangs: ["mermaid", "math"] },
+    // {{version}}, {{dmg_url}} and friends come from src/data/release.js.
+    remarkPlugins: [remarkRelease],
     rehypePlugins: [
       [
         rehypeMermaid,
