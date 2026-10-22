@@ -3,7 +3,7 @@ import { FEATURED } from "./featured.mjs";
 
 export const SITE = {
   name: "Vaultdraw",
-  repo: "https://github.com/Vaultdraw/beltio",
+  repo: "https://github.com/Vaultdraw/vaultdraw",
   description:
     "An offline vault for Excalidraw drawings. Pick a folder; every drawing is a plain .excalidraw file. Search, links, history and themes, with no account and no cloud.",
 };

@@ -1,6 +1,6 @@
 # Vaultdraw website
 
-The website for [Vaultdraw](https://github.com/Vaultdraw/beltio), an offline vault for Excalidraw drawings: a static Astro site with docs, a changelog and a download page.
+The website for [Vaultdraw](https://github.com/Vaultdraw/vaultdraw), an offline vault for Excalidraw drawings: a static Astro site with docs, a changelog and a download page.
 
 ```sh
 npm install

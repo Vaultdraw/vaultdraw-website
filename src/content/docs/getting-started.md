@@ -11,8 +11,8 @@ Vaultdraw is a desktop app. It runs on macOS today; Windows and Linux builds are
 The first signed macOS build is not out yet. Until it is, build the app from source. You need Node 18 or newer, Yarn 1 and the [Rust and Tauri prerequisites](https://tauri.app/start/prerequisites/).
 
 ```sh
-git clone https://github.com/Vaultdraw/beltio
-cd beltio
+git clone https://github.com/Vaultdraw/vaultdraw
+cd vaultdraw
 yarn install
 yarn desktop:build
 ```
