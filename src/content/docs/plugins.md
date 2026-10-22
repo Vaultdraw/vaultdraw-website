@@ -1,6 +1,6 @@
 ---
 title: Plugins
-description: Vaultdraw 0.1.1 has an experimental plugin host. This page says what exists today and what comes next.
+description: Vaultdraw has an experimental plugin host. This page says what exists today and what comes next.
 group: Plugins
 order: 1
 ---

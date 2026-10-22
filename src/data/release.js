@@ -1,5 +1,5 @@
 // The current release. A new release changes this one line; everything else is derived.
-const CURRENT = { version: "0.1.1", sizeMB: 57 };
+const CURRENT = { version: "0.1.2", sizeMB: 57 };
 
 const REPO = "https://github.com/Vaultdraw/vaultdraw";
 const download = (file) => `${REPO}/releases/download/v${CURRENT.version}/${file}`;
