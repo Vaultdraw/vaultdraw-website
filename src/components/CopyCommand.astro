@@ -1,0 +1,38 @@
+---
+// One shell command, selectable without JS, with a Copy button that appears when scripts run.
+interface Props {
+  command: string;
+  label?: string;
+  caption?: string;
+}
+const { command, label, caption } = Astro.props;
+---
+
+<div class="copycmd">
+  {label && <p class="copycmd__label label label--quiet">{label}</p>}
+  <div class="copy">
+    <pre><code>{command}</code></pre>
+    <button type="button" class="copy__btn" hidden>Copy</button>
+    <span class="copy__live visually-hidden" aria-live="polite"></span>
+  </div>
+  {caption && <p class="copycmd__cap" set:html={caption} />}
+</div>
+
+<style>
+  .copycmd {
+    min-width: 0;
+    max-width: 100%;
+  }
+  .copycmd__label {
+    margin: 0 0 8px;
+  }
+  .copycmd__cap {
+    margin: 8px 0 0;
+    font-size: 0.85rem;
+    color: var(--muted);
+  }
+</style>
+
+<script>
+  import "../scripts/copy.js";
+</script>
