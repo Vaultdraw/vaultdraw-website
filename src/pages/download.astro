@@ -4,6 +4,7 @@ import CodePanel from "../components/CodePanel.astro";
 import Note from "../components/Note.astro";
 import DownloadButton from "../components/DownloadButton.astro";
 import CopyCommand from "../components/CopyCommand.astro";
+import appIcon from "../assets/brand/app-icon-dark.svg";
 import { RELEASE, SITE } from "../data/site.js";
 
 const platforms = [
@@ -19,6 +20,7 @@ const platforms = [
 >
   <div class="dl wrap">
     <header class="dl__head">
+      <img class="dl__icon" src={appIcon.src} width="64" height="64" alt="" />
       <p class="label">Download</p>
       <h1>Vaultdraw for <em>macOS</em>.</h1>
       <p class="dl__lead">
@@ -186,6 +188,11 @@ yarn desktop:build   # the app lands in excalidraw-desktop/src-tauri/target/rele
   .dl__head {
     max-width: 720px;
     margin-bottom: 40px;
+  }
+
+  .dl__icon {
+    display: block;
+    margin-bottom: 20px;
   }
 
   .dl__head h1 {

@@ -6,6 +6,7 @@ import SectionHead from "../components/SectionHead.astro";
 import CodePanel from "../components/CodePanel.astro";
 import ThemeGrid from "../components/ThemeGrid.astro";
 import Sketch from "../components/Sketch.astro";
+import Mark from "../components/Mark.astro";
 import DownloadButton from "../components/DownloadButton.astro";
 import CopyCommand from "../components/CopyCommand.astro";
 import { RELEASE, SITE, THEMES } from "../data/site.js";
@@ -124,7 +125,10 @@ const extras = [
   <section class="hero wrap" aria-labelledby="hero-title">
     <div class="hero__top">
     <div class="hero__text">
-      <p class="label">An offline vault for Excalidraw drawings</p>
+      <div class="hero__brand">
+        <Mark size={56} />
+        <p class="label">An offline vault for Excalidraw drawings</p>
+      </div>
       <h1 class="hero__mark" id="hero-title">vault<span>draw</span></h1>
       <p class="hero__sub mono">
         a folder of drawings, kept as files<br />
@@ -414,6 +418,16 @@ yarn desktop:build`,
     :global(.hero__sketch) {
       display: none;
     }
+  }
+
+  .hero__brand {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .hero__brand :global(svg) {
+    flex: none;
   }
 
   .hero__mark {
