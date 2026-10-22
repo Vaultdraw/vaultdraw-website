@@ -46,7 +46,7 @@ The app is not signed with an Apple Developer certificate yet. See [Install](/do
 
 ## How do I update?
 
-There is no automatic update yet. Download the new DMG from the [releases page]({{releases_url}}), or run `{{brew_upgrade}}` if you installed with Homebrew.
+There is no automatic update yet. **Help → Check for updates** in the app (or `Help: Check for updates` in the command palette) opens the [releases page]({{releases_url}}), where you download the new DMG. If you installed with Homebrew, run `{{brew_upgrade}}`. **Settings → About** shows the version you have.
 
 ## Can I change the keys?
 
@@ -62,4 +62,4 @@ An experimental plugin host ships in {{version}}. See [Plugins](/docs/plugins/).
 
 ## Where do I report a bug or ask for a feature?
 
-Open an [issue on GitHub](https://github.com/Vaultdraw/vaultdraw/issues).
+In the app, **Help → Report a bug** or **Help → Request a feature**. Each opens a GitHub issue already filled in with a template and your Vaultdraw and macOS versions (no file paths or vault names). You can also open an [issue on GitHub](https://github.com/Vaultdraw/vaultdraw/issues) directly.

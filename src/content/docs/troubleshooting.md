@@ -59,4 +59,4 @@ While the app is quarantined, macOS stops the command. Remove the quarantine fla
 
 ## Still stuck
 
-Open an [issue on GitHub](https://github.com/Vaultdraw/vaultdraw/issues) with your macOS version, what you did and what happened.
+Run **Help → Report a bug** in the app. It opens a GitHub issue already filled in with your Vaultdraw and macOS versions; add what you did and what happened. Without the app, open an [issue on GitHub](https://github.com/Vaultdraw/vaultdraw/issues) and include your version from **Settings → About**.

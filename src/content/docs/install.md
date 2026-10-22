@@ -63,7 +63,7 @@ After the first open, it starts like any other app.
 
 ## Updates
 
-There is no automatic update yet. Check the [changelog](/changelog/) for what changed.
+There is no automatic update yet. **Help → Check for updates** in the app opens the releases page, and **Settings → About** shows your version. The [changelog](/changelog/) says what changed.
 
 - **DMG:** download the new version from the [releases page]({{releases_url}}).
 - **Homebrew:** run `{{brew_upgrade}}`.
