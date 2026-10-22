@@ -4,6 +4,8 @@ An offline vault for Excalidraw drawings. Pick a folder, and every drawing in it
 
 No account, no cloud, no telemetry.
 
+[![Vaultdraw, with a drawing open beside the file tree](docs-assets/vaultdraw.png)](https://vaultdraw.swarnim-114.workers.dev)
+
 ## What it does
 
 - **Your folder is the vault.** Drawings and folders are real files on disk, so you can back them up, sync them or put them in git.
