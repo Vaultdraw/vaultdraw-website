@@ -91,7 +91,6 @@ const features = [
     body: "Recolour the whole app, and the canvas too if you like. Drawings and exports keep their standard colours.",
     href: "/docs/themes/",
     shot: "themes",
-    partial: true,
     alt: "Settings, Appearance: light, dark or system mode, sync canvas with theme, accent colour and the grid of built-in themes.",
   },
   {
@@ -101,7 +100,6 @@ const features = [
     body: "Write #ideas in any text. A panel lists every tag, search filters by them, and a rename reaches every drawing.",
     href: "/docs/tags/",
     shot: "tags",
-    partial: true,
     alt: "The Tags panel lists each tag with its count; #project is selected, so the file tree shows only the two drawings that use it.",
   },
   {
@@ -129,7 +127,6 @@ const features = [
     body: "Open any drawing by name, or run any command: themes, export, templates, settings. Each can get its own key.",
     href: "/docs/keyboard/",
     shot: "palette",
-    partial: true,
     alt: "The command palette filtered to 'export', listing Export: PDF, PNG and SVG with their keys.",
   },
   {
@@ -139,7 +136,6 @@ const features = [
     body: "Every tool starts with its own style, pens are saved presets, and the laser is yours to tune, globally or per vault.",
     href: "/docs/tool-defaults/",
     shot: "tools",
-    partial: true,
     alt: "Settings, Tools on the Arrow tab: a live preview and the arrow's default stroke colour, width, style and arrowheads.",
   },
   {
@@ -149,7 +145,6 @@ const features = [
     body: "Earlier versions of every drawing, kept automatically. Scrub back, see what changed and restore in one click.",
     href: "/docs/history/",
     shot: "history",
-    partial: true,
     alt: "The History panel: automatic versions, a named checkpoint and previews of earlier states of the drawing.",
   },
   {
@@ -168,7 +163,6 @@ const features = [
     body: "Drop PDFs and images from Finder onto the canvas. PDF pages become images you can write on, rendered offline.",
     href: "/docs/pdf-import/",
     shot: "import",
-    partial: true,
     alt: "The Import PDF dialog: an 18-page PDF, pages 1 to 5 chosen, placed below the drawing.",
   },
   {
@@ -178,7 +172,6 @@ const features = [
     body: "Any drawing can become a template. Start new drawings from it, with fresh ids, so the original stays untouched.",
     href: "/docs/templates/",
     shot: "templates",
-    partial: true,
     alt: "The New drawing from template picker with Blank and four vault templates, each with a thumbnail.",
   },
 ];
@@ -352,7 +345,6 @@ const extras = [
       <Shot
         name="history"
         class="history__shot"
-        partial
         sizes="(min-width: 861px) 540px, calc(100vw - 32px)"
         alt="The history panel beside a drawing, listing automatic versions, a checkpoint named 'before the review' and the first version, each with a thumbnail."
       />
@@ -371,7 +363,6 @@ const extras = [
       <Shot
         name="palette"
         class="keys__shot"
-        partial
         sizes="(min-width: 861px) 780px, calc(100vw - 32px)"
         alt="The command palette open over a drawing, filtered by 'export': Export PDF, Export PNG, Export SVG and Export image."
       />
