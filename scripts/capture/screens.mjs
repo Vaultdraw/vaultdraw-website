@@ -87,7 +87,6 @@ export const SCREENS = [
   },
   {
     name: "palette",
-    clip: { x: 300, y: 40, width: 840, height: 420 },
     run: async (page) => {
       await openPath(page, "Projects", "Vaultdraw", "Architecture");
       await fit(page);
@@ -99,7 +98,6 @@ export const SCREENS = [
   },
   {
     name: "history",
-    clip: { x: 600, y: 0, width: 840, height: 900 },
     run: async (page) => {
       await seedHistory(page, "Projects/Vaultdraw/Architecture.excalidraw");
       await openPath(page, "Projects", "Vaultdraw", "Architecture");
@@ -110,7 +108,6 @@ export const SCREENS = [
   },
   {
     name: "tags",
-    clip: { x: 600, y: 0, width: 840, height: 900 },
     run: async (page) => {
       await openPath(page, "Projects", "Vaultdraw", "Architecture");
       await fit(page);
@@ -130,7 +127,6 @@ export const SCREENS = [
   },
   {
     name: "tools",
-    clip: { x: 215, y: 85, width: 1010, height: 730 },
     run: async (page) => {
       await openPath(page, "Projects", "Vaultdraw", "Architecture");
       await page.keyboard.press(`${MOD}+Comma`);
@@ -142,7 +138,6 @@ export const SCREENS = [
   },
   {
     name: "templates",
-    clip: { x: 300, y: 100, width: 840, height: 640 },
     run: async (page) => {
       await openPath(page, "Projects", "Vaultdraw", "Architecture");
       await page.keyboard.press("Control+Alt+N");
@@ -153,7 +148,6 @@ export const SCREENS = [
   },
   {
     name: "import",
-    clip: { x: 300, y: 210, width: 840, height: 400 },
     run: async (page) => {
       // The harness's PDF bridge is a fake that renders placeholder pages, so
       // the shot is of the real import dialog only, not of imported pages.
@@ -174,7 +168,6 @@ export const SCREENS = [
   },
   {
     name: "themes",
-    clip: { x: 215, y: 85, width: 1010, height: 730 },
     run: async (page) => {
       await openPath(page, "Projects", "Vaultdraw", "Architecture");
       await fit(page);
