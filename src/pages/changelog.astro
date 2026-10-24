@@ -24,7 +24,7 @@ const fmt = new Intl.DateTimeFormat("en-GB", { day: "numeric", month: "short", y
         rendered.map(({ e, Content }) => (
           <li class="log__entry" id={e.id}>
             <time class="mono" datetime={e.data.date.toISOString().slice(0, 10)}>
-              {fmt.format(e.data.date)}
+              {e.data.unreleased ? "Not released yet" : fmt.format(e.data.date)}
             </time>
             <div>
               <h2>{e.data.title}</h2>

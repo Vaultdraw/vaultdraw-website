@@ -27,6 +27,8 @@ const changelog = defineCollection({
   schema: z.object({
     title: z.string(),
     date: z.coerce.date(),
+    /** True for the entry of changes merged but not in a release yet. */
+    unreleased: z.boolean().default(false),
   }),
 });
 

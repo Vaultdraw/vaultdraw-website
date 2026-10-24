@@ -107,6 +107,17 @@ Page mode for new drawings. See [Page mode](/docs/page-mode/).
 | `files.new_drawing_folder` | `""` | Relative to the vault root; empty is next to the open drawing |
 | `files.templates_folder` | `"Templates"` | Vault folder holding templates, relative to the vault root |
 
+## [memory]
+
+> **Next release.** Not in the current download yet. Both keys are merged in the app and come with the next version.
+
+| Key | Default | Values |
+| --- | --- | --- |
+| `memory.free_unused_images` | `true` | Free the image data of deleted images once no undo or redo step can restore it, about 20 seconds after you stop editing |
+| `memory.undo_steps` | `1000` | Undo steps kept per drawing, 10 to 10000 (undo was unlimited before) |
+
+Both are in **Settings → Interface → Memory** and apply live. See [Settings](/docs/settings/#memory).
+
 ## [tabs]
 
 See [Tabs](/docs/tabs/).
@@ -187,3 +198,46 @@ Only your changes are stored, as a list of keys per command id. See [Keyboard an
 "file.save" = ["Mod+S", "Alt+S"]
 "vault.newDrawing" = []
 ```
+
+## [keys]
+
+> **Next release.** Not in the current download yet. Key sequences are merged in the app and come with the next version.
+
+Options for key sequences such as `"g g"` or `"<leader> f f"` in `[hotkeys]`. Nothing is bound by default. All keys reload live.
+
+```toml
+[keys]
+leader = "Backslash"            # what <leader> means in a sequence
+timeout_ms = 1000
+cancel_after_ms = 5000
+which_key = true
+which_key_delay_ms = 400
+which_key_position = "bottom"   # bottom | center
+
+[keys.labels]                   # names for groups, shown in the which-key popup
+"<leader> f" = "file"
+```
+
+| Key | Default | Values |
+| --- | --- | --- |
+| `keys.leader` | `"Backslash"` | One key that `<leader>` stands for, such as `"Space"` or `"Alt+K"` |
+| `keys.timeout_ms` | `1000` | Wait before the shorter binding runs when a key is also the start of a longer one (`g` and `g g`); 0 waits for the next key |
+| `keys.cancel_after_ms` | `5000` | Drop a half-typed sequence after this idle time; 0 never drops it |
+| `keys.which_key` | `true` | Show the popup while a sequence is half typed |
+| `keys.which_key_delay_ms` | `400` | Wait before the popup shows |
+| `keys.which_key_position` | `"bottom"` | `"bottom"` (a bar) or `"center"` (a card) |
+| `keys.labels` | none | A table: sequence to group name. Edit it in **Settings → Hotkeys → Key group names** |
+
+The times are in milliseconds, 0 to 3600000. See [Keyboard](/docs/keyboard/#key-sequences-leader-and-which-key).
+
+## [control]
+
+> **Next release.** Not in the current download yet. The two link keys are merged in the app and come with the next version.
+
+| Key | Default | Values |
+| --- | --- | --- |
+| `control.enabled` | `true` | The local control socket that the `vaultdraw` command uses. Applies at the next launch |
+| `control.uri_enabled` | `true` | `false` ignores every `vaultdraw://` link and every file opened from outside, and shows a notice instead |
+| `control.uri_allow` | `[]` | What a link may do without asking: `"new"`, `"switch-vault"`, or a command id such as `"appearance.toggleMode"` |
+
+The link keys are read each time a link arrives, so edits apply at once. See [Links and files from outside](/docs/links-from-outside/).
