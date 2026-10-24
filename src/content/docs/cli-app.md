@@ -36,6 +36,16 @@ vaultdraw cmd run vault.newDrawing
 vaultdraw cmd vault.newDrawing   # short form
 ```
 
+## Hand over a link
+
+> **Next release.** Not in the current download yet.
+
+```bash
+vaultdraw uri 'vaultdraw://open?file=Graphs/BFS'
+```
+
+Checks a `vaultdraw://` link and gives it to the running app. It prints `done`, or `asking` when the app waits for you. See [Links and files from outside](/docs/links-from-outside/).
+
 ## Tabs
 
 ```bash
