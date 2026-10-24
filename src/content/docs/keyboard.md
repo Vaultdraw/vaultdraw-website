@@ -94,6 +94,56 @@ How it behaves:
 
 **Tool keys.** `R`, `E`, `A`, `Q` and the other tool keys are now commands (`tool.rectangle`, `tool.eraser`, `tool.arrow`, `tool.lock` and so on), with the same default keys. Rebind them, remove them or make them sequences like any other command. They work while a drawing is open, not while you type or when a list, the gallery or the graph has focus.
 
+## File tree and list keys
+
+> **Next release.** Not in the current download yet.
+
+The file tree, the Tags list, the Links panel and the Settings page list share one set of `list.*` commands. Their keys work only while that list has focus: click into it, or press **Mod+Alt+F** for the file tree. On the canvas `r` is still the rectangle tool, and in a text box `j` still types a `j`.
+
+| Key | Action |
+| --- | --- |
+| `j` / `k`, Down / Up | Move down / up |
+| `g` / `Shift+G`, Home / End | First / last row |
+| `l`, Right | Open a folder, or step into an open one |
+| `h`, Left | Close a folder, or go to its parent |
+| Enter, `o` | Open a drawing or toggle a folder |
+| Mod+Enter | Open in a new tab |
+| `r`, F2 | Rename |
+| `d`, Delete | Move to the Trash |
+| `a` / `Shift+A` | New drawing / new folder |
+| `m` | Move to another folder |
+| Esc | Leave the list and go back to the canvas |
+
+Each key is a command (`list.down`, `list.collapse`, `list.delete` and so on). They are in the palette, in **Settings → Hotkeys**, and in `[hotkeys]`:
+
+```toml
+[hotkeys]
+"list.down" = ["ArrowDown", "Ctrl+N"]
+"list.up" = ["ArrowUp", "Ctrl+P"]
+```
+
+Rename, delete, move and the row menu need a focused row. With none, they do nothing and the key passes on.
+
+## Gallery and graph keys
+
+> **Next release.** Not in the current download yet.
+
+The keys of the [gallery](/docs/tour/#home-screen-and-gallery) grid and the [graph view](/docs/graph/#keys) are commands too, so you can rebind them like any other. They work only while that view has focus.
+
+| Commands | Default keys |
+| --- | --- |
+| `gallery.left`, `right`, `up`, `down` | `h`, `l`, `k`, `j` and the arrows |
+| `gallery.first`, `last`, `pageUp`, `pageDown` | Home, End, Page Up, Page Down |
+| `gallery.open`, `parent`, `close` | Enter, Backspace, Esc |
+| `graph.moveLeft`, `moveRight`, `moveUp`, `moveDown`, `openNode` | `h`, `l`, `k`, `j` and the arrows, Enter |
+| `graph.hints`, `focusFilter`, `toggleLocal` | `f`, `/`, `Shift+L` |
+| `graph.depth1`, `depth2`, `depth3`, `fit`, `zoomIn`, `zoomOut`, `close` | `1`, `2`, `3`, `0`, `=`, `-`, Esc |
+
+```toml
+[hotkeys]
+"graph.close" = ["Escape", "Q"]
+```
+
 ## Tool defaults
 
 Each tool can start with its own style. See [Tool defaults](/docs/tool-defaults/).

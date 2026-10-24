@@ -101,6 +101,7 @@ Page mode for new drawings. See [Page mode](/docs/page-mode/).
 | `interface.zoom` | `100` | Whole-app zoom, 50 to 200 percent |
 | `interface.show_tag_chips` | `true` | Show a drawing's tags as chips in the file tree |
 | `interface.thumbnails` | `true` | Drawing previews on the home screen, in search results and in the palette |
+| `interface.thumbnail_max_elements` | `8000` | Biggest drawing that gets a thumbnail, 100 to 50000. Next release (before it was fixed at 2,500). Bigger drawings keep a placeholder. Applies live. Lower it on a slow machine |
 | `interface.activity_bar` | `true` | Show the activity bar |
 | `navigator.sort` | `"name_asc"` | `name_asc`, `name_desc`, `modified_desc`, `modified_asc` |
 | `files.confirm_delete` | `true` | Ask before moving to Trash |

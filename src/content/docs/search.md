@@ -48,3 +48,7 @@ The index is in `~/.local/state/vaultdraw/index/` by default, and `VAULTDRAW_STA
 The first time a large vault is indexed, the status line shows progress such as "Indexing 1,234 of 5,000 drawings…". Results cover only the drawings indexed so far.
 
 From a terminal, `vaultdraw search` searches the same way. See [Command line](/docs/cli/).
+
+> **Next release.** Not in the current download yet.
+
+Building the index for the first time is faster. On a vault of 5,000 drawings, `vaultdraw search` and the first in-app search took about 240 ms instead of 360 ms at background priority, with 20 to 30 percent less CPU. The indexer now reads each drawing only up to its elements, not the embedded images, and reads on up to 8 threads. The index is still stored outside your vault and is still safe to delete.

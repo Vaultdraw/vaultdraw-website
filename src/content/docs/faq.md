@@ -38,7 +38,7 @@ In a git repository, you can keep file history out of commits. Run the history c
 
 ## Does it run on Windows or Linux?
 
-Not yet. {{version}} is macOS only (Apple Silicon and Intel).
+Not yet. {{version}} is macOS only (Apple Silicon and Intel). Linux is planned, but it is not available.
 
 ## Why does macOS refuse to open it?
 

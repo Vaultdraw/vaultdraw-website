@@ -36,7 +36,7 @@ Press **Cmd+,** to open Settings, a page with sections and search. Everything in
 
 ## Home screen and gallery
 
-With no drawing open, the home screen shows your recent drawings with thumbnails. **Gallery** (**Cmd+Option+E**) shows a whole folder as a grid of thumbnails. Thumbnails are stored outside your vault, and you can turn them off.
+With no drawing open, the home screen shows your recent drawings with thumbnails. **Gallery** (**Cmd+Option+E**) shows a whole folder as a grid of thumbnails. Thumbnails are stored outside your vault, and you can turn them off. Drawings of up to 8,000 elements get one (`interface.thumbnail_max_elements`, [Configuration](/docs/configuration/)).
 
 ## Find, link and look back
 

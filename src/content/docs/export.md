@@ -37,6 +37,12 @@ Right-click a drawing in the file tree, or open its **⋯** menu:
 
 These work in read-only vaults too.
 
+## From the command line
+
+> **Next release.** Not in the current download yet.
+
+`vaultdraw export "Roadmap" -o roadmap.svg` renders a drawing to PNG, SVG or PDF without opening the dialog, and `--out-dir` exports a whole folder. See [Control the app](/docs/cli-app/#export-a-drawing).
+
 ## Commands
 
 `Export: PNG`, `Export: SVG`, `Export: PDF` and `Save a copy` are palette commands, so you can give each its own key in **Settings → Hotkeys**.

@@ -35,6 +35,8 @@ Drag a dot and its neighbours follow. Scroll or pinch to zoom, and drag the back
 | 0, + and - | Fit, zoom in, zoom out |
 | Esc | Close |
 
+> **Next release.** Not in the current download yet. Each key above is a command (`graph.moveLeft`, `graph.close` and so on) that works only while the graph has focus, not in its filter box. Rebind them in **Settings → Hotkeys** or `[hotkeys]`. `0` (fit) is new as a default key. See [Keyboard](/docs/keyboard/#gallery-and-graph-keys).
+
 **Graph: Toggle orphans**, **Toggle tags**, **Toggle unresolved links** and **Fit graph to view** are in the command palette, with no default key.
 
 ## Settings

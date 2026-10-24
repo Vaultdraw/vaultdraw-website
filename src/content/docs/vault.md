@@ -15,6 +15,7 @@ The file tree lists the vault. It loads folders lazily, so large vaults open qui
 - **Drag and drop.** Drag drawings and folders onto a folder, or onto the root, to move them.
 - **Move to Trash.** Uses the system Trash, so you can undo it from there. Turn off the confirmation in **Settings → Files**.
 - **Sort.** By name or by date modified, from the sort button or the **Sort:** commands. Folders always come first, and numbers sort naturally, so "Drawing 2" comes before "Drawing 10".
+- **Keys (next release).** Press **Cmd+Option+F** to focus the tree, then `j`/`k` to move, `h`/`l` to close and open folders and Enter to open. See [file tree and list keys](/docs/keyboard/#file-tree-and-list-keys).
 - **Reveal in Finder.** Run **Reveal drawing in Finder** or **Reveal vault folder** from the palette.
 
 ## New drawings and Finder files

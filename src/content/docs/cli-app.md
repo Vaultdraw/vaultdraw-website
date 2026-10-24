@@ -46,6 +46,39 @@ vaultdraw uri 'vaultdraw://open?file=Graphs/BFS'
 
 Checks a `vaultdraw://` link and gives it to the running app. It prints `done`, or `asking` when the app waits for you. See [Links and files from outside](/docs/links-from-outside/).
 
+## Export a drawing
+
+> **Next release.** Not in the current download yet.
+
+```bash
+vaultdraw export "Roadmap"                    # Roadmap.png in the current folder
+vaultdraw export "Roadmap" -o roadmap.svg     # format from the file name
+vaultdraw export "Roadmap" -o - --format svg # to stdout
+vaultdraw export Projects --out-dir ~/out     # every drawing in a folder
+```
+
+Renders a drawing to PNG, SVG or PDF through the running app, with the same result as **Export** in the file tree. The file is named after the drawing and written in the current folder, unless `-o` gives a file or a folder. `-o -` writes to stdout. It never replaces an existing file unless you pass `--force`. Exports run in the background, so you can keep drawing.
+
+| Option | What it does |
+| --- | --- |
+| `-o <file or folder>` | Where to write the file |
+| `--format` | `png`, `svg` or `pdf` |
+| `--scale` | Image scale |
+| `--dark` | Export the dark version |
+| `--no-background` | Leave out the background |
+| `--no-pattern` | Leave out the background pattern |
+| `--embed-scene` | Save the drawing inside the image so it can be edited again |
+| `--page` | Export whole pages |
+| `--frame <id or name>` | Export one frame |
+| `--padding <px>` | Space around the drawing, 0 to 200 (PNG and SVG) |
+| `--force` | Replace an existing file |
+
+PDF takes only `--no-pattern`.
+
+**A folder.** Give a folder (`.` is the whole vault) and `--out-dir <dir>` to export every drawing in it. The subfolders are kept inside `<dir>`. A drawing that fails is reported and the others still export. The exit code is then 2.
+
+Large exports are handed over through a temporary file, so the `vaultdraw` command itself stays small, a few megabytes even for a 32 MiB image.
+
 ## Tabs
 
 ```bash
