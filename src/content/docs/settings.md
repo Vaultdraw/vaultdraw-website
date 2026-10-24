@@ -39,9 +39,26 @@ If the file has a mistake, the app keeps your last good settings and shows a ban
 
 **Interface → Interface Zoom** scales the whole window from 50 % to 200 %. **Cmd+Shift+`+`**, **`-`** and **`0`** step by 10 and reset to 100 %. Plain **Cmd+`+`**, **`-`** and **`0`** still zoom the canvas, as in Excalidraw. Key: `interface.zoom`.
 
+## Memory
+
+> **Next release.** Not in the current download yet. It is merged in the app and comes with the next version.
+
+**Interface → Memory** has two settings. Deleted images keep their data in memory while an undo step could bring them back. Once none can, Vaultdraw frees it, about 20 seconds after you stop editing. Typing and drawing never wait for it, and saved drawings do not change.
+
+- **Free unused images** (`memory.free_unused_images`, on by default). Turn it off to keep image data until the drawing closes.
+- **Undo steps** (`memory.undo_steps`, 1000 by default, 10 to 10000). How many undo steps a drawing keeps. Older steps are dropped, and with them the images only they could restore. Restoring an older version from [History](/docs/history/) still brings its images back.
+
+The palette command `Memory: Free unused images` does it now and shows how much it freed.
+
 ## Navigator sort order
 
 **Interface → Navigator Sort Order**, or the sort button in the navigator toolbar. Four orders: name A to Z, name Z to A, modified new to old, modified old to new. Folders always come first. Names compare ignoring case and by number, so "Drawing 2" comes before "Drawing 10". Key: `navigator.sort`.
+
+## Key group names
+
+> **Next release.** Not in the current download yet.
+
+**Hotkeys → Key group names** names a group of key sequences, such as `<leader> f` = "file". The which-key popup shows the name. Add, rename or remove a name; Settings writes `[keys.labels]` and keeps your comments and order. See [Keyboard](/docs/keyboard/#key-sequences-leader-and-which-key).
 
 ## Confirm before delete
 
