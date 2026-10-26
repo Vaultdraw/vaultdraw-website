@@ -316,14 +316,35 @@ which_key_position = "bottom"   # bottom | center
 
 The times are in milliseconds, 0 to 3600000. See [Keyboard](/docs/keyboard/#key-sequences-leader-and-which-key).
 
-## [control]
+## [control] and [ai]
 
-> **Next release.** Not in the current download yet. The two link keys are merged in the app and come with the next version.
+> **Next release.** Not in the current download yet. `control.enabled` is in 0.1.2; the other keys are merged in the app and come with the next version.
 
 | Key | Default | Values |
 | --- | --- | --- |
 | `control.enabled` | `true` | The local control socket that the `vaultdraw` command uses. Applies at the next launch |
 | `control.uri_enabled` | `true` | `false` ignores every `vaultdraw://` link and every file opened from outside, and shows a notice instead |
 | `control.uri_allow` | `[]` | What a link may do without asking: `"new"`, `"switch-vault"`, or a command id such as `"appearance.toggleMode"` |
+| `control.notify_edits` | `true` | Shows a notice when a script or AI tool edits the drawing on screen. `false` hides it; the edit still happens |
+| `ai.enabled` | `false` | The AI switch. Off means no AI app can read or edit your drawings |
+| `ai.mcp_enabled` | `true` | The AI tools interface. It opens only while both `ai` keys are `true` |
 
-The link keys are read each time a link arrives, so edits apply at once. See [Links and files from outside](/docs/links-from-outside/).
+The link keys are read each time a link arrives, and `control.notify_edits` at each edit, so edits apply at once. See [Links and files from outside](/docs/links-from-outside/).
+
+### AI
+
+AI is off by default, and while it is off Vaultdraw is fully offline. Turning it on lets an AI app you connect (a desktop assistant or a coding agent) read and edit your drawings through the running app. Vaultdraw sends nothing itself: what the AI app reads, it sends to its own provider under its own terms.
+
+```toml
+[ai]
+enabled = false       # the AI switch
+mcp_enabled = true    # the AI tools interface, used only while enabled is true
+```
+
+- **Where.** **Settings → Control** has the switch, the tools interface under it, and **Edit notices**. The palette commands **AI: Toggle AI** and **AI: Toggle AI tools interface (MCP)** have no default keys.
+- **A warning first.** Turning AI on in Settings or with the command shows what an AI app can read and where it sends it. Setting the key by hand shows no warning.
+- **Live.** The app checks both keys at every AI request, so turning AI off applies at once, with no restart.
+- **Fails closed.** If `config.toml` or `overrides.toml` can't be read, AI counts as off.
+- **Honest limit.** The switch stops AI apps that use the AI tools interface. An AI app that can run shell commands as you can still call the `vaultdraw` command like any program you run. Only give such an app access you would give a script.
+- **Not yet.** The `vaultdraw mcp` command that AI apps connect through comes in a later version; the switch is already in place for it.
+

@@ -33,7 +33,7 @@ Values are percent-encoded (a space is `%20`). Unknown parameters are ignored. A
 4. **One dialog.** If a link wants to switch vault and create a drawing, one dialog lists both. The dialog starts on Cancel and ignores Confirm for the first 0.6 seconds.
 5. **Built-in commands only, and not the destructive ones.** A link cannot run a plugin's command, or a command that deletes, moves, renames, imports, exports, installs or quits, unless you list that exact id in `control.uri_allow`.
 6. **A limit.** 5 links per 10 seconds for each source: the system, scripts and the palette.
-7. **An off switch.** `control.uri_enabled = false` in [`config.toml`](/docs/configuration/#control) turns links and files from outside off. `control.uri_allow` removes the question for what you trust.
+7. **An off switch.** `control.uri_enabled = false` in [`config.toml`](/docs/configuration/#control-and-ai) turns links and files from outside off. `control.uri_allow` removes the question for what you trust.
 
 ## From Terminal and the palette
 

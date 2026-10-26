@@ -9,7 +9,7 @@ Open **Settings** with **Cmd+,**, or run **Open settings** from the command pale
 
 ## Pages and search
 
-The sidebar lists the pages: General, Appearance, Page, Interface, Drawing, Tools, Files, Links, History and Hotkeys. Type in the search box to find a row by name, description or config key (for example `autosave` or `sort`). **Esc** clears the search, and the next **Esc** closes Settings.
+The sidebar lists the pages: General, Appearance, Page, Interface, Drawing, Tools, Files, Links, History and Hotkeys. From the next release there is also a Control page. Type in the search box to find a row by name, description or config key (for example `autosave` or `sort`). **Esc** clears the search, and the next **Esc** closes Settings.
 
 Each page also has a palette command: `Settings: Files`, `Settings: Tools`, `Settings: Hotkeys` and so on.
 
@@ -32,6 +32,12 @@ On the General page:
 If the file has a mistake, the app keeps your last good settings and shows a banner with the line number. See [config.toml reference](/docs/configuration/).
 
 > **Next release.** **General → Config files** lists `config.toml` and `overrides.toml` with their paths and status, an **Open** button each, **Reload**, **Check** and **Reset all Settings changes**. A chip beside a setting says whether its value comes from `config.toml` or `overrides`, with a **Reset to config.toml value** action. See [Where a value comes from](/docs/configuration/#where-a-value-comes-from) and [Check your config](/docs/configuration/#check-your-config).
+
+## Control and AI
+
+> **Next release.** Not in the current download yet.
+
+**Control** has the AI switch (`ai.enabled`, off by default), the AI tools interface under it (`ai.mcp_enabled`), and **Edit notices** (`control.notify_edits`), which shows a notice when a script or AI tool edits the drawing. Turning AI on first shows what an AI app you connect can read and where it sends it. See [AI](/docs/configuration/#ai).
 
 ## Accent colour
 

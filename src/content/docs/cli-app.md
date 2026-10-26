@@ -79,6 +79,25 @@ PDF takes only `--no-pattern`.
 
 Large exports are handed over through a temporary file, so the `vaultdraw` command itself stays small, a few megabytes even for a 32 MiB image.
 
+## Read and edit the drawing on screen
+
+> **Next release.** Not in the current download yet. The `scene` commands are experimental: names and shapes may change.
+
+The `scene` commands work on the drawing that is open in the running app.
+
+```bash
+vaultdraw scene read --scope selection   # scope: all, viewport or selection
+vaultdraw scene get 3fA9kLm2             # elements by id (ids come from scene read)
+vaultdraw scene selection                # the selected elements
+echo '[{"op":"add","element":{"type":"rectangle","width":120,"height":80}}]' | vaultdraw scene apply
+```
+
+- One `scene apply` is one undo step. Undo reverts the whole batch.
+- `--if-version <v>` refuses when the drawing changed since you read it. The `version` is in the `scene read` output. After a timeout, retry with it, so a late first call cannot apply twice.
+- `--dry-run` checks the operations and changes nothing.
+- Operations are `add`, `update` (an id and properties) and `delete` (an id). One call takes up to 500.
+- When a script edits the drawing, the app shows a notice. `control.notify_edits = false` hides it (see [AI and control](/docs/configuration/#control-and-ai)).
+
 ## Tabs
 
 ```bash
