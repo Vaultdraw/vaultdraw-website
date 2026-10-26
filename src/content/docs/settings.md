@@ -17,7 +17,7 @@ Each page also has a palette command: `Settings: Files`, `Settings: Tools`, `Set
 
 The switch at the top of Settings chooses which layer you edit:
 
-- **Global** edits `config.toml`. It applies to every vault.
+- **Global** applies to every vault. It saves to `config.toml` in 0.1.2; from the next release it saves to `overrides.toml` and leaves `config.toml` alone (see [Layers](/docs/configuration/#layers)).
 - **This vault** edits only the settings that can differ per vault, and saves them in the vault. Each row shows "Inherited from global" until you change it, then "Overridden" with a **Reset to global** button.
 
 The switch is hidden when no vault is open, and **This vault** is disabled for a read-only vault. See [Per-vault settings](/docs/per-vault-settings/) for which settings it covers.
@@ -30,6 +30,8 @@ On the General page:
 - **Reload** re-reads it. You rarely need this, because saved changes apply live.
 
 If the file has a mistake, the app keeps your last good settings and shows a banner with the line number. See [config.toml reference](/docs/configuration/).
+
+> **Next release.** **General → Config files** lists `config.toml` and `overrides.toml` with their paths and status, an **Open** button each, **Reload**, **Check** and **Reset all Settings changes**. A chip beside a setting says whether its value comes from `config.toml` or `overrides`, with a **Reset to config.toml value** action. See [Where a value comes from](/docs/configuration/#where-a-value-comes-from) and [Check your config](/docs/configuration/#check-your-config).
 
 ## Accent colour
 

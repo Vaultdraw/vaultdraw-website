@@ -16,6 +16,8 @@ sync_canvas = true
 
 Vaultdraw ships Noctalia's palettes and the Noctalia community collection. You can also pick one from the palette: `Theme: Nord`. The [theme grid on the home page](/#themes) shows them all; click one to try it on this site.
 
+> **Next release.** Only eight built-in themes (Default, Noctalia, Catppuccin, Dracula, Gruvbox, Nord, Rosé Pine and Tokyo Night) are part of the code read at startup. The others load the moment you pick one, and the theme in `config.toml` loads before the first paint, so nothing flashes. The theme code read at startup shrinks from 210 KB to 67 KB.
+
 ## Sync canvas with theme
 
 With **Sync canvas with theme** on, the canvas is recoloured on screen: its background becomes the theme's, and the stroke and fill colours from Excalidraw's palette become matching theme colours. Only the display changes. Saved drawings and exports keep Excalidraw's standard colours, so they look the same to anyone who opens them.
@@ -47,3 +49,29 @@ Leave out `light` or `dark` and it is generated from the other.
 | `terminal` | Optional ANSI colours, feeding the synced canvas palette |
 
 Themes are data only: colour values, no code. A custom accent (`appearance.accent_color`) can replace any theme's primary colour.
+
+## CSS snippets
+
+> **Next release.** Not in the current download yet.
+
+For what a theme can't do (spacing, fonts, hiding a button, a wider sidebar), add your own CSS, as in Obsidian. Put `.css` files in `snippets/` in the config folder and turn each on in **Settings → Appearance → CSS snippets** or in `config.toml`:
+
+```toml
+[appearance]
+snippets = ["wide-sidebar", "big-tabs"]   # file names without .css, applied in this order
+```
+
+```css
+/* snippets/wide-sidebar.css */
+.vault-navigator { min-width: 320px; }
+```
+
+- Snippets apply after the theme. Theme colours are set inline, so to override a `--vault-*` token add `!important`.
+- They reload live: saving a file, adding or removing one, or editing `appearance.snippets` applies at once.
+- Files are used as written. One that fails to load (over 256 KiB, not UTF-8, a symbolic link) is skipped and Settings shows why.
+- They style the app only. Saved drawings and PNG, SVG and PDF exports do not change.
+- They work offline: `@import` is ignored and remote `url(...)` is blocked, so embed images and fonts as `data:` URLs.
+- Palette commands: `CSS snippets: Open folder`, `CSS snippets: Reload` and one `CSS snippets: Toggle <name>` per file. All can be rebound.
+- With no snippet on, nothing is read before the first frame.
+
+The class names and `--vault-*` tokens are the stable surface; other internal class names can change between versions.

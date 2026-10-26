@@ -20,6 +20,7 @@ On macOS the config folder is `~/.config/vaultdraw` unless you set `XDG_CONFIG_H
 vaultdraw/
 ├── config.toml   your settings
 ├── themes/       colour themes
+├── snippets/     CSS snippets
 └── templates/    templates shared by all vaults
 ```
 
@@ -27,21 +28,104 @@ vaultdraw/
 
 ## How it behaves
 
-- **Settings and the file stay in sync.** Changing something in Settings updates `config.toml` and keeps your comments and layout. Editing the file updates the app.
+- **Settings and the file stay in sync.** Editing the file updates the app, and changing something in Settings updates the app at once. Where Settings saves the change depends on the version: see [Layers](#layers).
 - **Live reload.** Saved changes apply immediately, with no restart. Delete a line to go back to its default.
 - **Typos are safe.** If the file can't be parsed, the app keeps the last good settings and shows a banner such as `config.toml line 7: <error>`. A value of the wrong type falls back to its default and is reported the same way.
 - **Settings → Open config folder** opens the folder; **Reload** re-reads it.
 
-## Precedence
+> **Next release.** Settings no longer rewrites `config.toml`, and a key the app doesn't know is reported. Both are described below and are not in the current download yet. In 0.1.2, Settings writes to `config.toml` and keeps your comments and layout.
+
+## Layers
+
+A setting's value comes from the first of these that sets it, highest first:
+
+| Layer | File | Written by |
+| --- | --- | --- |
+| Vault | `<vault>/.excalidraw-vault/settings.toml` | Settings, with **This vault** on |
+| Overrides | `overrides.toml` in the state folder, next to `state.json` | Settings, `vaultdraw config set`, the control API |
+| Your file | `config.toml` in the config folder | you, by hand |
+| Built-in | the app | nobody |
 
 ```mermaid
 flowchart LR
-  A["Vault: .excalidraw-vault/settings.toml"] --> B["config.toml"] --> C["Built-in default"]
+  D["Built-in default"] --> C["config.toml"] --> O["overrides.toml"] --> V["Vault settings.toml"] --> E["Value in effect"]
 ```
 
-*A value comes from the vault's settings file if set there, otherwise from config.toml, otherwise the built-in default.*
+*Each layer wins over the ones to its left. Settings, the command line and the control API write `overrides.toml`, never `config.toml`.*
+
+- **Next release: your `config.toml` stays as you wrote it.** Comments, order and layout are kept, and a dotfiles checkout or a read-only config folder works.
+- A Settings change that matches `config.toml` is not stored. **Reset** over a value that `config.toml` sets stores the default, so the default wins.
+- `overrides.toml` is plain TOML and safe to delete: values fall back to `config.toml` at once. It reloads live.
+- Nothing is migrated. What older versions wrote into `config.toml` stays there as the base layer.
+- If either file is broken, the app keeps the last good settings, the banner names the file, and Settings refuses to save until you fix the file or delete `overrides.toml`.
+- Older versions ignore `overrides.toml`.
 
 Only some settings can be set per vault. See [Per-vault settings](/docs/per-vault-settings/).
+
+### Including other files
+
+> **Next release.** Not in the current download yet.
+
+`[include]` in `config.toml` pulls in other TOML files or folders of them, to split a config or share part of it between machines:
+
+```toml
+[include]
+files = ["keys.toml", "machine/", "~/dotfiles/vaultdraw/colors.toml"]
+```
+
+Relative paths are against the including file, and `~` works. Includes nest up to 8 deep, each file loads once, and `config.toml` wins over what it includes. Nothing is loaded that you did not name. A missing or broken included file is a warning, and the rest applies. Files inside a vault and symlinks are refused. Vaultdraw never writes to an included file, and editing one reloads live. Without an `[include]` it costs nothing.
+
+## Where a value comes from
+
+> **Next release.** Not in the current download yet.
+
+A setting that is not at its built-in default shows a small chip beside its name: `config.toml` or `overrides`. When Settings hides a different `config.toml` value, the note names it ("config.toml says 14"), and **Reset to config.toml value** removes the stored value without touching your file.
+
+**Settings → General → Config files** lists both files with their paths and status, an **Open** button for each, **Reload**, and **Reset all Settings changes**.
+
+| Command | Does |
+| --- | --- |
+| `config.reload` | Re-read the config files now |
+| `config.openFile` | Open `config.toml` |
+| `config.openOverrides` | Show `overrides.toml` in the file manager |
+| `config.openFolder` | Open the config folder |
+| `config.resetOverrides` | Delete `overrides.toml` after a confirmation |
+
+They have no default keys; bind them in [Hotkeys](/docs/keyboard/). From Terminal:
+
+```bash
+vaultdraw config get editor.font_size --source
+# 20  (overrides.toml; config.toml says 14)
+vaultdraw config path --all      # config.toml, then overrides.toml
+```
+
+## Check your config
+
+> **Next release.** Not in the current download yet.
+
+`vaultdraw config check` reads `config.toml` and `overrides.toml` and prints each problem with its file, line and column. A key it doesn't know gets a "did you mean" hint. It works with the app closed, only reads, and never uses the network.
+
+```bash
+vaultdraw config check
+# config.toml:2:1: warning: unknown key interface.zom (ignored; did you mean interface.zoom?)
+# config.toml:3:1: error: interface.zoom = "big" is not valid (expected a whole number between 50 and 200)
+# 1 error, 1 warning in 1 config file.
+```
+
+| Exit code | When |
+| --- | --- |
+| 0 | No errors (warnings are allowed) |
+| 1 | At least one error; with `--strict`, any warning too |
+
+`--json` prints the report as JSON. In the app, run **Config: Check config files** from the palette, or press **Check** in **Settings → General → Config files**.
+
+**Editor completion.** `vaultdraw config schema` prints a JSON Schema of `config.toml`. Save it and add `#:schema ./config.schema.json` as the first line of `config.toml`; editors that read it (taplo, Even Better TOML) then complete and check keys. Nothing is fetched from the network.
+
+```bash
+vaultdraw config schema > ~/.config/vaultdraw/config.schema.json
+```
+
+**Debug info.** `vaultdraw doctor`, or **Config: Show debug info** in the palette, prints one read-only report for bug reports: versions, folders, config files, the keys you changed and the file each comes from, extensions, the vault's search index and the control socket. It writes nothing and works with the app closed. It contains your folder paths, so read it before you paste it into an issue.
 
 ## [appearance]
 
@@ -52,6 +136,7 @@ Only some settings can be set per vault. See [Per-vault settings](/docs/per-vaul
 | `sync_canvas` | `false` | The canvas follows the theme's colours |
 | `canvas_background` | `"#ffffff"` | Background of new drawings when `sync_canvas` is off |
 | `accent_color` | `""` | `"#rrggbb"` replaces the theme's primary colour; empty is the theme's own |
+| `snippets` | `[]` | CSS snippets to apply, by file name without `.css`, in order (see [Themes](/docs/themes/#css-snippets)). Next release |
 
 ## [editor]
 
