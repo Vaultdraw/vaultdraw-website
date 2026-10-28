@@ -5,7 +5,7 @@ group: Getting started
 order: 1
 ---
 
-Vaultdraw runs on macOS, on Apple Silicon and on Intel. Windows and Linux builds are not available yet.
+Vaultdraw {{version}} runs on macOS, on Apple Silicon and on Intel. Windows is not available. Linux builds come with the next release (0.2.0), see [Linux](#linux).
 
 ## Install the app
 
@@ -60,6 +60,14 @@ If macOS says the app is "damaged", or the `vaultdraw` command stops with `Kille
 ```
 
 After the first open, it starts like any other app.
+
+## Linux
+
+> **Next release (0.2.0).** These packages are not published yet. Until then, this page's download is the macOS build.
+
+Version 0.2.0 adds Linux packages for x86_64 and arm64: a `.deb` and an AppImage for each. They are new and were smoke-launched under a virtual display, not on every desktop. They include the `vaultdraw` command, PDF import and a custom title bar. Check the files against `SHA256SUMS` as above.
+
+On a vault bigger than the system's inotify watch limit, Vaultdraw polls the vault instead of watching it (`files.watch_poll_ms`, default 5000) and tells you once on open. To get the normal watcher back, raise `fs.inotify.max_user_watches` and reopen the vault.
 
 ## Updates
 

@@ -10,7 +10,7 @@ import { RELEASE, SITE } from "../data/site.js";
 const platforms = [
   { name: "macOS", detail: `${RELEASE.macs}, one universal DMG`, status: "Available", ready: true },
   { name: "Windows", detail: "", status: "Not yet", ready: false },
-  { name: "Linux", detail: "", status: "Not yet", ready: false },
+  { name: "Linux", detail: "x86_64 and arm64, .deb and AppImage", status: "Next release", ready: false },
 ];
 ---
 
@@ -131,11 +131,14 @@ shasum -a 256 -c SHA256SUMS`,
     <section class="dl__sec" aria-labelledby="know-title">
       <h2 id="know-title">Good to know</h2>
       <ul class="dl__know">
-        <li>macOS only for now. Windows and Linux builds don't exist yet.</li>
+        <li>This download is macOS only. Windows is not available. Linux packages come with the next release (0.2.0), see <a href="/docs/install/#linux">Install</a>.</li>
         <li>There is no automatic update yet. Check <a href={RELEASE.allUrl}>All releases</a> for new versions.</li>
         <li>Plugins are experimental and their interface may change.</li>
         <li>
           Memory: about 215 MB when idle, peaking around 420 MB while opening drawings in a typical vault.
+          Next release (0.2.0), measured the same way on a quiet machine with three small drawings open: about 250 MB idle and
+          a peak of about 470 MB. The opt-in <code>memory.low_memory_canvas</code> lowers the peak to about 365 MB, at about 60
+          instead of 120 frames per second while panning.
         </li>
         <li>
           The <code>vaultdraw</code> command is optional. It is installed from the command palette (Cmd+Shift+P →{" "}
