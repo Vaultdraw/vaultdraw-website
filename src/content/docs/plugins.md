@@ -47,7 +47,7 @@ pdf-import = false
 
 You can install a plugin from a folder. Plugins that are not bundled are trusted code: they run inside the app, so only enable plugins you trust, and read the permission prompt.
 
-The in-app **Browse community plugins** list reads a registry (`plugins.registry_url`, the `Vaultdraw/plugin-registry` repository) that does not exist yet, so Browse shows an error for now. Fetching it asks once for network consent, and you can revoke that (`network.allow_plugins`).
+The in-app **Browse community plugins** list reads a registry (`plugins.registry_url`, the [`Vaultdraw/plugin-registry`](https://github.com/Vaultdraw/plugin-registry) repository), which has no plugins yet, so Browse is empty for now. Fetching it asks once for network consent, and you can revoke that (`network.allow_plugins`).
 
 ## Writing a plugin
 
