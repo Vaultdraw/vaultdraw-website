@@ -18,6 +18,17 @@ Vaultdraw ships Noctalia's palettes and the Noctalia community collection. You c
 
 > **Next release.** Only eight built-in themes (Default, Noctalia, Catppuccin, Dracula, Gruvbox, Nord, Rosé Pine and Tokyo Night) are part of the code read at startup. The others load the moment you pick one, and the theme in `config.toml` loads before the first paint, so nothing flashes. The theme code read at startup shrinks from 210 KB to 67 KB.
 
+## Community themes
+
+> **Next release (0.2.0).** The themes browser and installs are not in the current download ({{version}}) yet.
+
+The [Vaultdraw/themes](https://github.com/Vaultdraw/themes) repository holds over a hundred more palettes, credited to their authors. **Settings → Appearance → Install more themes…** (or `Themes: Browse community themes`) opens a grid with previews, author, credit, licence, search and filters, and Install, Update, Use and Remove buttons. It works from the keyboard and loads only when you open it.
+
+- **Asked once.** Downloading is off until you allow it. The first install asks, and the answer is saved as `network.allow_themes`. You can revoke it in **Settings → General**, and `network.enabled = false` turns every download off. Nothing is requested before you open the browser.
+- **Checked.** Each theme file is checked against the list's SHA-256 before it is written. Only https to public hosts is used.
+- **From a URL.** **Install from URL…** (`Themes: Install from URL or GitHub repo`) installs one theme file, or lists the themes in a GitHub repo, into your `themes/` folder.
+- **Offline.** The list is cached and shown offline with a notice. Installed themes are plain files you keep.
+
 ## Sync canvas with theme
 
 With **Sync canvas with theme** on, the canvas is recoloured on screen: its background becomes the theme's, and the stroke and fill colours from Excalidraw's palette become matching theme colours. Only the display changes. Saved drawings and exports keep Excalidraw's standard colours, so they look the same to anyone who opens them.

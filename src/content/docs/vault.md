@@ -54,6 +54,38 @@ Two commands help:
 
 Sync tools, git and other editors may change your files while Vaultdraw is open. Vaultdraw watches the vault and reloads a drawing that changed on disk. If you had unsaved edits to it, it asks what to keep instead of overwriting either version. A version of your drawing is saved to history before an outside change is applied.
 
+## Back up and restore
+
+> **Next release (0.2.0).** Not in the current download ({{version}}) yet.
+
+A backup is one zip of your vault that you can keep anywhere. It is made in the background, checked after it is written, and never changes the vault. Nothing runs on a schedule unless you turn it on.
+
+1. Run **Vault: Back up vault…** (or Settings → General → Backup) and pick a folder outside the vault. The zip is `<vault name> backup <date>.zip`.
+2. To restore, run **Vault: Restore from backup…**, pick the zip, then a folder. It is extracted into a new folder, never over anything that exists, and you can then open it as a vault.
+3. From Terminal, without the app: `vaultdraw backup` and `vaultdraw restore <zip> <dir>`.
+
+The zip holds your drawings, notes, attachments and folders, and by default the vault's settings. File history is left out unless `backup.include_history` is on. Other dot-folders and symbolic links are never included. After writing, the zip is read back and each file's checksum is compared, and a zip that fails is deleted.
+
+`backup.every` (`"off"`, `"daily"` or `"weekly"`), `backup.folder` and `backup.keep` (default 5) set up scheduled backups. A plain zip is limited to under 4 GiB and 65,534 files; a bigger vault is refused with a message.
+
+## Vaults in synced folders
+
+> **Next release (0.2.0).** Not in the current download ({{version}}) yet.
+
+A vault can live in iCloud Drive, Dropbox, Syncthing or OneDrive. Vaultdraw never overwrites a file a sync service changed behind its back: a save checks the file's revision, and a changed file shows the usual conflict banner.
+
+- Conflict copies (`name (conflicted copy …)`, `name.sync-conflict-…`, iCloud's `name 2`) show in the file tree with a `conflict` badge (`sync.conflict_badge`). They are never merged or deleted by themselves.
+- In a conflict copy's **⋯** menu, **Compare with original…** shows both versions side by side. Keeping one saves the other in History and moves the conflict copy to the Trash.
+- Temporary files such as `x.tmp` and `.syncthing.*` stay out of the tree, search and watcher.
+
+Compare and keep work for `.excalidraw` drawings. OneDrive's `name-COMPUTER.ext` copies are not recognised.
+
+## Read-only drawing files
+
+> **Next release (0.2.0).** Not in the current download ({{version}}) yet.
+
+A drawing whose file has no write permission, or is Locked in Finder, opens in view mode with a banner and a **Save a copy** button. Saving over such a file is refused. Make the file writable and the banner lifts on its own.
+
 ## Read-only vault
 
 Only one copy of Vaultdraw writes to a vault at a time. If a vault cannot be written (another copy of Vaultdraw holds it, or the folder is not writable), it opens read-only and the app says why. Fix the cause, then run **Retry opening vault writable** from the palette.

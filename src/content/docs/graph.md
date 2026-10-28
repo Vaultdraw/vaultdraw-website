@@ -7,6 +7,8 @@ order: 8
 
 ![The graph view of a vault](../../assets/shots/graph-rose-pine-dark.webp)
 
+> **Next release (0.2.0).** The graph view becomes an official plugin, on by default. You can switch it off in Settings → Extensions, and then it costs nothing. Commands, keys and `[graph]` settings stay the same. See [Plugins](/docs/plugins/).
+
 **Cmd+Option+G** shows every drawing as a dot and every link as a line, over the canvas. **Esc**, or the same key again, returns to your drawing at the same zoom and position.
 
 **Cmd+Option+L** opens the **local graph**: the open drawing and the drawings within one to three links of it.
