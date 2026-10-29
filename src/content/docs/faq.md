@@ -11,7 +11,7 @@ Yes. It is MIT licensed, and the code is on [GitHub](https://github.com/Vaultdra
 
 ## Does it work offline?
 
-Yes. Everything runs on your computer. Fonts and other assets are bundled with the app, and Mermaid diagrams and LaTeX formulas are converted offline. There is no account and no cloud.
+Yes. Everything runs on your computer. Fonts and other assets are bundled with the app, and Mermaid diagrams and LaTeX formulas are converted offline. There is no account and no cloud. From 0.2.0 a few optional features (community themes and plugins, web pictures, a quiet update check) use the internet, and one switch, **Offline mode**, turns them all off. See [Privacy and your data](/docs/privacy/).
 
 ## Does it collect any data?
 

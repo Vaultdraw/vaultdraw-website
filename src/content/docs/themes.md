@@ -24,10 +24,10 @@ Vaultdraw ships Noctalia's palettes and the Noctalia community collection. You c
 
 The [Vaultdraw/themes](https://github.com/Vaultdraw/themes) repository holds over a hundred more palettes, credited to their authors. **Settings → Appearance → Install more themes…** (or `Themes: Browse community themes`) opens a grid with previews, author, credit, licence, search and filters, and Install, Update, Use and Remove buttons. It works from the keyboard and loads only when you open it.
 
-- **Asked once.** Downloading is off until you allow it. The first install asks, and the answer is saved as `network.allow_themes`. You can revoke it in **Settings → General**, and `network.enabled = false` turns every download off. Nothing is requested before you open the browser.
+- **No question.** Downloading is on by default and nothing asks first. **Offline mode** (**Settings → General**) turns every download off, and `network.allow_themes = false` turns off just theme downloads. Nothing is requested before you open the browser.
 - **Checked.** Each theme file is checked against the list's SHA-256 before it is written. Only https to public hosts is used.
 - **From a URL.** **Install from URL…** (`Themes: Install from URL or GitHub repo`) installs one theme file, or lists the themes in a GitHub repo, into your `themes/` folder.
-- **Offline.** The list is cached and shown offline with a notice. Installed themes are plain files you keep.
+- **No connection.** The list is cached and shown with a notice. In Offline mode the browser makes no request and says so. Installed themes are plain files you keep.
 
 ## Sync canvas with theme
 

@@ -5,7 +5,7 @@ group: About
 order: 1
 ---
 
-Vaultdraw has no account, no cloud and no telemetry. It doesn't connect to the internet: fonts and assets are bundled, and Mermaid diagrams, formulas and PDF pages are converted on your computer.
+Vaultdraw has no account, no cloud and no telemetry. Fonts and assets are bundled, and Mermaid diagrams, formulas and PDF pages are converted on your computer. Your drawings never leave the folder. See [Network](#network) for the few features that use the internet and the one switch that turns them off.
 
 ## Where your data lives
 
@@ -43,6 +43,14 @@ Drawings are standard `.excalidraw` JSON, settings are TOML, and themes are JSON
 
 > **Next release (0.2.0).** Each plugin is gated by a permission prompt, and a plugin that has never run always asks first. Community plugins cannot take an official plugin's id. After two crashed launches in a row the app starts with no plugins. The official plugins are bundled, on by default and switchable; the community plugin list does not exist yet.
 
+## Network
+
+> **Next release (0.2.0).** The current download ({{version}}) never connects to the internet.
+
+The internet is on by default and nothing asks first. Vaultdraw uses it only for features you use: browsing and installing community themes and plugins, and showing the pictures of a web page you import or paste. About fifteen seconds after the app starts it also asks GitHub once whether a newer version exists, and shows a small notice only if there is one. There is no telemetry and nothing else runs in the background.
+
+**Offline mode** turns all of that off in one place: **Settings → General → Offline mode**, the palette command **Offline mode: on or off**, or `network.offline = true` in `config.toml`. While it is on, a small **Offline** badge sits in the header, no request leaves the app, and each feature says why it is off. You can also turn off one thing: the update check (`updates.check_on_startup`), theme downloads, the plugin list or web pictures (`network.allow_*`). See [Configuration](/docs/configuration/).
+
 ## Data safety
 
 > **Next release (0.2.0).** These fixes are not in the current download ({{version}}) yet.
@@ -52,7 +60,7 @@ Drawings are standard `.excalidraw` JSON, settings are TOML, and themes are JSON
 - Saving never replaces a read-only or Finder-locked drawing. Such files open in view mode with **Save a copy**.
 - Repeated failed saves keep one recovery copy per drawing, so recovery storage does not fill up.
 - `vaultdraw://cmd` links run only an allow list of safe commands.
-- Downloads (themes, the plugin list) need your consent, use https to public hosts only, and are checked against a checksum. Nothing is requested in the background.
+- Downloads (themes, the plugin list, web pictures) use only public addresses, with size limits and timeouts, and themes and plugins are checked against a checksum.
 
 ## Open source
 
