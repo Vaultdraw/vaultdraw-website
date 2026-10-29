@@ -18,7 +18,6 @@ They are bundled with the app and on by default, except auto-export.
 | `graph` | The [graph view](/docs/graph/) of links between drawings |
 | `gallery` | The thumbnail gallery of drawings |
 | `favourites` | Bookmarks for drawings, notes and single elements, in a side panel |
-| `frames` | A Frames panel in slide order, and presenting |
 | `formula` | LaTeX formulas, and the TeX renderer for `$…$` in notes (see [Mermaid and LaTeX](/docs/mermaid-and-latex/)) |
 | `mermaid` | Mermaid diagrams to Excalidraw shapes |
 | `pdf-import` | [PDF import](/docs/pdf-import/) |

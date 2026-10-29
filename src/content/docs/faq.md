@@ -60,7 +60,7 @@ Yes, with the `vaultdraw` command. See [the command line](/docs/cli/).
 
 ## Are there plugins?
 
-Yes, experimental ones. The next release (0.2.0) ships official plugins (graph, gallery, favourites, frames, formula, Mermaid, PDF import, table, Markdown import and auto-export) that you can switch off. See [Plugins](/docs/plugins/).
+Yes, experimental ones. The next release (0.2.0) ships official plugins (graph, gallery, favourites, formula, Mermaid, PDF import, table, Markdown import and auto-export) that you can switch off. See [Plugins](/docs/plugins/).
 
 ## Where do I report a bug or ask for a feature?
 
