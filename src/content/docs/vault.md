@@ -15,7 +15,7 @@ The file tree lists the vault. It loads folders lazily, so large vaults open qui
 - **Drag and drop.** Drag drawings and folders onto a folder, or onto the root, to move them.
 - **Move to Trash.** Uses the system Trash, so you can undo it from there. Turn off the confirmation in **Settings → Files**.
 - **Sort.** By name or by date modified, from the sort button or the **Sort:** commands. Folders always come first, and numbers sort naturally, so "Drawing 2" comes before "Drawing 10".
-- **Keys (next release).** Press **Cmd+Option+F** to focus the tree, then `j`/`k` to move, `h`/`l` to close and open folders and Enter to open. See [file tree and list keys](/docs/keyboard/#file-tree-and-list-keys).
+- **Keys.** Press **Cmd+Option+F** to focus the tree, then `j`/`k` to move, `h`/`l` to close and open folders and Enter to open. See [file tree and list keys](/docs/keyboard/#file-tree-and-list-keys).
 - **Reveal in Finder.** Run **Reveal drawing in Finder** or **Reveal vault folder** from the palette.
 
 ## New drawings and Finder files
@@ -56,8 +56,6 @@ Sync tools, git and other editors may change your files while Vaultdraw is open.
 
 ## Back up and restore
 
-> **Next release (0.2.0).** Not in the current download ({{version}}) yet.
-
 A backup is one zip of your vault that you can keep anywhere. It is made in the background, checked after it is written, and never changes the vault. Nothing runs on a schedule unless you turn it on.
 
 1. Run **Vault: Back up vault…** (or Settings → General → Backup) and pick a folder outside the vault. The zip is `<vault name> backup <date>.zip`.
@@ -70,8 +68,6 @@ The zip holds your drawings, notes, attachments and folders, and by default the 
 
 ## Vaults in synced folders
 
-> **Next release (0.2.0).** Not in the current download ({{version}}) yet.
-
 A vault can live in iCloud Drive, Dropbox, Syncthing or OneDrive. Vaultdraw never overwrites a file a sync service changed behind its back: a save checks the file's revision, and a changed file shows the usual conflict banner.
 
 - Conflict copies (`name (conflicted copy …)`, `name.sync-conflict-…`, iCloud's `name 2`) show in the file tree with a `conflict` badge (`sync.conflict_badge`). They are never merged or deleted by themselves.
@@ -81,8 +77,6 @@ A vault can live in iCloud Drive, Dropbox, Syncthing or OneDrive. Vaultdraw neve
 Compare and keep work for `.excalidraw` drawings. OneDrive's `name-COMPUTER.ext` copies are not recognised.
 
 ## Read-only drawing files
-
-> **Next release (0.2.0).** Not in the current download ({{version}}) yet.
 
 A drawing whose file has no write permission, or is Locked in Finder, opens in view mode with a banner and a **Save a copy** button. Saving over such a file is refused. Make the file writable and the banner lifts on its own.
 

@@ -28,12 +28,12 @@ vaultdraw/
 
 ## How it behaves
 
-- **Settings and the file stay in sync.** Editing the file updates the app, and changing something in Settings updates the app at once. Where Settings saves the change depends on the version: see [Layers](#layers).
+- **Settings and the file stay in sync.** Editing the file updates the app, and changing something in Settings updates the app at once. Settings saves to `overrides.toml`: see [Layers](#layers).
 - **Live reload.** Saved changes apply immediately, with no restart. Delete a line to go back to its default.
 - **Typos are safe.** If the file can't be parsed, the app keeps the last good settings and shows a banner such as `config.toml line 7: <error>`. A value of the wrong type falls back to its default and is reported the same way.
 - **Settings → Open config folder** opens the folder; **Reload** re-reads it.
 
-> **Next release.** Settings no longer rewrites `config.toml`, and a key the app doesn't know is reported. Both are described below and are not in the current download yet. In 0.1.2, Settings writes to `config.toml` and keeps your comments and layout.
+Settings no longer rewrites `config.toml`, and a key the app doesn't know is reported. Both are described below.
 
 ## Layers
 
@@ -53,7 +53,7 @@ flowchart LR
 
 *Each layer wins over the ones to its left. Settings, the command line and the control API write `overrides.toml`, never `config.toml`.*
 
-- **Next release: your `config.toml` stays as you wrote it.** Comments, order and layout are kept, and a dotfiles checkout or a read-only config folder works.
+- **Your `config.toml` stays as you wrote it.** Comments, order and layout are kept, and a dotfiles checkout or a read-only config folder works.
 - A Settings change that matches `config.toml` is not stored. **Reset** over a value that `config.toml` sets stores the default, so the default wins.
 - `overrides.toml` is plain TOML and safe to delete: values fall back to `config.toml` at once. It reloads live.
 - Nothing is migrated. What older versions wrote into `config.toml` stays there as the base layer.
@@ -63,8 +63,6 @@ flowchart LR
 Only some settings can be set per vault. See [Per-vault settings](/docs/per-vault-settings/).
 
 ### Including other files
-
-> **Next release.** Not in the current download yet.
 
 `[include]` in `config.toml` pulls in other TOML files or folders of them, to split a config or share part of it between machines:
 
@@ -76,8 +74,6 @@ files = ["keys.toml", "machine/", "~/dotfiles/vaultdraw/colors.toml"]
 Relative paths are against the including file, and `~` works. Includes nest up to 8 deep, each file loads once, and `config.toml` wins over what it includes. Nothing is loaded that you did not name. A missing or broken included file is a warning, and the rest applies. Files inside a vault and symlinks are refused. Vaultdraw never writes to an included file, and editing one reloads live. Without an `[include]` it costs nothing.
 
 ## Where a value comes from
-
-> **Next release.** Not in the current download yet.
 
 A setting that is not at its built-in default shows a small chip beside its name: `config.toml` or `overrides`. When Settings hides a different `config.toml` value, the note names it ("config.toml says 14"), and **Reset to config.toml value** removes the stored value without touching your file.
 
@@ -100,8 +96,6 @@ vaultdraw config path --all      # config.toml, then overrides.toml
 ```
 
 ## Check your config
-
-> **Next release.** Not in the current download yet.
 
 `vaultdraw config check` reads `config.toml` and `overrides.toml` and prints each problem with its file, line and column. A key it doesn't know gets a "did you mean" hint. It works with the app closed, only reads, and never uses the network.
 
@@ -136,7 +130,7 @@ vaultdraw config schema > ~/.config/vaultdraw/config.schema.json
 | `sync_canvas` | `false` | The canvas follows the theme's colours |
 | `canvas_background` | `"#ffffff"` | Background of new drawings when `sync_canvas` is off |
 | `accent_color` | `""` | `"#rrggbb"` replaces the theme's primary colour; empty is the theme's own |
-| `snippets` | `[]` | CSS snippets to apply, by file name without `.css`, in order (see [Themes](/docs/themes/#css-snippets)). Next release |
+| `snippets` | `[]` | CSS snippets to apply, by file name without `.css`, in order (see [Themes](/docs/themes/#css-snippets)). |
 
 ## [editor]
 
@@ -186,7 +180,7 @@ Page mode for new drawings. See [Page mode](/docs/page-mode/).
 | `interface.zoom` | `100` | Whole-app zoom, 50 to 200 percent |
 | `interface.show_tag_chips` | `true` | Show a drawing's tags as chips in the file tree |
 | `interface.thumbnails` | `true` | Drawing previews on the home screen, in search results and in the palette |
-| `interface.thumbnail_max_elements` | `8000` | Biggest drawing that gets a thumbnail, 100 to 50000. Next release (before it was fixed at 2,500). Bigger drawings keep a placeholder. Applies live. Lower it on a slow machine |
+| `interface.thumbnail_max_elements` | `8000` | Biggest drawing that gets a thumbnail, 100 to 50000. Before 0.2.0 it was fixed at 2,500. Bigger drawings keep a placeholder. Applies live. Lower it on a slow machine |
 | `interface.activity_bar` | `true` | Show the activity bar |
 | `navigator.sort` | `"name_asc"` | `name_asc`, `name_desc`, `modified_desc`, `modified_asc` |
 | `files.confirm_delete` | `true` | Ask before moving to Trash |
@@ -194,8 +188,6 @@ Page mode for new drawings. See [Page mode](/docs/page-mode/).
 | `files.templates_folder` | `"Templates"` | Vault folder holding templates, relative to the vault root |
 
 ## [memory]
-
-> **Next release.** Not in the current download yet. Both keys are merged in the app and come with the next version.
 
 | Key | Default | Values |
 | --- | --- | --- |
@@ -287,8 +279,6 @@ Only your changes are stored, as a list of keys per command id. See [Keyboard an
 
 ## [keys]
 
-> **Next release.** Not in the current download yet. Key sequences are merged in the app and come with the next version.
-
 Options for key sequences such as `"g g"` or `"<leader> f f"` in `[hotkeys]`. Nothing is bound by default. All keys reload live.
 
 ```toml
@@ -317,8 +307,6 @@ which_key_position = "bottom"   # bottom | center
 The times are in milliseconds, 0 to 3600000. See [Keyboard](/docs/keyboard/#key-sequences-leader-and-which-key).
 
 ## [control] and [ai]
-
-> **Next release.** Not in the current download yet. `control.enabled` is in 0.1.2; the other keys are merged in the app and come with the next version.
 
 | Key | Default | Values |
 | --- | --- | --- |

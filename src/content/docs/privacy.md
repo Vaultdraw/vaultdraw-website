@@ -41,19 +41,15 @@ Drawings are standard `.excalidraw` JSON, settings are TOML, and themes are JSON
 
 [Plugins](/docs/plugins/) run with full access inside the app. Only enable plugins you trust. With no plugins enabled, the plugin host isn't loaded.
 
-> **Next release (0.2.0).** Each plugin is gated by a permission prompt, and a plugin that has never run always asks first. Community plugins cannot take an official plugin's id. After two crashed launches in a row the app starts with no plugins. The official plugins are bundled, on by default and switchable; the community plugin list does not exist yet.
+Each plugin is gated by a permission prompt, and a plugin that has never run always asks first. Community plugins cannot take an official plugin's id. After two crashed launches in a row the app starts with no plugins. The official plugins are bundled, on by default and switchable; the community plugin list does not exist yet.
 
 ## Network
-
-> **Next release (0.2.0).** The current download ({{version}}) never connects to the internet.
 
 The internet is on by default and nothing asks first. Vaultdraw uses it only for features you use: browsing and installing community themes and plugins, and showing the pictures of a web page you import or paste. About fifteen seconds after the app starts it also asks GitHub once whether a newer version exists, and shows a small notice only if there is one. There is no telemetry and nothing else runs in the background.
 
 **Offline mode** turns all of that off in one place: **Settings → General → Offline mode**, the palette command **Offline mode: on or off**, or `network.offline = true` in `config.toml`. While it is on, a small **Offline** badge sits in the header, no request leaves the app, and each feature says why it is off. You can also turn off one thing: the update check (`updates.check_on_startup`), theme downloads, the plugin list or web pictures (`network.allow_*`). See [Configuration](/docs/configuration/).
 
 ## Data safety
-
-> **Next release (0.2.0).** These fixes are not in the current download ({{version}}) yet.
 
 - Quitting, closing the window and switching vault write every open note first.
 - Renaming or moving a drawing onto a name that differs only by accent or Unicode form can no longer replace another file.

@@ -38,8 +38,6 @@ vaultdraw cmd vault.newDrawing   # short form
 
 ## Hand over a link
 
-> **Next release.** Not in the current download yet.
-
 ```bash
 vaultdraw uri 'vaultdraw://open?file=Graphs/BFS'
 ```
@@ -47,8 +45,6 @@ vaultdraw uri 'vaultdraw://open?file=Graphs/BFS'
 Checks a `vaultdraw://` link and gives it to the running app. It prints `done`, or `asking` when the app waits for you. See [Links and files from outside](/docs/links-from-outside/).
 
 ## Export a drawing
-
-> **Next release.** Not in the current download yet.
 
 ```bash
 vaultdraw export "Roadmap"                    # Roadmap.png in the current folder
@@ -81,7 +77,7 @@ Large exports are handed over through a temporary file, so the `vaultdraw` comma
 
 ## Read and edit the drawing on screen
 
-> **Next release.** Not in the current download yet. The `scene` commands are experimental: names and shapes may change.
+The `scene` commands are experimental: names and shapes may change.
 
 The `scene` commands work on the drawing that is open in the running app.
 

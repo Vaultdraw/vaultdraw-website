@@ -5,8 +5,6 @@ group: Customise
 order: 7
 ---
 
-> **Next release (0.2.0).** Profiles are not in the current download ({{version}}) yet.
-
 A profile is a named set of settings, keys, theme and extensions: one for work, one for a talk, one with every plugin off. It is a plain folder next to your `config.toml`, and it costs nothing when you use none. The default profile is your existing config, so nothing needs migrating.
 
 ```mermaid

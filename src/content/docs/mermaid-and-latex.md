@@ -7,7 +7,7 @@ order: 13
 
 Both work offline: nothing is sent anywhere to convert them.
 
-> **Next release (0.2.0).** Mermaid and LaTeX formulas become the official `mermaid` and `formula` plugins, on by default. Switch either off in Settings → Extensions and it costs nothing. See [Plugins](/docs/plugins/).
+Mermaid and LaTeX formulas are the official `mermaid` and `formula` plugins, on by default. Switch either off in Settings → Extensions and it costs nothing. See [Plugins](/docs/plugins/).
 
 ## Mermaid diagrams
 

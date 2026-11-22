@@ -5,8 +5,6 @@ group: Using Vaultdraw
 order: 12
 ---
 
-> **Next release (0.2.0).** Notes, Obsidian vaults and Markdown import are not in the current download ({{version}}) yet.
-
 Markdown notes (`.md`) open in a tab next to your drawings. An Obsidian vault is a folder of notes, so it opens as a vault as it is. You can also turn notes into drawings.
 
 ## Notes in tabs

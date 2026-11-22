@@ -16,11 +16,9 @@ sync_canvas = true
 
 Vaultdraw ships Noctalia's palettes and the Noctalia community collection. You can also pick one from the palette: `Theme: Nord`. The [theme grid on the home page](/#themes) shows them all; click one to try it on this site.
 
-> **Next release.** Only eight built-in themes (Default, Noctalia, Catppuccin, Dracula, Gruvbox, Nord, Rosé Pine and Tokyo Night) are part of the code read at startup. The others load the moment you pick one, and the theme in `config.toml` loads before the first paint, so nothing flashes. The theme code read at startup shrinks from 210 KB to 67 KB.
+Only eight built-in themes (Default, Noctalia, Catppuccin, Dracula, Gruvbox, Nord, Rosé Pine and Tokyo Night) are part of the code read at startup. The others load the moment you pick one, and the theme in `config.toml` loads before the first paint, so nothing flashes. The theme code read at startup shrinks from 210 KB to 67 KB.
 
 ## Community themes
-
-> **Next release (0.2.0).** The themes browser and installs are not in the current download ({{version}}) yet.
 
 The [Vaultdraw/themes](https://github.com/Vaultdraw/themes) repository holds over a hundred more palettes, credited to their authors. **Settings → Appearance → Install more themes…** (or `Themes: Browse community themes`) opens a grid with previews, author, credit, licence, search and filters, and Install, Update, Use and Remove buttons. It works from the keyboard and loads only when you open it.
 
@@ -62,8 +60,6 @@ Leave out `light` or `dark` and it is generated from the other.
 Themes are data only: colour values, no code. A custom accent (`appearance.accent_color`) can replace any theme's primary colour.
 
 ## CSS snippets
-
-> **Next release.** Not in the current download yet.
 
 For what a theme can't do (spacing, fonts, hiding a button, a wider sidebar), add your own CSS, as in Obsidian. Put `.css` files in `snippets/` in the config folder and turn each on in **Settings → Appearance → CSS snippets** or in `config.toml`:
 

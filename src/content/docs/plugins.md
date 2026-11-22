@@ -5,7 +5,7 @@ group: Plugins
 order: 1
 ---
 
-> **Next release (0.2.0).** The official plugins, the AI assistant, the plugin settings page and plugin API 1.0 are not in the current download ({{version}}) yet. In {{version}} these features are built in, and the plugin host loads only plugins you enable by id. Plugins are experimental: the interface may change.
+The official plugins, the AI assistant, the plugin settings page and plugin API 1.0 are part of {{version}}. Plugins are experimental: the interface may change.
 
 Optional features are plugins. The core stays small, each plugin loads only when you use it, and one you switch off costs nothing: no command, no service, no memory.
 

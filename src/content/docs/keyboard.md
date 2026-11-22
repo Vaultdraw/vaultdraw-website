@@ -57,8 +57,6 @@ A drawing can get its own key too: **Assign hotkey to this drawing** in the pale
 
 ## Key sequences, leader and which-key
 
-> **Next release.** Not in the current download yet. It is merged in the app and comes with the next version.
-
 A key can be a sequence of chords, like Vim's `gg` or `<leader> f f`. Sequences are plain text in `[hotkeys]`, so nothing is bound until you write one. With none set, Vaultdraw does no extra work per key and starts no timers.
 
 ```toml
@@ -96,8 +94,6 @@ How it behaves:
 
 ## File tree and list keys
 
-> **Next release.** Not in the current download yet.
-
 The file tree, the Tags list, the Links panel and the Settings page list share one set of `list.*` commands. Their keys work only while that list has focus: click into it, or press **Mod+Alt+F** for the file tree. On the canvas `r` is still the rectangle tool, and in a text box `j` still types a `j`.
 
 | Key | Action |
@@ -125,8 +121,6 @@ Each key is a command (`list.down`, `list.collapse`, `list.delete` and so on). T
 Rename, delete, move and the row menu need a focused row. With none, they do nothing and the key passes on.
 
 ## Gallery and graph keys
-
-> **Next release.** Not in the current download yet.
 
 The keys of the [gallery](/docs/tour/#home-screen-and-gallery) grid and the [graph view](/docs/graph/#keys) are commands too, so you can rebind them like any other. They work only while that view has focus.
 

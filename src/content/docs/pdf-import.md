@@ -7,7 +7,7 @@ order: 11
 
 Import a PDF to annotate it: slides, papers, worksheets. Each page becomes an image in the open drawing.
 
-> **Next release (0.2.0).** PDF import becomes an official plugin, on by default. Switch it off with `[extensions] pdf-import = false`, and its command and menu items are gone. See [Plugins](/docs/plugins/).
+PDF import is an official plugin, on by default. Switch it off with `[extensions] pdf-import = false`, and its command and menu items are gone. See [Plugins](/docs/plugins/).
 
 ## Import
 
