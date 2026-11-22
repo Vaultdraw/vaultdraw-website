@@ -7,8 +7,6 @@ order: 14
 
 A `vaultdraw://` link opens a drawing, a search, a new drawing or a command in your running Vaultdraw. Use it from a note, a web page, a launcher or a script. Files opened from Finder follow the same rules.
 
-> **Next release.** Not in the current download yet. It is merged in the app and comes with the next version.
-
 Nothing happens behind your back. Opening and searching only change what you see. Anything that writes or runs a command asks you first.
 
 ## Links
@@ -18,6 +16,7 @@ Nothing happens behind your back. Opening and searching only change what you see
 | `vaultdraw://` or `vaultdraw://focus` | Brings the window to the front | No |
 | `vaultdraw://open?file=Graphs/BFS` | Opens the drawing (`.excalidraw` is optional). Add `&newTab=1` for a new tab | No |
 | `vaultdraw://open?vault=DSA&file=Graphs/BFS` | Opens it in the vault named `DSA` | Only if `DSA` is not the open vault |
+| `vaultdraw://open?file=Graphs/BFS&anchor=%5Eid` | Opens the drawing and selects the element with that id (a `[[Drawing#^id]]` link) | No |
 | `vaultdraw://open?vault=DSA` | Switches to the vault | Yes |
 | `vaultdraw://search?query=dijkstra` | Opens search with the text filled in. Nothing runs on a result | No |
 | `vaultdraw://new?path=Inbox/Idea` | Creates the drawing and opens it. If it exists, it is only opened | Yes |
@@ -60,8 +59,8 @@ Vaultdraw works on files inside a vault, so a file from outside is never edited 
 
 ### Linux
 
-Linux is not supported yet. The app has the files and a palette command for it, **Links: Register Vaultdraw for links and files (Linux)**, which shows what it will write under your `~/.local/share` and waits for **Register**. It has been checked by unit tests only, not on a Linux desktop.
+The `.deb` and `.rpm` packages register the `.excalidraw` and `.excalidrawlib` file types and `vaultdraw://` links. For an AppImage or a copied install, run **Links: Register Vaultdraw for links and files (Linux)** from the palette: it shows what it will write under your `~/.local/share` and waits for **Register**.
 
 ## Not yet
 
-A link cannot yet carry a template or content for `new`, point at an element, or open a folder as a vault. A file from outside cannot be opened without copying it or opening its folder as a vault. Windows file types are not registered.
+A link cannot yet carry a template or content for `new`, or open a folder as a vault. A file from outside cannot be opened without copying it or opening its folder as a vault. Windows file types are not registered.

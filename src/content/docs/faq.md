@@ -38,9 +38,7 @@ In a git repository, you can keep file history out of commits. Run the history c
 
 ## Does it run on Windows or Linux?
 
-{{version}} is macOS only (Apple Silicon and Intel). Windows is not available.
-
-**Next release (0.2.0):** Linux builds, `.deb` and AppImage for x86_64 and arm64. They are new and were smoke-launched under a virtual display, not on every desktop. See [Install](/docs/install/#linux).
+{{version}} runs on macOS (Apple Silicon and Intel) and on Linux ({{linux_archs}}), as `.deb`, `.rpm`, AppImage and an AUR package. The Linux builds are new and were checked headless, not on every desktop. See [Install](/docs/install/#linux). Windows is not available.
 
 ## Why does macOS refuse to open it?
 
@@ -60,7 +58,7 @@ Yes, with the `vaultdraw` command. See [the command line](/docs/cli/).
 
 ## Are there plugins?
 
-Yes, experimental ones. The next release (0.2.0) ships official plugins (graph, gallery, favourites, formula, Mermaid, PDF import, table, Markdown import and auto-export) that you can switch off. See [Plugins](/docs/plugins/).
+Yes, experimental ones. {{version}} ships official plugins (graph, gallery, favourites, formula, Mermaid, PDF import, table, Markdown import and auto-export) that you can switch off. See [Plugins](/docs/plugins/).
 
 ## Where do I report a bug or ask for a feature?
 

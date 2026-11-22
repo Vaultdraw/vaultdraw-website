@@ -1,11 +1,11 @@
 ---
 title: Install
-description: Download Vaultdraw for macOS, open it the first time, and optionally build it from source.
+description: Download Vaultdraw for macOS or Linux, open it the first time, and optionally build it from source.
 group: Getting started
 order: 1
 ---
 
-Vaultdraw {{version}} runs on macOS, on Apple Silicon and on Intel. Linux builds come with the next release (0.2.0), see [Linux](#linux). Windows is in progress, see [Windows (coming)](#windows-coming).
+Vaultdraw {{version}} runs on macOS (Apple Silicon and Intel) and on Linux ({{linux_archs}}), see [Linux](#linux). Windows is in progress, see [Windows (coming)](#windows-coming).
 
 ## Install the app
 
@@ -65,13 +65,52 @@ After the first open, it starts like any other app.
 
 > **Not released yet.** Windows support is in progress. There is no Windows download and no release date.
 
-The Windows build is not in {{version}}. Until it is released, this page's download is the macOS build.
+The Windows build is not in {{version}}. Until it is released, use the macOS or Linux download.
 
 ## Linux
 
-> **Next release (0.2.0).** These packages are not published yet. Until then, this page's download is the macOS build.
+The release has a package for each kind of distribution. The package manager installs the libraries Vaultdraw needs (WebKitGTK 4.1, GTK 3 and poppler). Download the file from the [release page]({{release_url}}), then run the command in the folder it is in. The commands name the x86_64 files; on arm64 use the `arm64` or `aarch64` file of the same format.
 
-Version 0.2.0 adds Linux packages for x86_64 and arm64: a `.deb` and an AppImage for each. They are new and were smoke-launched under a virtual display, not on every desktop. They include the `vaultdraw` command, PDF import and a custom title bar. Check the files against `SHA256SUMS` as above.
+| Distribution | File | Install |
+| --- | --- | --- |
+| Debian, Ubuntu, Mint | `.deb` | `{{linux_install_deb}}` |
+| Fedora, openSUSE, RHEL-like | `.rpm` | `{{linux_install_rpm}}` |
+| Arch, Manjaro | AUR package `vaultdraw-bin` | `{{aur_install}}` or `{{aur_install_paru}}` |
+| Any other | AppImage | see below |
+
+### AppImage
+
+Needs no install and no root:
+
+```bash
+{{linux_run_appimage}}
+```
+
+For a menu entry and file association, run **Links: Register Vaultdraw for links and files** from the command palette.
+
+### Check the download
+
+Put [SHA256SUMS]({{sums_url}}) next to the file and run:
+
+```bash
+{{linux_checksum}}
+```
+
+The line for your file should end in `OK`. The builds are unsigned.
+
+### Start and uninstall
+
+Open **Vaultdraw** from the application menu. In a terminal, `excalidraw-vault` starts the app and `vaultdraw` is the [command line tool](/docs/cli/), both in `/usr/bin` after a package install. Uninstalling removes only the program files; your vaults, settings and state stay in your home folder.
+
+| Distribution | Uninstall |
+| --- | --- |
+| Debian, Ubuntu | `{{linux_uninstall_deb}}` |
+| Fedora, openSUSE | `{{linux_uninstall_rpm}}` |
+| Arch | `{{linux_uninstall_aur}}` |
+
+### Limits
+
+The Linux builds are new. They were installed, started and removed headless on Debian 12, Fedora and Arch, not on every desktop. If a window looks wrong on Wayland, start it with `GDK_BACKEND=x11 excalidraw-vault`.
 
 On a vault bigger than the system's inotify watch limit, Vaultdraw polls the vault instead of watching it (`files.watch_poll_ms`, default 5000) and tells you once on open. To get the normal watcher back, raise `fs.inotify.max_user_watches` and reopen the vault.
 
@@ -81,6 +120,7 @@ There is no automatic update yet. **Help → Check for updates** in the app open
 
 - **DMG:** download the new version from the [releases page]({{releases_url}}).
 - **Homebrew:** run `{{brew_upgrade}}`.
+- **Linux:** install the new package over the old one, or update the AUR package with your helper.
 
 ## Install the `vaultdraw` command
 
