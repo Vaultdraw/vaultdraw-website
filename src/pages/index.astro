@@ -201,6 +201,30 @@ const extras = [
     tags: "grid · ruled · dots · isometric",
     body: "Notebook backgrounds saved with the drawing, zooming with it. Old school: cream paper, blue lines, a red margin.",
   },
+  {
+    colour: "yellow",
+    title: "AI assistant",
+    tags: "Claude · Codex · your key",
+    body: "A chat panel, off until you turn it on. It answers, edits the drawing or builds a page with notes and labelled diagrams. Ask first, apply at once or read only. Offline mode blocks it.",
+  },
+  {
+    colour: "blue",
+    title: "Markdown mode",
+    tags: "# headings · - bullets · [ ] tasks",
+    body: "Type Markdown in a drawing's text and it is drawn as headings, bullets, quotes, bold and code. Click a task box to tick it. The text stays plain Markdown.",
+  },
+  {
+    colour: "green",
+    title: "Your interface",
+    tags: "font size · typeface · start page",
+    body: "Set the interface font and size, start on a minimal or blank page, and fold the file list over the drawing in narrow windows. Drawings keep their own fonts.",
+  },
+  {
+    colour: "red",
+    title: "File tree",
+    tags: "multi-select · pictures · export",
+    body: "Select several files to move or trash them together, see pictures and PDFs, create notes, and export a whole folder as PNG or SVG. Tabs mark only unsaved edits.",
+  },
 ];
 ---
 
@@ -385,8 +409,8 @@ const extras = [
 
   <section class="sec wrap" id="more" aria-labelledby="more-title">
     <SectionHead n="06" label="Past the infinite canvas" id="more">
-      <Fragment slot="title">Pages, paper and <em>export</em>.</Fragment>
-      <p>For lecture notes, marked-up papers and diagrams that have to end up in a document.</p>
+      <Fragment slot="title">Pages, paper, export and <em>more</em>.</Fragment>
+      <p>For lecture notes, marked-up papers and diagrams that have to end up in a document, and an interface that is yours to shape.</p>
     </SectionHead>
     <ul class="feats" role="list" style="--cols: 4">
       {
