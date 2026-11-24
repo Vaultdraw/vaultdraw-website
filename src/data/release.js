@@ -1,6 +1,5 @@
 // The current release. A new release changes this one line; everything else is derived.
-// PLACEHOLDER: sizeMB (57) is the 0.1.2 DMG size; replace with the real 0.2.0 DMG size at publish time.
-const CURRENT = { version: "0.2.0", sizeMB: 57 };
+const CURRENT = { version: "0.2.0", sizeMB: 68 };
 
 // Set to false if the arm64 Linux files do not ship in the release: every arm64 link and row disappears.
 // CI builds the Linux bundles on x86_64 only (.github/workflows/release.yml), so no arm64 files ship.
