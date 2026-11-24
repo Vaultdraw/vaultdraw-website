@@ -58,7 +58,7 @@ const platforms = [
         Pick the file for your distribution. The package manager installs the libraries Vaultdraw needs (WebKitGTK 4.1, GTK 3, poppler).
       </p>
       <p class="dl__which">
-        <strong>Which one?</strong> <code>.deb</code> for Debian, Ubuntu and Mint. <code>.rpm</code> for Fedora and openSUSE.
+        <strong>Which one?</strong> <code>.deb</code> for Debian, Ubuntu and Mint. <code>.rpm</code> for Fedora.
         AppImage for any other distribution, with no install and no root. AUR for Arch and Manjaro.
       </p>
       <table class="dl__files">
@@ -81,7 +81,7 @@ const platforms = [
         <CopyCommand label="Debian, Ubuntu (x86_64)" command={RELEASE.linux.installDeb} caption="Run it in the folder you downloaded to." />
       </div>
       <div class="dl__code">
-        <CopyCommand label="Fedora, openSUSE (x86_64)" command={RELEASE.linux.installRpm} />
+        <CopyCommand label="Fedora (x86_64)" command={RELEASE.linux.installRpm} />
       </div>
       <div class="dl__code">
         <CodePanel

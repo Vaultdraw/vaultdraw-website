@@ -3,7 +3,8 @@
 const CURRENT = { version: "0.2.0", sizeMB: 57 };
 
 // Set to false if the arm64 Linux files do not ship in the release: every arm64 link and row disappears.
-const SHIP_ARM64 = true;
+// CI builds the Linux bundles on x86_64 only (.github/workflows/release.yml), so no arm64 files ship.
+const SHIP_ARM64 = false;
 
 const REPO = "https://github.com/Vaultdraw/vaultdraw";
 const download = (file) => `${REPO}/releases/download/v${CURRENT.version}/${file}`;

@@ -69,12 +69,12 @@ The Windows build is not in {{version}}. Until it is released, use the macOS or 
 
 ## Linux
 
-The release has a package for each kind of distribution. The package manager installs the libraries Vaultdraw needs (WebKitGTK 4.1, GTK 3 and poppler). Download the file from the [release page]({{release_url}}), then run the command in the folder it is in. The commands name the x86_64 files; on arm64 use the `arm64` or `aarch64` file of the same format.
+The release has a package for each kind of distribution. The package manager installs the libraries Vaultdraw needs (WebKitGTK 4.1, GTK 3 and poppler). Download the file from the [release page]({{release_url}}), then run the command in the folder it is in.
 
 | Distribution | File | Install |
 | --- | --- | --- |
 | Debian, Ubuntu, Mint | `.deb` | `{{linux_install_deb}}` |
-| Fedora, openSUSE, RHEL-like | `.rpm` | `{{linux_install_rpm}}` |
+| Fedora, RHEL-like | `.rpm` | `{{linux_install_rpm}}` |
 | Arch, Manjaro | AUR package `vaultdraw-bin` | `{{aur_install}}` or `{{aur_install_paru}}` |
 | Any other | AppImage | see below |
 
@@ -105,7 +105,7 @@ Open **Vaultdraw** from the application menu. In a terminal, `excalidraw-vault` 
 | Distribution | Uninstall |
 | --- | --- |
 | Debian, Ubuntu | `{{linux_uninstall_deb}}` |
-| Fedora, openSUSE | `{{linux_uninstall_rpm}}` |
+| Fedora, RHEL-like | `{{linux_uninstall_rpm}}` |
 | Arch | `{{linux_uninstall_aur}}` |
 
 ### Limits
