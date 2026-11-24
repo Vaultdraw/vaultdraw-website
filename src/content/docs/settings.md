@@ -45,6 +45,12 @@ If the file has a mistake, the app keeps your last good settings and shows a ban
 
 **Interface → Interface Zoom** scales the whole window from 50 % to 200 %. **Cmd+Shift+`+`**, **`-`** and **`0`** step by 10 and reset to 100 %. Plain **Cmd+`+`**, **`-`** and **`0`** still zoom the canvas, as in Excalidraw. Key: `interface.zoom`.
 
+## Interface font and start page
+
+**Interface → Font size** (`interface.font_size`, 11 to 20 px, default 13) and **Font family** (`interface.font_family`: empty for the default, `"system-ui"`, or any installed font) change the text of the file tree, tabs, menus, dialogs and Settings. Rows and controls grow with the text. **Interface font: Bigger**, **Smaller** and **Reset size** are palette commands. Drawings, exports, thumbnails and notes keep their own fonts.
+
+**Interface → Start page** (`interface.home_page`) chooses what shows when no drawing is open: the actions and recent drawings (`full`, the default), the actions only (`minimal`), or a blank page (`blank`). The palette has **Start page:** commands for the same.
+
 ## Memory
 
 **Interface → Memory** has two settings. Deleted images keep their data in memory while an undo step could bring them back. Once none can, Vaultdraw frees it, about 20 seconds after you stop editing. Typing and drawing never wait for it, and saved drawings do not change.

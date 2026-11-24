@@ -18,6 +18,10 @@ Notes are on by default (`[extensions] notes`). Off, nothing of them loads. The 
 
 Links reach a place too: `[[Note#Heading]]` scrolls to the heading, and `[[Note#^block]]` to the paragraph that ends in `^block`. Clicking a task checkbox ticks it; turn that off with `notes.toggle_tasks`. Search reads notes only when `search.notes` is on.
 
+## Markdown mode in drawings
+
+A drawing's text can use Markdown too. With **Markdown mode** on, typing `# ` makes a heading, `- ` a bullet, `> ` a quote and `[ ] ` a task, and `**bold**`, `*italic*` and `` `code` `` are drawn bold, italic or monospaced with the marks hidden. Text already in the drawing converts when you turn the mode on, or with **Markdown: Convert existing text** in the palette (`markdown.convert_on_enable = false` turns the automatic part off). Click a ☐ or ☑ box to tick it. The text keeps its marks, so the file stays plain Markdown.
+
 ## Open an Obsidian vault in place
 
 Choose the vault folder with **Open vault**. Your notes, links and tags work where they are, and nothing is converted. Vaultdraw skips the `.obsidian`, `.trash` and `.git` folders.

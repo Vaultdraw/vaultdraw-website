@@ -24,7 +24,7 @@ They are bundled with the app and on by default, except auto-export and the AI a
 | `table` | Pasted spreadsheet cells, CSV or Markdown tables become a table of shapes |
 | `markdown-import` | Markdown notes and Obsidian vaults to drawings (see [Notes and Obsidian](/docs/notes-and-obsidian/)) |
 | `auto-export` | An SVG or PNG copy of a drawing after each save. Off until you set `[plugin.auto-export] enabled = true` |
-| `ai-assistant` | Asks a model you choose about your drawing, with your own key. Off until you turn it on. See [AI assistant](#ai-assistant) |
+| `ai-assistant` | A chat panel that answers, edits the drawing and builds pages, with Claude, Codex or your own key. Off until you turn it on. See [AI assistant](#ai-assistant) |
 
 Official plugins stay on after an upgrade. To switch one off, use **Settings → Extensions** or **Settings → Plugins**, the palette, or `config.toml`:
 
@@ -36,23 +36,27 @@ pdf-import = false
 
 ## AI assistant
 
-The `ai-assistant` plugin asks a model about your drawing. It is **off by default**: turn it on in **Settings → Plugins**.
+The `ai-assistant` plugin is a chat panel for your drawings. It is **off by default**: turn it on in **Settings → Plugins**. Say what you want, such as "explain this diagram" or "lined A4 pages", and it answers, changes the drawing or builds a page with headings, notes and labelled diagrams. The app lays the page out itself, so nothing overlaps.
 
-1. Turn on the plugin in **Settings → Plugins**.
-2. Pick a provider, a model and an address.
-3. Enter your key in the panel, or with **AI: Set API key**.
+1. Turn on the plugin in **Settings → Plugins**, then open the panel (**AI: Open the assistant**).
+2. Click the gear. It finds the `claude` (Claude Code) and `codex` commands you already signed in to and shows *Connected*, *Not signed in* or *Not found*. Or add an API key for a provider.
+3. Pick a model and a reasoning effort under the question box, and ask.
 
-| Provider | Key | Default address |
-| --- | --- | --- |
-| Anthropic | Your key | `https://api.anthropic.com` |
-| OpenAI, or any OpenAI-style service | Your key | `https://api.openai.com/v1` |
-| Ollama (on this computer) | None | `http://localhost:11434` |
+| Way to connect | What you need |
+| --- | --- |
+| Claude or Codex | The command signed in on this computer (your subscription). Vaultdraw never stores its login. |
+| Anthropic | Your API key |
+| OpenAI, or any OpenAI-style service | Your API key and address |
+| Ollama (on this computer) | Nothing |
 
-- **Your own key.** There is no Vaultdraw server. The app sends each request straight to the provider, which bills you.
+- **Permission modes.** The shield in the question bar chooses **Ask first** (the default: each change is a plan you Keep or Discard), **Apply at once** (one undo step, with an Undo button) or **Read only** (answers only).
+- **One undo step.** Everything one answer changes is one proposal and one Cmd+Z.
+- **Chats and images.** Each chat is a tab, earlier chats are in the history button, and you can paste or drop up to four images.
+- **Your own key or login.** There is no Vaultdraw server. Requests go straight to the provider or to the tool you signed in to, which bills you.
 - **Offline mode.** It blocks every request to another computer. A model on this computer, such as Ollama, still works.
-- **Keys are not encrypted yet.** The app keeps each key in a file in the state folder that only your user can read. It is not encrypted, and it is never written to `config.toml`, a vault or a drawing. The page cannot read a key back. This is a limit for now.
-- **What is sent.** The drawing goes as text: labels, shape kinds and positions, not a picture. **Show what is sent** in the panel lists the exact text of the next request. Nothing is sent until you use one of its commands.
-- **Commands.** **AI: Ask about this drawing**, **AI: Describe the selection**, **AI: Generate a diagram from text**, **AI: Summarise this note**, **AI: Stop the answer**. Every command can be rebound.
+- **Keys.** The system keychain keeps API keys (the Secret Service on Linux). They are never written to `config.toml`, a vault or a drawing, and the page cannot read one back.
+- **What is sent.** The drawing goes as text: labels, shape kinds and positions. **Show what is sent** lists the exact text of the next request, and nothing is sent until you ask.
+- **Commands.** **AI: Open the assistant**, **New chat**, **Choose model**, **Cycle reasoning effort**, **Cycle permission mode**, **Chat history**, **Connect and settings**, **Describe the selection**, **Summarise this note or drawing** and **Stop the answer**. Every command can be rebound.
 
 Full keys and limits are in the [configuration reference](https://github.com/Vaultdraw/vaultdraw/blob/main/docs/configuration.md#ai-assistant-official-plugin) in the source repository.
 
