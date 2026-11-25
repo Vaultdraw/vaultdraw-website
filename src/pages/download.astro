@@ -7,6 +7,14 @@ import CopyCommand from "../components/CopyCommand.astro";
 import appIcon from "../assets/brand/app-icon-dark.svg";
 import { RELEASE, SITE } from "../data/site.js";
 
+const fileOf = (format) => RELEASE.linux.files.find((f) => f.arch === "x86_64" && f.format === format);
+const linuxCards = [
+  { for: "Debian, Ubuntu, Mint", format: ".deb", action: "Download .deb", href: fileOf("deb").url, file: fileOf("deb").file },
+  { for: "Fedora", format: ".rpm", action: "Download .rpm", href: fileOf("rpm").url, file: fileOf("rpm").file },
+  { for: "Any distribution, no install", format: "AppImage", action: "Download AppImage", href: fileOf("AppImage").url, file: fileOf("AppImage").file },
+  { for: "Arch, Manjaro", format: "AUR", action: "Install from the AUR", href: "#aur", file: RELEASE.linux.aur.install },
+];
+
 const platforms = [
   { name: "macOS", detail: `${RELEASE.macs}, one universal DMG`, status: "Available", ready: true },
   { name: "Linux", detail: `${RELEASE.linux.archs}, .deb, .rpm, AppImage and AUR`, status: "Available", ready: true },
@@ -26,13 +34,16 @@ const platforms = [
         Your Excalidraw drawings, in a folder you own. Free and open source, with no account.
       </p>
       <div class="dl__cta">
-        <DownloadButton />
-        <a class="link-arrow" href="#linux">Linux downloads</a>
+        <DownloadButton mac />
+        <div class="dlbtn-linux">
+          <a class="btn btn--solid" href="#linux">Download for Linux</a>
+          <p class="dlbtn-linux__meta mono">.deb · .rpm · AppImage · AUR · {RELEASE.linux.archs}</p>
+        </div>
         <a class="link-arrow" href={RELEASE.allUrl}>All releases</a>
       </div>
       <div class="dl__brew">
         <CopyCommand
-          label="Or with Homebrew"
+          label="Or on macOS, with Homebrew"
           command={RELEASE.brew.install}
           caption="Installs the app and the <code>vaultdraw</code> command."
         />
@@ -60,22 +71,18 @@ const platforms = [
         <strong>Which one?</strong> <code>.deb</code> for Debian, Ubuntu and Mint. <code>.rpm</code> for Fedora.
         AppImage for any other distribution, with no install and no root. AUR for Arch and Manjaro.
       </p>
-      <table class="dl__files">
-        <thead>
-          <tr><th scope="col">Format</th><th scope="col">Architecture</th><th scope="col">File</th></tr>
-        </thead>
-        <tbody>
-          {
-            RELEASE.linux.files.map((f) => (
-              <tr>
-                <td>{f.format === "AppImage" ? "AppImage" : `.${f.format}`}</td>
-                <td class="mono">{f.arch}</td>
-                <td><a href={f.url}>{f.file}</a></td>
-              </tr>
-            ))
-          }
-        </tbody>
-      </table>
+      <ul class="dl__pkgs" role="list">
+        {
+          linuxCards.map((c) => (
+            <li class="dl__pkg">
+              <span class="dl__pkg-for">{c.for}</span>
+              <span class="dl__pkg-fmt mono">{c.format}</span>
+              <a class="btn btn--solid dl__pkg-btn" href={c.href}>{c.action}</a>
+              <span class="dl__pkg-file mono">{c.file}</span>
+            </li>
+          ))
+        }
+      </ul>
       <div class="dl__code">
         <CopyCommand label="Debian, Ubuntu (x86_64)" command={RELEASE.linux.installDeb} caption="Run it in the folder you downloaded to." />
       </div>
@@ -89,7 +96,7 @@ const platforms = [
           files={[{ name: "AppImage", lang: "sh", code: RELEASE.linux.runAppImage }]}
         />
       </div>
-      <div class="dl__code">
+      <div class="dl__code" id="aur">
         <CopyCommand
           label="Arch, Manjaro (AUR)"
           command={RELEASE.linux.aur.install}
@@ -384,5 +391,54 @@ yarn desktop:build   # the app lands in excalidraw-desktop/src-tauri/target/rele
     .dl__src {
       grid-template-columns: minmax(0, 1fr);
     }
+  }
+
+  .dlbtn-linux {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  .dlbtn-linux__meta {
+    margin: 0;
+    font-size: 0.72rem;
+    letter-spacing: 0.04em;
+    color: var(--muted);
+  }
+  .dl__pkgs {
+    list-style: none;
+    margin: 24px 0 32px;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+  }
+  .dl__pkg {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 20px;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    
+  }
+  .dl__pkg-for {
+    font-size: 1.05rem;
+    font-weight: 600;
+  }
+  .dl__pkg-fmt {
+    font-size: 0.75rem;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+  }
+  .dl__pkg-btn {
+    align-self: stretch;
+    text-align: center;
+    margin-top: 4px;
+  }
+  .dl__pkg-file {
+    font-size: 0.7rem;
+    color: var(--muted);
+    overflow-wrap: anywhere;
   }
 </style>

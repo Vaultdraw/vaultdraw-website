@@ -1,11 +1,29 @@
 ---
-// The one download button: primary link plus a version line.
+// The download button. On the home page it leads to the download page, which has every system;
+// on the download page (mac) it downloads the macOS DMG directly.
 import { RELEASE } from "../data/site.js";
+
+interface Props {
+  mac?: boolean;
+}
+const { mac = false } = Astro.props;
 ---
 
 <div class="dlbtn">
-  <a class="btn btn--solid" href={RELEASE.dmgUrl}>Download for macOS</a>
-  <p class="dlbtn__meta mono">v{RELEASE.version} · {RELEASE.macs} · {RELEASE.sizeMB} MB</p>
+  {
+    mac ? (
+      <a class="btn btn--solid" href={RELEASE.dmgUrl}>Download for macOS</a>
+    ) : (
+      <a class="btn btn--solid" href="/download/">Download for macOS or Linux</a>
+    )
+  }
+  <p class="dlbtn__meta mono">
+    {
+      mac
+        ? `v${RELEASE.version} · ${RELEASE.macs} · ${RELEASE.sizeMB} MB`
+        : `v${RELEASE.version} · macOS (${RELEASE.macs}) · Linux (${RELEASE.linux.archs})`
+    }
+  </p>
 </div>
 
 <style>
