@@ -5,7 +5,7 @@ group: Getting started
 order: 1
 ---
 
-Vaultdraw {{version}} runs on macOS (Apple Silicon and Intel) and on Linux ({{linux_archs}}), see [Linux](#linux). Windows is in progress, see [Windows (coming)](#windows-coming).
+Vaultdraw {{version}} runs on macOS (Apple Silicon and Intel) and on Linux ({{linux_archs}}), see [Linux](#linux).
 
 ## Install the app
 
@@ -60,12 +60,6 @@ If macOS says the app is "damaged", or the `vaultdraw` command stops with `Kille
 ```
 
 After the first open, it starts like any other app.
-
-## Windows (coming)
-
-> **Not released yet.** Windows support is in progress. There is no Windows download and no release date.
-
-The Windows build is not in {{version}}. Until it is released, use the macOS or Linux download.
 
 ## Linux
 

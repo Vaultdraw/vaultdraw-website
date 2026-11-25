@@ -12,7 +12,6 @@ All settings live in one plain-text folder, like kitty, Ghostty or Zed. Edit it 
 | OS | Config folder | Machine state |
 | --- | --- | --- |
 | macOS, Linux | `$XDG_CONFIG_HOME/vaultdraw`, else `~/.config/vaultdraw` | `$XDG_STATE_HOME/vaultdraw/state.json`, else `~/.local/state/vaultdraw/state.json` |
-| Windows | `%APPDATA%\Vaultdraw` | `%LOCALAPPDATA%\Vaultdraw\state.json` |
 
 On macOS the config folder is `~/.config/vaultdraw` unless you set `XDG_CONFIG_HOME`. Run `vaultdraw config path` to print the exact path of `config.toml`.
 
